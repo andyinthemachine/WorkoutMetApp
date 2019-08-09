@@ -22,8 +22,8 @@ export default class LinksScreen extends React.Component {
   componentDidMount() {
     console.log("cdmount");
     this._loadClient();
-    const { addListener } = this.props.navigation;          
-    this.listeners = [addListener('didFocus', () => { this._loadClient();})]  
+    const { addListener } = this.props.navigation;
+    this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
   }
 
   componentWillUnmount() {
@@ -40,7 +40,7 @@ export default class LinksScreen extends React.Component {
     );
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
-   workouts
+    workouts
       .find({ status: "new" }, { sort: { date: -1 } })
       .asArray()
       .then(docs => {
@@ -167,7 +167,7 @@ export default class LinksScreen extends React.Component {
     console.log("load client");
 
     const stitchAppClient = Stitch.defaultAppClient;
-    const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory,"mongodb-atlas");
+    const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
     workouts.find({ status: "new" }, { sort: { date: -1 } })
@@ -189,12 +189,12 @@ export default class LinksScreen extends React.Component {
       );
       const db = mongoClient.db("workoutmanager");
       const workouts = db.collection("workouts");
-     workouts.updateOne(
-          { _id: itemID },
-          { $set: { status: "completed", completedDate: new Date() } },
-          { upsert: true })
+      workouts.updateOne(
+        { _id: itemID },
+        { $set: { status: "completed", completedDate: new Date() } },
+        { upsert: true })
         .then(() => {
-         workouts.find({ status: "new" }, { sort: { date: -1 } })
+          workouts.find({ status: "new" }, { sort: { date: -1 } })
             .asArray()
             .then(docs => {
               this.setState({ workouts: docs });
@@ -220,11 +220,11 @@ export default class LinksScreen extends React.Component {
       "mongodb-atlas"
     );
     const db = mongoClient.db("workoutmanager");
-    const workouts = db.collection("worekouts");
-   workouts.deleteOne({ _id: itemID })
+    const workouts = db.collection("workouts");
+    workouts.deleteOne({ _id: itemID })
       .then(() => {
         console.log("deleteOne.then");
-       workouts.find({ status: "new" }, { sort: { date: -1 } })
+        workouts.find({ status: "new" }, { sort: { date: -1 } })
           .asArray()
           .then(docs => {
             this.setState({ workouts: docs });
