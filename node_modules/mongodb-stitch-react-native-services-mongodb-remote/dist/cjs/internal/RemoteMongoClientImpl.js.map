@@ -1,0 +1,1 @@
+{"version":3,"file":"RemoteMongoClientImpl.js","sourceRoot":"","sources":["../../../src/internal/RemoteMongoClientImpl.ts"],"names":[],"mappings":";;;;;AAmBA,sFAAgE;AAGhE;IACE,+BAAoC,KAA4B;QAA5B,UAAK,GAAL,KAAK,CAAuB;IAAG,CAAC;IAQ7D,kCAAE,GAAT,UAAU,IAAY;QACpB,OAAO,IAAI,iCAAuB,CAAC,IAAI,CAAC,KAAK,CAAC,EAAE,CAAC,IAAI,CAAC,CAAC,CAAC;IAC1D,CAAC;IACH,4BAAC;AAAD,CAAC,AAZD,IAYC"}

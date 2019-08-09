@@ -1,0 +1,1 @@
+{"version":3,"file":"StitchServiceRoutes.js","sourceRoot":"","sources":["../../../../src/services/internal/StitchServiceRoutes.ts"],"names":[],"mappings":"AAgBA,OAAO,EAAE,oBAAoB,EAAE,MAAM,iCAAiC,CAAC;AAGvE;IAIE,6BAAmB,WAAmB;QACpC,IAAI,CAAC,WAAW,GAAG,WAAW,CAAC;QAC/B,IAAI,CAAC,iBAAiB,GAAG,oBAAoB,CAAC,WAAW,CAAC,CAAC;IAC7D,CAAC;IACH,0BAAC;AAAD,CAAC,AARD,IAQC"}

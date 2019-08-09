@@ -1,0 +1,35 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+import StitchUserIdentity from "../../StitchUserIdentity";
+var Fields;
+(function (Fields) {
+    Fields["ID"] = "id";
+    Fields["PROVIDER_TYPE"] = "provider_type";
+})(Fields || (Fields = {}));
+var StoreStitchUserIdentity = (function (_super) {
+    __extends(StoreStitchUserIdentity, _super);
+    function StoreStitchUserIdentity(id, providerType) {
+        return _super.call(this, id, providerType) || this;
+    }
+    StoreStitchUserIdentity.decode = function (from) {
+        return new StoreStitchUserIdentity(from[Fields.ID], from[Fields.PROVIDER_TYPE]);
+    };
+    StoreStitchUserIdentity.prototype.encode = function () {
+        var _a;
+        return _a = {},
+            _a[Fields.ID] = this.id,
+            _a[Fields.PROVIDER_TYPE] = this.providerType,
+            _a;
+    };
+    return StoreStitchUserIdentity;
+}(StitchUserIdentity));
+export default StoreStitchUserIdentity;
+//# sourceMappingURL=StoreStitchUserIdentity.js.map

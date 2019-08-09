@@ -1,0 +1,31 @@
+import { Codec, Stream } from "mongodb-stitch-core-sdk";
+import ChangeEvent from "../ChangeEvent";
+import CompactChangeEvent from "../CompactChangeEvent";
+import RemoteCountOptions from "../RemoteCountOptions";
+import RemoteDeleteResult from "../RemoteDeleteResult";
+import RemoteFindOneAndModifyOptions from "../RemoteFindOneAndModifyOptions";
+import RemoteFindOptions from "../RemoteFindOptions";
+import RemoteInsertManyResult from "../RemoteInsertManyResult";
+import RemoteInsertOneResult from "../RemoteInsertOneResult";
+import RemoteUpdateOptions from "../RemoteUpdateOptions";
+import RemoteUpdateResult from "../RemoteUpdateResult";
+import CoreRemoteMongoReadOperation from "./CoreRemoteMongoReadOperation";
+export default interface CoreRemoteMongoCollection<DocumentT> {
+    readonly namespace: string;
+    withCollectionType<U>(codec: Codec<U>): CoreRemoteMongoCollection<U>;
+    count(query?: object, options?: RemoteCountOptions): Promise<number>;
+    find(query?: object, options?: RemoteFindOptions): CoreRemoteMongoReadOperation<DocumentT>;
+    findOne(query?: object, options?: RemoteFindOptions): Promise<DocumentT | null>;
+    findOneAndUpdate(query: object, update: object, options?: RemoteFindOneAndModifyOptions): Promise<DocumentT | null>;
+    findOneAndReplace(query: object, replacement: object, options?: RemoteFindOneAndModifyOptions): Promise<DocumentT | null>;
+    findOneAndDelete(query: object, options?: RemoteFindOneAndModifyOptions): Promise<DocumentT | null>;
+    aggregate(pipeline: object[]): CoreRemoteMongoReadOperation<DocumentT>;
+    insertOne(document: DocumentT): Promise<RemoteInsertOneResult>;
+    insertMany(documents: DocumentT[]): Promise<RemoteInsertManyResult>;
+    deleteOne(query: object): Promise<RemoteDeleteResult>;
+    deleteMany(query: object): Promise<RemoteDeleteResult>;
+    updateOne(query: object, update: object, updateOptions?: RemoteUpdateOptions): Promise<RemoteUpdateResult>;
+    updateMany(query: object, update: object, updateOptions?: RemoteUpdateOptions): Promise<RemoteUpdateResult>;
+    watch(arg?: any[] | object | undefined): Promise<Stream<ChangeEvent<DocumentT>>>;
+    watchCompact(ids: any[]): Promise<Stream<CompactChangeEvent<DocumentT>>>;
+}
