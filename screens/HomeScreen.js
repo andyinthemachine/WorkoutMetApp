@@ -43,7 +43,7 @@ export default class HomeScreen extends React.Component {
       const title = section.title;
       const subcategories = [];
       section.subcategories.forEach(subcategory => {
-        subcategories.push(section.title + ": " + subcategory.subcategory);
+        subcategories.push(section.title + ": " + subcategory.subcategory + " met: " + subcategory.met);
       });
       return { title: title, data: subcategories };
     });
