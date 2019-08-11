@@ -50,6 +50,7 @@ export default class HomeScreen extends React.Component {
     return sections
   }
 
+  
   onPress = exercise => {
     const group = this.state.selectedGroup;
     group.push(exercise);
