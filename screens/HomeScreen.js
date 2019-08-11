@@ -33,7 +33,6 @@ export default class HomeScreen extends React.Component {
     this.state = {
       value: false,
       text: "",
-      // selected: false,
       selectedItem: "",
       selectedGroup: []
     };
@@ -260,38 +259,3 @@ const styles = StyleSheet.create({
     height: 44
   },
 });
-
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     justifyContent: "center",
-//     alignItems: "center"
-//   }
-// });
-
-//  <TextInput
-//   style={{
-//     color: "lightgray",
-//     fontSize: 20,
-//     marginTop: height / 2 - 60
-//   }}
-//   placeholder="Enter Workout..."
-//   onChangeText={text => this.setState({ text })}
-//   value={this.state.text}
-//   onSubmitEditing={() => this.handleSubmit()} />
-
-// <TouchableOpacity onPress={() => this.handleSubmit()}>
-//   <Ionicons
-//     name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
-//     size={50}
-//     style={{
-//       marginTop: 50,
-//       color: "#2e78b7"
-//     }} />
-
-// </TouchableOpacity>
-// <ScrollView
-//   contentContainerStyle={{ flex: 1 }}
-//   keyboardShouldPersistTaps="handled" />
