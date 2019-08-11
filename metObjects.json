@@ -1,0 +1,265 @@
+[
+    {
+        "title": "Bicycling",
+        "subcategories": [{
+            "subcategory": "Mountain",
+            "met": 8.5
+            }, 
+            {
+            "subcategory": "General",
+            "met": 7.5
+        }]
+    },
+    {
+        "title": "Conditioning Exercise",
+        "subcategories": [{
+            "subcategory": "Stationary Biking",
+            "met": 7.0
+            },
+            {
+            "subcategory": "Calisthenics (no equip)",
+            "met": 3.5
+            },
+            {
+            "subcategory": "Circuit Training",
+            "met": 8.0
+            },
+            {
+            "subcategory": "Stair Steppers",
+            "met": 9.0
+            },
+            {
+            "subcategory": "Jump Roping",
+            "met": 12.3
+            },
+            {
+            "subcategory": "Rowing (water)",
+            "met": 6.0
+            },
+            {
+            "subcategory": "Rowing (machine)",
+            "met": 4.0
+            },
+            {
+            "subcategory": "Ski Machine",
+            "met": 6.8
+            },
+            {
+            "subcategory":  "Pilates",
+            "met": 3.0
+        }]
+    },
+    {
+        "title": "Jogging",
+        "subcategories": [{
+            "subcategory": "General",
+            "met": 7.0
+        }]
+    },
+    {
+        "title": "Running",
+        "subcategories": [{
+            "subcategory": "General",
+            "met": 9.8    
+            },
+            {
+            "subcategory": "4 mph (13 min/mile)",
+            "met": 6.0
+            },
+            {
+            "subcategory": "5 mph (12 min/mile)",
+            "met": 8.3
+            },
+            {
+            "subcategory": "6 mph (10 min/mile)",
+            "met": 9.8
+            },
+            {
+            "subcategory": "7 mph (8.5 min/mile)",
+            "met": 11
+            },
+            {
+            "subcategory": "8 mph (7.5 min/mile)",
+            "met": 12.3
+            },
+            {
+            "subcategory": "9 mph (6.5 min/mile)",
+            "met": 12.8
+            },
+            {
+            "subcategory": "10 mph (6 min/mile)",
+            "met": 14.5
+            },
+            {
+            "subcategory": "11 mph (5.5 min/mile)",
+            "met": 16.0
+            },
+            {
+            "subcategory": "12 mph (5 min/mile)",
+            "met": 19.0
+            },
+            {
+            "subcategory": "13 mph (4.5 min/mile)",
+            "met": 19.8
+            },
+            {
+            "subcategory": "14 mph (4 min/mile)",
+            "met": 23.0
+        }]
+    },
+    {
+        "title": "Sports",
+        "subcategories": [{
+            "subcategory": "Badminton",
+            "met": 5.5
+            },
+            {
+            "subcategory": "Basketball",
+            "met": 8.0
+            },
+            {
+            "subcategory": "Bowling",
+            "met": 3.0
+            },
+            {
+            "subcategory": "Boxing",
+            "met": 12.8
+            },
+            {
+            "subcategory": "Cheerleading",
+            "met": 6.0
+            },
+            {
+            "subcategory": "Cricket",
+            "met": 4.8
+            },
+            {
+            "subcategory": "Curling",
+            "met": 4.0
+            },
+            {
+            "subcategory": "Football (comp)",
+            "met": 8.0
+            },
+            {
+            "subcategory": "Golf",
+            "met": 4.8
+            },
+            {
+            "subcategory": "Gymnastics",
+            "met": 3.8
+            },
+            {
+            "subcategory": "Hockey",
+            "met": 10.0
+            },
+            {
+            "subcategory": "Horseback Riding",
+            "met": 5.5
+            },
+            {
+            "subcategory": "Martial Arts",
+            "met": 10.3
+            },
+            {
+            "subcategory": "Lacrosse",
+            "met": 8.0
+            },
+            {
+            "subcategory": "Moto-cross",
+            "met": 4.0
+            },
+            {
+            "subcategory": "Polo (Horseback)",
+            "met": 8.0
+            },
+            {
+            "subcategory": "Racquetball",
+            "met": 10.0
+            },
+            {
+            "subcategory": "Rock/Mountain Climbing",
+            "met": 8.0
+            },
+            {
+            "subcategory": "Skydiving",
+            "met": 3.5
+            },
+            {
+            "subcategory": "Soccer",
+            "met": 10.0
+            },
+            {
+            "subcategory": "Table Tennis",
+            "met": 8.0
+            },
+            {
+            "subcategory": "Tai Chi",
+            "met": 3.0
+            },
+            {
+            "subcategory": "Tennis",
+            "met": 7.3
+            },
+            {
+            "subcategory": "Volleyball",
+            "met": 6.0
+            },
+            {
+            "subcategory": "Wrestling",
+            "met": 6.0
+            }]
+    },
+    {
+        "title": "Walking",
+        "subcategories": [{
+            "subcategory": "4 mph (13 min/mile)",
+            "met": 4.5}]
+    },
+    {
+        "title": "Water Activites",
+        "subcategories": [{
+            "subcategory": "Canoeing",
+            "met": 3.5
+            },
+            {
+            "subcategory": "Diving",
+            "met": 3.0
+            },
+            {
+            "subcategory": "Skiing",
+            "met": 6.0
+            },
+            {
+            "subcategory": "Surfing",
+            "met": 3.0
+            },
+            {
+            "subcategory": "Swimming (Laps)",
+            "met": 9.8
+            },
+            {
+            "subcategory": "Swimming (Backstroke)",
+            "met": 9.5
+            },
+            {
+            "subcategory": "Swimming (Breaststroke)",
+            "met": 10.3
+            },
+            {
+            "subcategory": "Swimming (Butterfly)",
+            "met": 13.8
+            }]
+    },
+    {
+        "title": "Winter Activities",
+        "subcategories": [{
+            "subcategory": "Skating",
+            "met": 7.0
+            },
+            {
+            "subcategory": "Skiing",
+            "met": 7.0
+            }]
+    }
+]

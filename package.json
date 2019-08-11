@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@expo/samples": "~3.0.3",
-    "@expo/vector-icons": "^10.0.3",
+    "@expo/vector-icons": "^10.0.4",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "expo": "^34.0.1",
     "expo-asset": "^6.0.0",
