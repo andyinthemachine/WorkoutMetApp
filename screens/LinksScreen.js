@@ -216,7 +216,6 @@ export default class LinksScreen extends React.Component {
     const workouts = db.collection("workouts");
     workouts.deleteOne({ _id: itemID })
       .then(() => {
-        console.log("deleteOne.then");
         workouts.find({ status: "new" }, { sort: { date: -1 } })
           .asArray()
           .then(docs => {
