@@ -22,7 +22,8 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       value: false,
-      text: ""
+      text: "",
+      userName: null
     };
   }
   handleSubmit = () => {
@@ -38,6 +39,7 @@ export default class HomeScreen extends React.Component {
 
     if (this.state.text != "") {
       workouts.insertOne({
+          userName: this.state.userName,
           status: "new",
           description: this.state.text,
           date: new Date()
@@ -47,6 +49,7 @@ export default class HomeScreen extends React.Component {
             this._confettiView.startConfetti();
           }
           this.setState({ value: !this.state.value });
+          this.props.navigation.setParams({userName: this.state.userName})
           this.setState({ text: "" });
         })
         .catch(err => {
@@ -57,8 +60,44 @@ export default class HomeScreen extends React.Component {
 
   static navigationOptions = { header: null };
 
+  handleNameSubmit = () => {
+    Keyboard.dismiss();
+    if (this.state.text != "") {
+      this.setState({userName: this.state.text, text: ""})
+    }
+  }
+
   render() {
-    return (
+    console.log("userName: ", this.state.userName)
+    return (   
+      !this.state.userName ? 
+      <View style={styles.container}>
+        <TextInput
+          style={{
+            color: "lightgray",
+            fontSize: 20,
+            marginTop: height / 2 - 60
+          }}
+          placeholder="Enter your user name"
+          onChangeText={text => this.setState({ text })}
+          value={this.state.text}
+          onSubmitEditing={() => this.handleNameSubmit()} />
+
+        <TouchableOpacity onPress={() => this.handleNameSubmit()}>
+          <Ionicons
+            name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
+            size={50}
+            style={{
+              marginTop: 50,
+              color: "#2e78b7"
+            }} />
+
+        </TouchableOpacity>
+        <ScrollView
+          contentContainerStyle={{ flex: 1 }}
+          keyboardShouldPersistTaps="handled" />
+      </View>
+      :
       <View style={styles.container}>
         <Confetti
           confettiCount={50}

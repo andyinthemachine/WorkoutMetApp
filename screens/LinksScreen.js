@@ -14,16 +14,21 @@ export default class LinksScreen extends React.Component {
       currentUserId: undefined,
       client: undefined,
       workouts: undefined,
-      refreshing: false
+      refreshing: false,
+      userName: ""
     };
     this._loadClient = this._loadClient.bind(this);
   }
-
+  
   componentDidMount() {
-    console.log("cdmount");
+    console.log("cdmount");  
+    this.setState({userName:this.props.navigation.getParam('userName')});
+    console.log('userName in componentDidMount: ', this.state.userName);
     this._loadClient();
     const { addListener } = this.props.navigation;
     this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
+    // Set the userName which was passed from the login screen
+   
   }
 
   componentWillUnmount() {
@@ -54,7 +59,7 @@ export default class LinksScreen extends React.Component {
 
   render() {
     console.log("render");
-
+    console.log("name: ", this.state.userName)
     const sections =
       this.state.workouts == undefined
         ? [{ data: [{ title: "Loading..." }], title: "Loading..." }]
@@ -170,7 +175,7 @@ export default class LinksScreen extends React.Component {
     const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
-    workouts.find({ status: "new" }, { sort: { date: -1 } })
+    workouts.find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
       .asArray()
       .then(docs => {
         this.setState({ workouts: docs });
