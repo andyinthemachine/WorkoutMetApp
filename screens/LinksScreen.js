@@ -20,8 +20,7 @@ export default class LinksScreen extends React.Component {
     this._loadClient = this._loadClient.bind(this);
   }
   
-  componentDidMount() {
-    console.log("cdmount");  
+  componentDidMount() { 
     this.setState({userName:this.props.navigation.getParam('userName')});
     console.log('userName in componentDidMount: ', this.state.userName);
     this._loadClient();
@@ -36,7 +35,6 @@ export default class LinksScreen extends React.Component {
   }
 
   _onRefresh = () => {
-    console.log("refresh");
     this.setState({ refreshing: true });
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(
@@ -58,7 +56,6 @@ export default class LinksScreen extends React.Component {
   };
 
   render() {
-    console.log("render");
     console.log("name: ", this.state.userName)
     const sections =
       this.state.workouts == undefined
@@ -169,8 +166,6 @@ export default class LinksScreen extends React.Component {
   };
 
   _loadClient() {
-    console.log("load client");
-
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
     const db = mongoClient.db("workoutmanager");
@@ -218,7 +213,6 @@ export default class LinksScreen extends React.Component {
   }
 
   _onPressDelete(itemID) {
-    console.log("delete id = ", itemID);
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(
       RemoteMongoClient.factory,
@@ -228,7 +222,6 @@ export default class LinksScreen extends React.Component {
     const workouts = db.collection("workouts");
     workouts.deleteOne({ _id: itemID })
       .then(() => {
-        console.log("deleteOne.then");
         workouts.find({ status: "new" }, { sort: { date: -1 } })
           .asArray()
           .then(docs => {

@@ -10,6 +10,7 @@ import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import LoginScreen from "../screens/LoginScreen"
+import EditScreen from '../screens/EditScreen'
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -65,8 +66,28 @@ SettingsStack.navigationOptions = {
   )
 };
 
+const EditStack = createStackNavigator({
+  Edit: EditScreen
+});
+
+EditStack.navigationOptions = {
+  tabBarLabel: "Edit",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === "ios"
+          ? "ios-phone-circle-outline"
+          : "md-phone-circle-outline"
+      }
+    />
+  )
+};
+
 export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
-  SettingsStack
+  SettingsStack,
+  EditScreen
 });
+
