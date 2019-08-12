@@ -86,9 +86,10 @@ export default class HomeScreen extends React.Component {
 
     if (this.state.selectedGroup.length > 0 && this.state.text != "") {
       const new_arr = this.state.selectedGroup.map(exercise =>  {
-        return {exercise: exercise, met: get_met(exercise)}
+        return {exercise: exercise, met: get_met(exercise), duration: 5}
       });
       workouts.insertOne({
+        username: "",
         status: "new",
         description: this.state.text,
         exercises: new_arr,
