@@ -128,7 +128,7 @@ export default class LinksScreen extends React.Component {
                         </Text>
                         <Text style={styles.operator}>
                             x
-                    </Text>
+                         </Text>
                         <TextInput
                             style={styles.taskListTextTime}
                             placeholder="Min"

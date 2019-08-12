@@ -87,6 +87,6 @@ export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
-  EditScreen
+  EditStack
 });
 
