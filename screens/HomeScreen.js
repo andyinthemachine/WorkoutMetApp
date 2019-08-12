@@ -43,21 +43,20 @@ export default class HomeScreen extends React.Component {
       const title = section.title;
       const subcategories = [];
       section.subcategories.forEach(subcategory => {
-        subcategories.push(section.title + ": " + subcategory.subcategory + " met: " + subcategory.met);
+        // subcategories.push(section.title + ": " + subcategory.subcategory + " met: " + subcategory.met);
+        subcategories.push(section.title + ":" + subcategory.subcategory);
       });
       return { title: title, data: subcategories };
     });
     return sections
   }
 
-  
   onPress = exercise => {
     const group = this.state.selectedGroup;
     group.push(exercise);
 
     this.setState({ selectedItem: exercise });
     this.setState({ selectedGroup: group });
-    console.log(this.state.selectedGroup);
   }
 
   handleSubmit = () => {
@@ -70,18 +69,37 @@ export default class HomeScreen extends React.Component {
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
 
+    get_met = (exercise_str) => {
+      const temp_arr = exercise_str.split(":");
+      const title = temp_arr[0];
+      const exercise = temp_arr[1];
+      let met = 0;
+      customData.forEach(item1 => {
+        if (item1.title === title){
+          item1.subcategories.forEach(item2 => {
+            if (item2.subcategory === exercise) 
+              met = item2.met;
+          })
+        }
+      })
+      return met;
+    }
+
     if (this.state.selectedGroup.length > 0 && this.state.text != "") {
+      const new_arr = this.state.selectedGroup.map(exercise =>  {
+        return {exercise: exercise, met: get_met(exercise)}
+      });
       workouts.insertOne({
         status: "new",
         description: this.state.text,
-        exercises: this.state.selectedGroup,
+        exercises: new_arr,
         date: new Date()
       })
         .then(() => {
           if (this._confettiView) {
             this._confettiView.startConfetti();
           }
-          this.setState({selectedGroup: []});
+          this.setState({ selectedGroup: [] });
           this.setState({ selectedItem: "" });
           this.setState({ value: !this.state.value });
           this.setState({ text: "" });
@@ -135,7 +153,7 @@ export default class HomeScreen extends React.Component {
               color: "darkgray",
               fontSize: 16,
             }}
-            placeholder="Description: "
+            placeholder="Enter Description: "
             onChangeText={text => this.setState({ text })}
             value={this.state.text}
             onSubmitEditing={() => this.handleSubmit()}
@@ -207,7 +225,7 @@ const styles = StyleSheet.create({
   },
   tabBarInfoContainer: {
     position: 'absolute',
-    bottom: 0,
+    top: 0,
     left: 0,
     right: 0,
     ...Platform.select({
