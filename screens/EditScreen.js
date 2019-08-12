@@ -79,7 +79,7 @@ export default class LinksScreen extends React.Component {
             this.state.workouts == undefined
                 ? [{ data: [{ title: "Loading..." }], title: "Loading..." }]
                 : this.state.workouts.length > 0
-                    ? [{ data: this.state.workouts, title: "Workouts" }]
+                    ? [{ data: this.state.workouts, title: "Calories Burned" }]
                     : [
                         {
                             data: [{ title: "No new workouts" }],
@@ -122,9 +122,10 @@ export default class LinksScreen extends React.Component {
                         timeout={10}
                         duration={2000}
                         ref={node => (this._confettiView = node)} />
+                    <Text style={styles.sectionHeader}>{item.title != "No new workouts" ? item.description : ""}</Text>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={styles.sectionContentText}>
-                            {item.title != "No new workouts" ? item.description : ""}
+                            Exercise
                         </Text>
                         <Text style={styles.operator}>
                             x
@@ -151,17 +152,12 @@ export default class LinksScreen extends React.Component {
     _renderFooter = () => {
         return (
             <>
-                <SectionContent style={{paddingHorizontal: 0}}>
+                <SectionContent style={{paddingLeft: 0}}>
                     <View style={{ flex: 1, flexDirection: 'row', paddingHorizontal: 50, backgroundColor: "darkgrey", color: "white"}}>
-                        <Text style={styles.sum}>
-                        Total Cals
-                        </Text>
-                        <Text style={styles.equal} >
-                        =
-                        </Text>
-                        <Text style={styles.totalCal} >
-                        ≈  {this.state.totalCal} cal
-                        </Text>
+                        <Text style={styles.sum}>Total Cals</Text>
+                        <Text style={styles.equal}>=</Text>
+                        <Text style={styles.totalCal} >≈  {this.state.totalCal} cal
+</Text>
                     </View>
                 </SectionContent>
             </>
@@ -259,7 +255,7 @@ const SectionContent = props => {
 LinksScreen.navigationOptions = {
     headerTitle: (
         <Ionicons
-            name={Platform.OS == "ios" ? "ios-clipboard" : "md-clipboard"}
+            name={Platform.OS == "ios" ? "ios-create" : "md-create"}
             size={23}
             style={{
                 color: "#2e78b7",
@@ -288,24 +284,34 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "bold"
     },
+    sectionHeader: {
+        paddingTop: 2,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 2,
+        fontSize: 18,
+        fontWeight: 'bold',
+        backgroundColor: 'rgba(247,247,247,1.0)',
+        textAlign: 'left',
+      },
     sectionContentContainer: {
-        paddingHorizontal: 15,
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: "lightgray"
     },
     sectionContentText: {
         color: "black",
-        flex: 1,
+        flex: 2,
         fontSize: 15,
         paddingBottom: 10,
         paddingHorizontal: 10,
         paddingVertical: 15,
+        paddingRight: 5,
         textAlign: "left",
         flexDirection: 'row'
     },
     sectionContentText2: {
         color: "black",
-        flex: 1,
+        flex: 2,
         fontSize: 15,
         paddingBottom: 10,
         paddingHorizontal: 10,
