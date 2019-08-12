@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://t4-x82.anonymous.workoutmetapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.t4-x82.anonymous.workoutmetapp.exp.direct",
+  "ngrokPid": 51881
 }

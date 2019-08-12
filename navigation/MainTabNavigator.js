@@ -76,8 +76,8 @@ EditStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === "ios"
-          ? "ios-phone-circle-outline"
-          : "md-phone-circle-outline"
+          ? "ios-create"
+          : "md-create"
       }
     />
   )
@@ -87,6 +87,6 @@ export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
-  EditScreen
+  EditStack
 });
 
