@@ -7,7 +7,7 @@ import { TextInput } from "react-native-gesture-handler";
 
 export default class LinksScreen extends React.Component {
     static navigationOptions = { header: null };
-​
+
     state = { 
         calories: 0,
         totalCal: 0,
@@ -15,7 +15,7 @@ export default class LinksScreen extends React.Component {
         min: 0,
         weight: 52.2
     }
-​
+
     constructor(props) {
         super(props);
         this.state = {
@@ -26,18 +26,18 @@ export default class LinksScreen extends React.Component {
         };
         this._loadClient = this._loadClient.bind(this);
     }
-​
+
     calculateCal = () => {
         let simplifiedMet = 12/60
         var caloriesBurned = (Math.floor(simplifiedMet * 60 ) * 52.2)
         console.log(caloriesBurned)
         this.setState({totalCal:caloriesBurned.toFixed(0)})
     }
-​
+
     calculateTotal = () => {
         
     }
-​
+
     componentDidMount() {
         console.log("cdmount");
         this._loadClient();
@@ -45,11 +45,11 @@ export default class LinksScreen extends React.Component {
         const { addListener } = this.props.navigation;
         this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
     }
-​
+
     componentWillUnmount() {
         this.listeners.forEach(sub => { sub.remove() })
     }
-​
+
     _onRefresh = () => {
         console.log("refresh");
         this.setState({ refreshing: true });
@@ -71,10 +71,10 @@ export default class LinksScreen extends React.Component {
                 console.warn(err);
             });
     };
-​
+
     render() {
         console.log("render");
-​
+
         const sections =
             this.state.workouts == undefined
                 ? [{ data: [{ title: "Loading..." }], title: "Loading..." }]
@@ -86,7 +86,7 @@ export default class LinksScreen extends React.Component {
                             title: "No new workouts"
                         }
                     ];
-​
+
         return (
             <>
             <SectionList
@@ -102,17 +102,17 @@ export default class LinksScreen extends React.Component {
                         onRefresh={this._onRefresh} />
                 }
                 renderSectionFooter={this._renderFooter}
-​
+
             />
             
             </>
         );
     }
-​
+
     _renderSectionHeader = ({ section }) => {
         return <SectionHeader title={section.title} />;
     };
-​
+
     _renderItem = ({ item }) => {
         return (
             <>
@@ -148,7 +148,7 @@ export default class LinksScreen extends React.Component {
         );
     };
     
-​
+
     _renderFooter = () => {
         return (
             <>
@@ -163,10 +163,10 @@ export default class LinksScreen extends React.Component {
             </>
         );
     };
-​
+
     _loadClient() {
         console.log("load client");
-​
+
         const stitchAppClient = Stitch.defaultAppClient;
         const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
         const db = mongoClient.db("workoutmanager");
@@ -180,7 +180,7 @@ export default class LinksScreen extends React.Component {
                 console.warn(err);
             });
     }
-​
+
     _onPressComplete(itemID) {
         if (itemID) {
             const stitchAppClient = Stitch.defaultAppClient;
@@ -212,7 +212,7 @@ export default class LinksScreen extends React.Component {
                 });
         }
     }
-​
+
     _onPressDelete(itemID) {
         console.log("delete id = ", itemID);
         const stitchAppClient = Stitch.defaultAppClient;
@@ -239,7 +239,6 @@ export default class LinksScreen extends React.Component {
             });
     }
 }
-​
 const SectionHeader = ({ title }) => {
     return (
         <View style={styles.sectionHeaderContainer}>
@@ -247,11 +246,11 @@ const SectionHeader = ({ title }) => {
         </View>
     );
 };
-​
+
 const SectionContent = props => {
     return <View style={styles.sectionContentContainer}>{props.children}</View>;
 };
-​
+
 LinksScreen.navigationOptions = {
     headerTitle: (
         <Ionicons
@@ -266,7 +265,7 @@ LinksScreen.navigationOptions = {
         />
     )
 };
-​
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
