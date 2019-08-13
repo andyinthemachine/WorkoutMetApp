@@ -10,22 +10,21 @@ import customData from '../metObjects.json';
 
 const temp_id = "5d533801890e838513221a2f";
 
-
-
 export default class EditScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             currentUserId: undefined,
             client: undefined,
-            workout: undefined,
+            workout: [],
             refreshing: false,
             userName: "Joe"
         };
         this._loadClient = this._loadClient.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        this._loadClient()
         const { addListener } = this.props.navigation;
         this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
     }
@@ -40,15 +39,22 @@ export default class EditScreen extends React.Component {
     
 
     render() {
-        const arr1 = [{name: "Billy",}, { name: "Bob" } ];
-
+        const arr1 = [{key: "Billy",}, { key: "Bob" } ];
+        console.log("State:::::::::::     ", this.state.workout.exercises)
         return (
+
             <View style={styles.container}>
                 <FlatList
-                    data={arr1}
-                    renderItem={({ item }) => <Text>{item.name}</Text>}
+                    data={this.state.workout.exercises}
+                    renderItem={({ item }) => 
+                    <Text
+                    style={{
+                        color: 'white',
+                        padding: 5,
+                        fontSize: 16
+                    }}>{item.exercise}</Text>}
                     keyExtractor={(item, index) => index}
-
+                
                     // key={item.name}
                     // refreshControl={
                     //   <RefreshControl
@@ -60,11 +66,9 @@ export default class EditScreen extends React.Component {
     );
   }
 
-
-
   _renderItem = ({ item }) => {
             // console.log("Item:", item)
-            // console.log("Array:", item.exercises)
+            // console.log("Array:", item.exercises)ac516da5805ba027bf8595b0928c5611bae324
 
             // initExercises = () => {
             //     console.log("Init: ",item)
@@ -104,16 +108,13 @@ export default class EditScreen extends React.Component {
                                     </View>
                                 ),
                                 backgroundColor: "#2e78b7",
-                                onPress: () => this._onPressArchive(item._id)
                             }
                         ]}
                     >
                         <View style={styles.taskListTextTime}>
                             {item.title != "No workouts" &&
                                 item.title != "Loading..." ? (
-                                    <Text style={styles.taskListTextTime}>
-                                        BLAHHHHHHHH
-                </Text>
+                                    <Text style={styles.taskListTextTime}></Text>
                                 ) : item.title == "No workouts" ? (
                                     <AntDesign
                                         name={Platform.OS == "ios" ? "smileo" : "smileo"}
@@ -128,6 +129,7 @@ export default class EditScreen extends React.Component {
                                         <Text />
                                     )}
                         </View>
+
                         <Text style={styles.sectionContentText}>
                             {item.title != "No workouts" ? item.description : ""}
                         </Text>
@@ -178,7 +180,7 @@ export default class EditScreen extends React.Component {
                 )
                 // .asArray()
                 .then(docs => {
-                    console.log(docs);
+                    console.log("Docs:::::::::: ", docs);
                     this.setState({ workout: docs });
                 })
                 .catch(err => {
