@@ -14,7 +14,8 @@ export default class LinksScreen extends React.Component {
       currentUserId: undefined,
       client: undefined,
       workouts: undefined,
-      refreshing: false
+      refreshing: false,
+      userName: "joe"
     };
     this._loadClient = this._loadClient.bind(this);
   }
@@ -39,7 +40,7 @@ export default class LinksScreen extends React.Component {
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
     workouts
-      .find({ status: "new" }, { sort: { date: -1 } })
+      .find({ status: "new" /*, userName: this.state.userName*/ }, { sort: { date: -1 } })
       .asArray()
       .then(docs => {
         this.setState({ workouts: docs });
@@ -51,6 +52,7 @@ export default class LinksScreen extends React.Component {
   };
 
   render() {
+    console.log("name: ", this.state.userName)
     const sections =
       this.state.workouts == undefined
         ? [{ data: [{ title: "Loading..." }], title: "Loading..." }]
@@ -164,7 +166,7 @@ export default class LinksScreen extends React.Component {
     const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
-    workouts.find({ status: "new" }, { sort: { date: -1 } })
+    workouts.find({ status: "new"/*, userName: this.state.userName */}, { sort: { date: -1 } })
       .asArray()
       .then(docs => {
         this.setState({ workouts: docs });
