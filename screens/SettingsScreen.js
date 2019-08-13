@@ -143,7 +143,7 @@ export default class SettingsScreen extends React.Component {
                   }}
                 >
                   <Ionicons
-                    name={Platform.OS == "ios" ? "ios-archive" : "md-archive"}
+                    name={Platform.OS == "ios" ? "ios-undo" : "md-undo"}
                     size={30}
                     style={{ textAlign: "center", color: "white" }}
                   />
@@ -234,7 +234,7 @@ export default class SettingsScreen extends React.Component {
       workouts
         .updateOne(
           { _id: itemID },
-          { $set: { status: "new", archivedDate: new Date() } },
+          { $set: { status: "new" }},
           { upsert: true }
         )
         .then(() => {

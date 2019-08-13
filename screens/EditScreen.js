@@ -10,8 +10,6 @@ import customData from '../metObjects.json';
 
 const temp_id = "5d533801890e838513221a2f";
 
-
-
 export default class EditScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -44,6 +42,7 @@ export default class EditScreen extends React.Component {
         const arr1 = [{key: "Billy",}, { key: "Bob" } ];
         console.log("State:::::::::::     ", this.state.workout.exercises)
         return (
+
             <View style={styles.container}>
                 <FlatList
                     data={this.state.workout.exercises}
@@ -69,7 +68,7 @@ export default class EditScreen extends React.Component {
 
   _renderItem = ({ item }) => {
             // console.log("Item:", item)
-            // console.log("Array:", item.exercises)
+            // console.log("Array:", item.exercises)ac516da5805ba027bf8595b0928c5611bae324
 
             // initExercises = () => {
             //     console.log("Init: ",item)
@@ -130,6 +129,7 @@ export default class EditScreen extends React.Component {
                                         <Text />
                                     )}
                         </View>
+
                         <Text style={styles.sectionContentText}>
                             {item.title != "No workouts" ? item.description : ""}
                         </Text>
