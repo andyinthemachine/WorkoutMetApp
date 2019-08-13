@@ -191,7 +191,7 @@ export default class LinksScreen extends React.Component {
         const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
         const db = mongoClient.db("workoutmanager");
         const workouts = db.collection("workouts");
-        workouts.findOne({ "_id": "5d51d79cbf844bbb91a64d0c"})
+        workouts.findOne({ _id: '5d520880b87ed6821baec943'git  })
             .then(docs => {
                 console.log(docs)
                 this.setState({ workouts: docs });

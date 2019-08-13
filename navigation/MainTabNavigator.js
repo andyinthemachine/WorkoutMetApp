@@ -9,7 +9,28 @@ import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import LoginScreen from "../screens/LoginScreen"
 import EditScreen from '../screens/EditScreen'
+
+const LoginStack = createStackNavigator({
+  Login: LoginScreen
+});
+
+LoginStack.navigationOptions = {
+  tabBarLabel: "Login",
+  tabBarVisible: false,
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === "ios"
+          ? `ios-add-circle${focused ? "" : "-outline"}`
+          : "md-add-circle"
+      }
+    />
+  )
+};
+
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -17,6 +38,7 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: "New",
+  tabBarVisible: true,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -84,9 +106,9 @@ EditStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
+  LoginStack,
   HomeStack,
   LinksStack,
   EditStack,
   SettingsStack,
 });
-
