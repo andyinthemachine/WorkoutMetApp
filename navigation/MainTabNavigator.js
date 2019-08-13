@@ -34,7 +34,7 @@ const LinksStack = createStackNavigator({
 });
 
 LinksStack.navigationOptions = {
-  tabBarLabel: "Current",
+  tabBarLabel: "Workouts",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -86,7 +86,7 @@ EditStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
+  EditStack,
   SettingsStack,
-  EditStack
 });
 
