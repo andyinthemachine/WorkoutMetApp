@@ -102,6 +102,27 @@ export default class SettingsScreen extends React.Component {
         <Swipeout
           autoClose={true}
           backgroundColor="none"
+          left={[{
+            component: (
+              <View style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column"
+              }} >
+                <Ionicons name={Platform.OS == "ios"
+                  ? "ios-close-circle-outline"
+                  : "md-close-circle-outline"
+                }
+                  size={30}
+                  style={{ textAlign: "center", color: "white" }} />
+              </View>
+            ),
+            backgroundColor: "red",
+            onPress: () => this._onPressDelete(item._id)
+          }
+          ]} 
+
           right={[
             {
               component: (
@@ -121,9 +142,10 @@ export default class SettingsScreen extends React.Component {
                 </View>
               ),
               backgroundColor: "#2e78b7",
-              onPress: () => this._onPressArchive(item._id)
+              onPress: () => this._onPressUnComplete(item._id)
             }
-          ]} >
+          ]} 
+          >
           <TouchableOpacity onLongPress={() => this._onPressEdit(item._id)}>
             <View style={styles.taskListTextTime}>
               {item.title != "No completed workouts" &&
@@ -188,9 +210,33 @@ export default class SettingsScreen extends React.Component {
     this.props.navigation.navigate('Home', {id: itemID});
   }
 
-  _onPressArchive(itemID) {
-    if (itemID) {
+  _onPressDelete(itemID) {
+    const stitchAppClient = Stitch.defaultAppClient;
+    const mongoClient = stitchAppClient.getServiceClient(
+      RemoteMongoClient.factory,
+      "mongodb-atlas"
+    );
+    const db = mongoClient.db("workoutmanager");
+    const workouts = db.collection("workouts");
+    workouts.deleteOne({ _id: itemID })
+      .then(() => {
+        workouts.find({ status: "completed", userName: this.state.userName }, { sort: { date: -1 } })
+          .asArray()
+          .then(docs => {
+            this.setState({ workouts: docs });
+          })
+          .catch(err => {
+            console.warn(err);
+          });
+      })
+      .catch(err => {
+        console.warn(err);
+      });
+  }
 
+
+  _onPressUnComplete(itemID) {
+    if (itemID) {
       const stitchAppClient = Stitch.defaultAppClient;
       const mongoClient = stitchAppClient.getServiceClient(
         RemoteMongoClient.factory,
@@ -201,7 +247,7 @@ export default class SettingsScreen extends React.Component {
       workouts
         .updateOne(
           { _id: itemID },
-          { $set: { status: "archived", archivedDate: new Date() } },
+          { $set: { status: "new", archivedDate: new Date() } },
           { upsert: true }
         )
         .then(() => {
