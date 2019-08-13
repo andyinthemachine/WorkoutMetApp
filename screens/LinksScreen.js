@@ -1,6 +1,6 @@
 
 import React from "react";
-import { RefreshControl, Platform, SectionList, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, AsyncStorage } from "react-native";
 import moment from "moment";
 import Swipeout from "react-native-swipeout";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -21,7 +21,7 @@ export default class LinksScreen extends React.Component {
   }
 
   componentDidMount() {
-    this._loadClient();
+    // this._loadClient();
     const { addListener } = this.props.navigation;
     this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
   }
@@ -32,6 +32,11 @@ export default class LinksScreen extends React.Component {
 
   _onRefresh = () => {
     this.setState({ refreshing: true });
+
+
+  };
+
+  _grabAsyncDataPullFromDB = async () => {
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(
       RemoteMongoClient.factory,
@@ -39,18 +44,28 @@ export default class LinksScreen extends React.Component {
     );
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
-    workouts
-      .find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
-      .asArray()
-      .then(docs => {
-        this.setState({ workouts: docs });
-        this.setState({ refreshing: false });
-      })
-      .catch(err => {
-        console.warn(err);
-      });
+    try {
+      const value = await AsyncStorage.getItem('key');
+      console.log('async data: ', value);
+      if (value !== null) {
+        console.log('value: ', value);
+        workouts
+          .find({ status: "new", userName: value }, { sort: { date: -1 } })
+          .asArray()
+          .then(docs => {
+            this.setState({ workouts: docs });
+            this.setState({ refreshing: false });
+          })
+          .catch(err => {
+            console.warn(err);
+          });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
   };
-  
+
   render() {
 
     const sections =
@@ -162,18 +177,7 @@ export default class LinksScreen extends React.Component {
   };
 
   _loadClient() {
-    const stitchAppClient = Stitch.defaultAppClient;
-    const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
-    const db = mongoClient.db("workoutmanager");
-    const workouts = db.collection("workouts");
-    workouts.find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
-      .asArray()
-      .then(docs => {
-        this.setState({ workouts: docs });
-      })
-      .catch(err => {
-        console.warn(err);
-      });
+    this._grabAsyncDataPullFromDB();
   }
 
   _onPressComplete(itemID) {
@@ -248,31 +252,31 @@ const SectionContent = props => {
 LinksScreen.navigationOptions = {
   headerTitle: (
     <>
-    <Ionicons
-      name={Platform.OS == "ios" ? "ios-clipboard" : "md-clipboard"}
-      size={23}
-      style={{
-        color: "#2e78b7",
-        flex: 4,
-        textAlign: "right",
-        flexDirection: "row",
-        paddingLeft: 30
+      <Ionicons
+        name={Platform.OS == "ios" ? "ios-clipboard" : "md-clipboard"}
+        size={23}
+        style={{
+          color: "#2e78b7",
+          flex: 4,
+          textAlign: "right",
+          flexDirection: "row",
+          paddingLeft: 30
 
-      }}
-      resizeMode="contain"
-    />
-    <Ionicons
-      name={Platform.OS == "ios" ? "ios-settings" : "md-settings"}
-      size={23}
-      style={{
-        color: "#2e78b7",
-        flex: 4,
-        textAlign: "right",
-        flexDirection: "row",
-        paddingRight: 20
-      }}
-      resizeMode="contain"
-    />
+        }}
+        resizeMode="contain"
+      />
+      <Ionicons
+        name={Platform.OS == "ios" ? "ios-settings" : "md-settings"}
+        size={23}
+        style={{
+          color: "#2e78b7",
+          flex: 4,
+          textAlign: "right",
+          flexDirection: "row",
+          paddingRight: 20
+        }}
+        resizeMode="contain"
+      />
     </>
   )
 };

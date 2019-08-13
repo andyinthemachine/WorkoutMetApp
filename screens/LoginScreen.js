@@ -6,7 +6,8 @@ import {
   Keyboard,
   TextInput,
   Dimensions,
-  Button
+  Button,
+  AsyncStorage
 } from "react-native";
 
 var height = Dimensions.get("window").height;
@@ -24,14 +25,37 @@ export default class LoginScreen extends React.Component {
     Keyboard.dismiss();
     this.setState({ userName: this.state.text, passWord: this.state.text2 }, () => {
       if (this.state.text != "") {
-        this.props.navigation.navigate('Home', { userName: this.state.userName });
+        this.props.navigation.navigate('Home'/*, { userName: this.state.userName }*/);
+        this._storeData(this.state.userName)
+        // this._retrieveData();
       };
     });
   };
 
   static navigationOptions = { header: null };
 
+  _storeData = async (wkoutID) => {
+    try {
+      await AsyncStorage.setItem('key', wkoutID);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('key');
+      if (value !== null) {
+        // console.log('value: ', value);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+    return (value);
+  };
+
   render() {
+   
     return (
       <View style={""}>
         <TextInput
