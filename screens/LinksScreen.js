@@ -15,7 +15,7 @@ export default class LinksScreen extends React.Component {
       client: undefined,
       workouts: undefined,
       refreshing: false,
-      userName: "Joe"
+      userName: ""
     };
     this._loadClient = this._loadClient.bind(this);
   }
@@ -200,17 +200,7 @@ export default class LinksScreen extends React.Component {
         { $set: { status: "completed", completedDate: new Date() } },
         { upsert: true })
         .then(() => {
-          workouts.find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
-            .asArray()
-            .then(docs => {
-              this.setState({ workouts: docs });
-              if (this._confettiView) {
-                this._confettiView.startConfetti();
-              }
-            })
-            .catch(err => {
-              console.warn(err);
-            });
+          this._grabAsyncDataPullFromDB();
         })
         .catch(err => {
           console.warn(err);
@@ -228,14 +218,7 @@ export default class LinksScreen extends React.Component {
     const workouts = db.collection("workouts");
     workouts.deleteOne({ _id: itemID })
       .then(() => {
-        workouts.find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
-          .asArray()
-          .then(docs => {
-            this.setState({ workouts: docs });
-          })
-          .catch(err => {
-            console.warn(err);
-          });
+        this._grabAsyncDataPullFromDB();
       })
       .catch(err => {
         console.warn(err);

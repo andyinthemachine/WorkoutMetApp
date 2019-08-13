@@ -8,7 +8,7 @@ import { TextInput } from "react-native-gesture-handler";
 export default class LinksScreen extends React.Component {
     static navigationOptions = { header: null };
 
-    state = { 
+    state = {
         calories: 0,
         totalCal: 0,
         met: 12,
@@ -28,14 +28,14 @@ export default class LinksScreen extends React.Component {
     }
 
     calculateCal = () => {
-        let simplifiedMet = 12/60
-        var caloriesBurned = (Math.floor(simplifiedMet * 60 ) * 52.2)
+        let simplifiedMet = 12 / 60
+        var caloriesBurned = (Math.floor(simplifiedMet * 60) * 52.2)
         console.log(caloriesBurned)
-        this.setState({totalCal:caloriesBurned.toFixed(0)})
+        this.setState({ totalCal: caloriesBurned.toFixed(0) })
     }
 
     calculateTotal = () => {
-        
+
     }
 
     componentDidMount() {
@@ -89,22 +89,22 @@ export default class LinksScreen extends React.Component {
 
         return (
             <>
-            <SectionList
-                style={{ ...styles.container }}
-                renderItem={this._renderItem}
-                renderSectionHeader={this._renderSectionHeader}
-                stickySectionHeadersEnabled={true}
-                keyExtractor={(item, index) => index}
-                sections={sections}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this._onRefresh} />
-                }
-                renderSectionFooter={this._renderFooter}
+                <SectionList
+                    style={{ ...styles.container }}
+                    renderItem={this._renderItem}
+                    renderSectionHeader={this._renderSectionHeader}
+                    stickySectionHeadersEnabled={true}
+                    keyExtractor={(item, index) => index}
+                    sections={sections}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh} />
+                    }
+                    renderSectionFooter={this._renderFooter}
 
-            />
-            
+                />
+
             </>
         );
     }
@@ -123,7 +123,7 @@ export default class LinksScreen extends React.Component {
                         duration={2000}
                         ref={node => (this._confettiView = node)} />
                     <Text style={styles.sectionHeader}>{item.title != "No new workouts" ? item.description : ""}</Text>
-                    
+
 
 
                     <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -139,9 +139,9 @@ export default class LinksScreen extends React.Component {
                             placeholderTextColor="red"
                             keyboardType='numeric'
                             value={this.state.min}
-                        /> 
+                        />
                         <Text style={styles.operator}>
-                             =
+                            =
                     </Text>
                         <Text style={styles.sectionContentText2}>
                             {}12 cal
@@ -155,17 +155,16 @@ export default class LinksScreen extends React.Component {
             </>
         );
     };
-    
+
 
     _renderFooter = () => {
         return (
             <>
-                <SectionContent style={{paddingLeft: 0}}>
-                    <View style={{ flex: 1, flexDirection: 'row', paddingHorizontal: 50, color: "white"}}>
+                <SectionContent style={{ paddingLeft: 0 }}>
+                    <View style={{ flex: 1, flexDirection: 'row', paddingHorizontal: 50, color: "white" }}>
                         <Text style={styles.sum}>Total Cals</Text>
                         <Text style={styles.equal}>=</Text>
-                        <Text style={styles.totalCal} >≈  {this.state.totalCal} cal
-</Text>
+                        <Text style={styles.totalCal} >≈  {this.state.totalCal} cal</Text>
                     </View>
                 </SectionContent>
             </>
@@ -302,7 +301,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         textAlign: 'left',
         textAlignVertical: 'center'
-      },
+    },
     sectionContentContainer: {
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: "lightgray"
