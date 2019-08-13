@@ -39,10 +39,10 @@ export default class HomeScreen extends React.Component {
       userName: null,
       selectedItem: "",
       selectedGroup: [],
-      userName: this.props.navigation.state.params
+      userName: this.props.navigation.state.params.userName
     };
   }
-  // this.setState({userName: this.props.navigation.state.params});
+
   initData = () => {
     const sections = customData.map(section => {
       const title = section.title;
@@ -107,7 +107,6 @@ export default class HomeScreen extends React.Component {
           this.setState({ selectedGroup: [] });
           this.setState({ selectedItem: "" });
           this.setState({ value: !this.state.value });
-          this.props.navigation.setParams({userName: this.state.userName})
           this.setState({ text: "" });
         })
         .catch(err => {

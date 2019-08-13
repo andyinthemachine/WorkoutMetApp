@@ -15,7 +15,7 @@ export default class LinksScreen extends React.Component {
       client: undefined,
       workouts: undefined,
       refreshing: false,
-      userName: ""
+      userName: "joe"
     };
     this._loadClient = this._loadClient.bind(this);
   }
@@ -41,7 +41,7 @@ export default class LinksScreen extends React.Component {
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
     workouts
-      .find({ status: "new" }, { sort: { date: -1 } })
+      .find({ status: "new" /*, userName: this.state.userName*/}, { sort: { date: -1 } })
       .asArray()
       .then(docs => {
         this.setState({ workouts: docs });
