@@ -1,11 +1,12 @@
 
 import React from "react";
-import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, AsyncStorage } from "react-native";
+import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from "react-native";
 import Constants from "expo-constants";
 import Swipeout from "react-native-swipeout";
 import moment from "moment/min/moment-with-locales";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
+
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {
@@ -22,8 +23,8 @@ export default class SettingsScreen extends React.Component {
 
   componentDidMount() {
     this._loadClient();
-    const { addListener } = this.props.navigation;          
-    this.listeners = [addListener('didFocus', () => { this._loadClient();})]  
+    const { addListener } = this.props.navigation;
+    this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
   }
 
   componentWillUnmount() {
@@ -74,7 +75,7 @@ export default class SettingsScreen extends React.Component {
       this.state.workouts == undefined
         ? [{ data: [{ title: "Loading..." }], title: "Loading..." }]
         : this.state.workouts.length > 0
-          ? [{ data: this.state.workouts, title: "Completed workouts" }]
+          ? [{ data: this.state.workouts, title: "Completed Workouts" }]
           : [
             {
               data: [{ title: "No completed workouts" }],
@@ -131,36 +132,37 @@ export default class SettingsScreen extends React.Component {
               backgroundColor: "#2e78b7",
               onPress: () => this._onPressArchive(item._id)
             }
-          ]}
-        >
-          <View style={styles.taskListTextTime}>
-            {item.title != "No completed workouts" &&
-              item.title != "Loading..." ? (
-                <Text style={styles.taskListTextTime}>
-                  created {moment(item.date).fromNow()}
-                </Text>
-              ) : item.title == "No completed workouts" ? (
-                <AntDesign
-                  name={Platform.OS == "ios" ? "smileo" : "smileo"}
-                  size={30}
-                  style={{
-                    textAlign: "center",
-                    color: "lightgray",
-                    marginTop: 25
-                  }}
-                />
-              ) : (
-                  <Text />
-                )}
-          </View>
-          <Text style={styles.sectionContentText}>
-            {item.title != "No completed workouts" ? item.description : ""}
-          </Text>
-          <Text style={styles.taskListTextTimeComplete}>
-            {item.title != "No completed workouts" && item.title != "Loading..."
-              ? "completed " + moment(item.completedDate).fromNow()
-              : null}
-          </Text>
+          ]} >
+          <TouchableOpacity onLongPress={() => this._onPressEdit(item._id)}>
+            <View style={styles.taskListTextTime}>
+              {item.title != "No completed workouts" &&
+                item.title != "Loading..." ? (
+                  <Text style={styles.taskListTextTime}>
+                    created {moment(item.date).fromNow()}
+                  </Text>
+                ) : item.title == "No completed workouts" ? (
+                  <AntDesign
+                    name={Platform.OS == "ios" ? "smileo" : "smileo"}
+                    size={30}
+                    style={{
+                      textAlign: "center",
+                      color: "lightgray",
+                      marginTop: 25
+                    }}
+                  />
+                ) : (
+                    <Text />
+                  )}
+            </View>
+            <Text style={styles.sectionContentText}>
+              {item.title != "No completed workouts" ? item.description : ""}
+            </Text>
+            <Text style={styles.taskListTextTimeComplete}>
+              {item.title != "No completed workouts" && item.title != "Loading..."
+                ? "completed " + moment(item.completedDate).fromNow()
+                : null}
+            </Text>
+          </TouchableOpacity>
         </Swipeout>
       </SectionContent>
     );
@@ -169,6 +171,11 @@ export default class SettingsScreen extends React.Component {
   _loadClient() {
     this._grabAsyncDataPullFromDB();
   }
+
+  _onPressEdit(itemID) {
+    this.props.navigation.navigate('Home', {id: itemID});
+  }
+
   _onPressArchive(itemID) {
     if (itemID) {
 
@@ -212,12 +219,12 @@ SettingsScreen.navigationOptions = {
     <Ionicons
       name={
         Platform.OS == "ios"
-          ? "ios-checkmark-circle-outline"
-          : "md-checkmark-circle-outline"
+          ? "ios-checkmark-circle"
+          : "md-checkmark-circle"
       }
       size={23}
       style={{
-        color: "#2e78b7",
+        color: "black",
         flex: 1,
         textAlign: "center"
       }}
@@ -229,7 +236,7 @@ SettingsScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#3F3E40',
   },
   sectionHeaderContainer: {
     backgroundColor: "#fbfbfb",
@@ -249,7 +256,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgray"
   },
   sectionContentText: {
-    color: "black",
+    color: "white",
     fontSize: 15,
     paddingBottom: 10,
     paddingHorizontal: 10,
@@ -265,7 +272,7 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     paddingHorizontal: 10,
     textAlign: "left",
-    color: "green",
+    color: "red",
     fontSize: 13
   }
 });

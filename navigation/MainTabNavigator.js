@@ -37,8 +37,7 @@ const HomeStack = createStackNavigator({
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: "New",
-  tabBarVisible: true,
+  tabBarLabel: "Create",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -69,24 +68,6 @@ LinksStack.navigationOptions = {
   )
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: "Completed",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? "ios-checkmark-circle-outline"
-          : "md-checkmark-circle-outline"
-      }
-    />
-  )
-};
-
 const EditStack = createStackNavigator({
   Edit: EditScreen
 });
@@ -105,10 +86,28 @@ EditStack.navigationOptions = {
   )
 };
 
+const SettingsStack = createStackNavigator({
+    Settings: SettingsScreen
+  });
+  
+  SettingsStack.navigationOptions = {
+    tabBarLabel: "Completed",
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={
+          Platform.OS === "ios"
+            ? "ios-checkmark-circle-outline"
+            : "md-checkmark-circle-outline"
+        }
+      />
+    )
+  };
+
 export default createBottomTabNavigator({
   LoginStack,
   HomeStack,
   LinksStack,
   EditStack,
-  SettingsStack,
+  SettingsStack
 });

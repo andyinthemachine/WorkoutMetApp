@@ -1,6 +1,6 @@
 
 import React from "react";
-import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, AsyncStorage } from "react-native";
+import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from "react-native";
 import moment from "moment";
 import Swipeout from "react-native-swipeout";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -150,27 +150,29 @@ export default class LinksScreen extends React.Component {
             onPress: () => this._onPressDelete(item._id)
           }
           ]} >
-          <View style={styles.taskListTextTime}>
-            {item.title != "No new workouts" && item.title != "Loading..." ? (
-              <Text style={styles.taskListTextTime}>
-                {moment(item.date).fromNow()}
-              </Text>
-            ) : item.title == "No new workouts" ? (
-              <AntDesign
-                name={Platform.OS == "ios" ? "smileo" : "smileo"}
-                size={30}
-                style={{
-                  textAlign: "center",
-                  color: "lightgray",
-                  marginTop: 25
-                }} />
-            ) : (
-                  <Text />
-                )}
-          </View>
-          <Text style={styles.sectionContentText}>
-            {item.title != "No new workouts" ? item.description : ""}
-          </Text>
+          <TouchableOpacity onLongPress={() => this._onPressEdit(item._id)}>
+            <View style={styles.taskListTextTime}>
+              {item.title != "No new workouts" && item.title != "Loading..." ? (
+                <Text style={styles.taskListTextTime}>
+                  {moment(item.date).fromNow()}
+                </Text>
+              ) : item.title == "No new workouts" ? (
+                <AntDesign
+                  name={Platform.OS == "ios" ? "smileo" : "smileo"}
+                  size={30}
+                  style={{
+                    textAlign: "center",
+                    color: "lightgray",
+                    marginTop: 25
+                  }} />
+              ) : (
+                    <Text />
+                  )}
+            </View>
+            <Text style={styles.sectionContentText}>
+              {item.title != "No new workouts" ? item.description : ""}
+            </Text>
+          </TouchableOpacity>
         </Swipeout>
       </SectionContent>
     );
@@ -178,6 +180,10 @@ export default class LinksScreen extends React.Component {
 
   _loadClient() {
     this._grabAsyncDataPullFromDB();
+  }
+
+  _onPressEdit(itemID) {
+    this.props.navigation.navigate('Home', {id: itemID});
   }
 
   _onPressComplete(itemID) {
@@ -256,7 +262,7 @@ LinksScreen.navigationOptions = {
         name={Platform.OS == "ios" ? "ios-clipboard" : "md-clipboard"}
         size={23}
         style={{
-          color: "#2e78b7",
+          color: "black",
           flex: 4,
           textAlign: "right",
           flexDirection: "row",
@@ -284,7 +290,7 @@ LinksScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#3F3E40',
   },
   sectionHeaderContainer: {
     backgroundColor: "#fbfbfb",
@@ -304,7 +310,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgray"
   },
   sectionContentText: {
-    color: "black",
+    color: "white",
     fontSize: 15,
     paddingBottom: 10,
     paddingHorizontal: 10,
