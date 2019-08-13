@@ -4,20 +4,18 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
 import Confetti from "react-native-confetti";
 import { TextInput } from "react-native-gesture-handler";
-import Swipeout from "react-native-swipeout";
-
 
 export default class LinksScreen extends React.Component {
     static navigationOptions = { header: null };
-
+​
     state = { 
-        calories: 100,
+        calories: 0,
         totalCal: 0,
         met: 12,
         min: 0,
-        weight: 52.2,
+        weight: 52.2
     }
-
+​
     constructor(props) {
         super(props);
         this.state = {
@@ -28,31 +26,30 @@ export default class LinksScreen extends React.Component {
         };
         this._loadClient = this._loadClient.bind(this);
     }
-
+​
     calculateCal = () => {
-        
         let simplifiedMet = 12/60
         var caloriesBurned = (Math.floor(simplifiedMet * 60 ) * 52.2)
-        // console.log(caloriesBurned)
+        console.log(caloriesBurned)
         this.setState({totalCal:caloriesBurned.toFixed(0)})
     }
-
+​
     calculateTotal = () => {
         
     }
-
+​
     componentDidMount() {
         console.log("cdmount");
-        // this._loadClient();
+        this._loadClient();
         this.calculateCal();
         const { addListener } = this.props.navigation;
         this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
     }
-
+​
     componentWillUnmount() {
         this.listeners.forEach(sub => { sub.remove() })
     }
-
+​
     _onRefresh = () => {
         console.log("refresh");
         this.setState({ refreshing: true });
@@ -64,7 +61,8 @@ export default class LinksScreen extends React.Component {
         const db = mongoClient.db("workoutmanager");
         const workouts = db.collection("workouts");
         workouts
-            .findOne({ _id: "5d51d79cbf844bbb91a64d0c"})
+            .find({ status: "new" }, { sort: { date: -1 } })
+            .asArray()
             .then(docs => {
                 this.setState({ workouts: docs });
                 this.setState({ refreshing: false });
@@ -73,10 +71,10 @@ export default class LinksScreen extends React.Component {
                 console.warn(err);
             });
     };
-
+​
     render() {
         console.log("render");
-
+​
         const sections =
             this.state.workouts == undefined
                 ? [{ data: [{ title: "Loading..." }], title: "Loading..." }]
@@ -88,7 +86,7 @@ export default class LinksScreen extends React.Component {
                             title: "No new workouts"
                         }
                     ];
-
+​
         return (
             <>
             <SectionList
@@ -104,14 +102,18 @@ export default class LinksScreen extends React.Component {
                         onRefresh={this._onRefresh} />
                 }
                 renderSectionFooter={this._renderFooter}
+​
             />
+            
             </>
         );
     }
-
+​
+    _renderSectionHeader = ({ section }) => {
+        return <SectionHeader title={section.title} />;
+    };
+​
     _renderItem = ({ item }) => {
-        console.log("Rendered Item")
-        console.log(item)
         return (
             <>
                 <SectionContent>
@@ -120,37 +122,14 @@ export default class LinksScreen extends React.Component {
                         timeout={10}
                         duration={2000}
                         ref={node => (this._confettiView = node)} />
-                    <Swipeout
-                    autoClose={true}
-                    backgroundColor="none"
-                    left={[{
-                      component: (
-                        <View style={{
-                          flex: 1,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexDirection: "column"
-                        }} >
-                          <Ionicons name={Platform.OS == "ios"
-                            ? "ios-close-circle-outline"
-                            : "md-close-circle-outline"
-                          }
-                            size={30}
-                            style={{ textAlign: "center", color: "white" }} />
-                        </View>
-                      ),
-                      backgroundColor: "red",
-                      onPress: () => this._onPressDelete(item._id)
-                    }
-                    ]} >
                     <Text style={styles.sectionHeader}>{item.title != "No new workouts" ? item.description : ""}</Text>
-                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={styles.sectionContentText}>
-                            c
+                            Exercise
                         </Text>
                         <Text style={styles.operator}>
                             x
-                        </Text>
+                    </Text>
                         <TextInput
                             style={styles.taskListTextTime}
                             placeholder="Min"
@@ -159,17 +138,17 @@ export default class LinksScreen extends React.Component {
                         /> 
                         <Text style={styles.operator}>
                              =
-                        </Text>
+                    </Text>
                         <Text style={styles.sectionContentText2}>
-                            {this.state.calories} 12 cal
+                            {}12 cal
                         </Text>
                     </View>
-                    </Swipeout>
                 </SectionContent>
             </>
         );
     };
-
+    
+​
     _renderFooter = () => {
         return (
             <>
@@ -177,30 +156,63 @@ export default class LinksScreen extends React.Component {
                     <View style={{ flex: 1, flexDirection: 'row', paddingHorizontal: 50, backgroundColor: "darkgrey", color: "white"}}>
                         <Text style={styles.sum}>Total Cals</Text>
                         <Text style={styles.equal}>=</Text>
-                        <Text style={styles.totalCal} >≈  {this.state.totalCal} cal</Text>
+                        <Text style={styles.totalCal} >≈  {this.state.totalCal} cal
+</Text>
                     </View>
                 </SectionContent>
             </>
         );
     };
-
-
+​
     _loadClient() {
         console.log("load client");
+​
         const stitchAppClient = Stitch.defaultAppClient;
         const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
         const db = mongoClient.db("workoutmanager");
         const workouts = db.collection("workouts");
-        workouts.findOne({ _id: '5d520880b87ed6821baec943'git  })
+        workouts.find({ status: "new" }, { sort: { date: -1 } })
+            .asArray()
             .then(docs => {
-                console.log(docs)
                 this.setState({ workouts: docs });
             })
             .catch(err => {
                 console.warn(err);
             });
     }
-
+​
+    _onPressComplete(itemID) {
+        if (itemID) {
+            const stitchAppClient = Stitch.defaultAppClient;
+            const mongoClient = stitchAppClient.getServiceClient(
+                RemoteMongoClient.factory,
+                "mongodb-atlas"
+            );
+            const db = mongoClient.db("workoutmanager");
+            const workouts = db.collection("workouts");
+            workouts.updateOne(
+                { _id: itemID },
+                { $set: { status: "completed", completedDate: new Date() } },
+                { upsert: true })
+                .then(() => {
+                    workouts.find({ status: "new" }, { sort: { date: -1 } })
+                        .asArray()
+                        .then(docs => {
+                            this.setState({ workouts: docs });
+                            if (this._confettiView) {
+                                this._confettiView.startConfetti();
+                            }
+                        })
+                        .catch(err => {
+                            console.warn(err);
+                        });
+                })
+                .catch(err => {
+                    console.warn(err);
+                });
+        }
+    }
+​
     _onPressDelete(itemID) {
         console.log("delete id = ", itemID);
         const stitchAppClient = Stitch.defaultAppClient;
@@ -209,7 +221,7 @@ export default class LinksScreen extends React.Component {
             "mongodb-atlas"
         );
         const db = mongoClient.db("workoutmanager");
-        const workouts = db.collection("workouts");
+        const workouts = db.collection("worekouts");
         workouts.deleteOne({ _id: itemID })
             .then(() => {
                 console.log("deleteOne.then");
@@ -227,7 +239,7 @@ export default class LinksScreen extends React.Component {
             });
     }
 }
-
+​
 const SectionHeader = ({ title }) => {
     return (
         <View style={styles.sectionHeaderContainer}>
@@ -235,11 +247,11 @@ const SectionHeader = ({ title }) => {
         </View>
     );
 };
-
+​
 const SectionContent = props => {
     return <View style={styles.sectionContentContainer}>{props.children}</View>;
 };
-
+​
 LinksScreen.navigationOptions = {
     headerTitle: (
         <Ionicons
@@ -254,7 +266,7 @@ LinksScreen.navigationOptions = {
         />
     )
 };
-
+​
 const styles = StyleSheet.create({
     container: {
         flex: 1,
