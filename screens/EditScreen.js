@@ -80,7 +80,7 @@ export default class LinksScreen extends React.Component {
             this.state.workouts == undefined
                 ? [{ data: [{ title: "Loading..." }], title: "Loading..." }]
                 : this.state.workouts.length > 0
-                    ? [{ data: this.state.workouts, title: "Calories Burned" }]
+                    ? [{ data: this.state.workouts, title: "Calculate Calories Burned" }]
                     : [
                         {
                             data: [{ title: "No new workouts" }],
@@ -124,6 +124,9 @@ export default class LinksScreen extends React.Component {
                         duration={2000}
                         ref={node => (this._confettiView = node)} />
                     <Text style={styles.sectionHeader}>{item.title != "No new workouts" ? item.description : ""}</Text>
+                    
+
+
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={styles.sectionContentText}>
                             Exercise
@@ -134,6 +137,7 @@ export default class LinksScreen extends React.Component {
                         <TextInput
                             style={styles.taskListTextTime}
                             placeholder="Min"
+                            placeholderTextColor="red"
                             keyboardType='numeric'
                             value={this.state.min}
                         /> 
@@ -144,6 +148,10 @@ export default class LinksScreen extends React.Component {
                             {}12 cal
                         </Text>
                     </View>
+
+
+
+
                 </SectionContent>
             </>
         );
@@ -154,7 +162,7 @@ export default class LinksScreen extends React.Component {
         return (
             <>
                 <SectionContent style={{paddingLeft: 0}}>
-                    <View style={{ flex: 1, flexDirection: 'row', paddingHorizontal: 50, backgroundColor: "darkgrey", color: "white"}}>
+                    <View style={{ flex: 1, flexDirection: 'row', paddingHorizontal: 50, color: "white"}}>
                         <Text style={styles.sum}>Total Cals</Text>
                         <Text style={styles.equal}>=</Text>
                         <Text style={styles.totalCal} >≈  {this.state.totalCal} cal
@@ -259,7 +267,7 @@ LinksScreen.navigationOptions = {
             name={Platform.OS == "ios" ? "ios-create" : "md-create"}
             size={23}
             style={{
-                color: "#2e78b7",
+                color: "black",
                 flex: 1,
                 textAlign: "center"
             }}
@@ -271,7 +279,7 @@ LinksScreen.navigationOptions = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff"
+        backgroundColor: '#3F3E40',
     },
     sectionHeaderContainer: {
         backgroundColor: "#fbfbfb",
@@ -282,7 +290,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     sectionHeaderText: {
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: "bold"
     },
     sectionHeader: {
@@ -290,17 +298,19 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         paddingBottom: 2,
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
-        backgroundColor: 'rgba(247,247,247,1.0)',
+        backgroundColor: '#262526',
+        color: '#fff',
         textAlign: 'left',
+        textAlignVertical: 'center'
       },
     sectionContentContainer: {
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: "lightgray"
     },
     sectionContentText: {
-        color: "black",
+        color: "white",
         flex: 2,
         fontSize: 15,
         paddingBottom: 10,
@@ -311,7 +321,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     sectionContentText2: {
-        color: "black",
+        color: "white",
         flex: 2,
         fontSize: 15,
         paddingBottom: 10,
@@ -326,13 +336,13 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         fontSize: 15,
         textAlign: "center",
-        color: "blue",
+        color: "red",
         flex: 1,
         flexDirection: 'row',
         fontWeight: "700"
     },
     operator: {
-        color: "black",
+        color: "white",
         flex: 1,
         fontSize: 15,
         paddingBottom: 10,

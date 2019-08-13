@@ -16,7 +16,7 @@ const HomeStack = createStackNavigator({
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: "New",
+  tabBarLabel: "Create",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -34,7 +34,7 @@ const LinksStack = createStackNavigator({
 });
 
 LinksStack.navigationOptions = {
-  tabBarLabel: "Current",
+  tabBarLabel: "Workouts",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -42,24 +42,6 @@ LinksStack.navigationOptions = {
         Platform.OS === "ios"
           ? `ios-mail${focused ? "-open" : ""}`
           : `md-mail${focused ? "-open" : ""}`
-      }
-    />
-  )
-};
-
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: "Completed",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? "ios-checkmark-circle-outline"
-          : "md-checkmark-circle-outline"
       }
     />
   )
@@ -83,10 +65,28 @@ EditStack.navigationOptions = {
   )
 };
 
+const SettingsStack = createStackNavigator({
+    Settings: SettingsScreen
+  });
+  
+  SettingsStack.navigationOptions = {
+    tabBarLabel: "Completed",
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={
+          Platform.OS === "ios"
+            ? "ios-checkmark-circle-outline"
+            : "md-checkmark-circle-outline"
+        }
+      />
+    )
+  };
+
 export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
-  SettingsStack,
-  EditStack
+  EditStack,
+  SettingsStack
 });
 
