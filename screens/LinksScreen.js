@@ -61,7 +61,6 @@ export default class LinksScreen extends React.Component {
     } catch (error) {
       console.log(error.message);
     }
-
   };
 
   render() {
