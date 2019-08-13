@@ -19,12 +19,11 @@ export default class LinksScreen extends React.Component {
     };
     this._loadClient = this._loadClient.bind(this);
   }
-  
-  componentDidMount() { 
+
+  componentDidMount() {
     this._loadClient();
     const { addListener } = this.props.navigation;
     this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
-   
   }
 
   componentWillUnmount() {
@@ -41,7 +40,7 @@ export default class LinksScreen extends React.Component {
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
     workouts
-      .find({ status: "new" /*, userName: this.state.userName*/}, { sort: { date: -1 } })
+      .find({ status: "new" /*, userName: this.state.userName*/ }, { sort: { date: -1 } })
       .asArray()
       .then(docs => {
         this.setState({ workouts: docs });
@@ -167,7 +166,7 @@ export default class LinksScreen extends React.Component {
     const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
-    workouts.find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
+    workouts.find({ status: "new"/*, userName: this.state.userName */}, { sort: { date: -1 } })
       .asArray()
       .then(docs => {
         this.setState({ workouts: docs });
