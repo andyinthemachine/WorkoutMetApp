@@ -1,6 +1,6 @@
 
 import React from "react";
-import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from "react-native";
 import Constants from "expo-constants";
 import Swipeout from "react-native-swipeout";
 import moment from "moment/min/moment-with-locales";
@@ -35,6 +35,10 @@ export default class SettingsScreen extends React.Component {
 
   _onRefresh = () => {
     this.setState({ refreshing: true });
+    this._grabAsyncDataPullFromDB();
+  };
+
+  _grabAsyncDataPullFromDB = async () => {
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(
       RemoteMongoClient.factory,
@@ -42,23 +46,28 @@ export default class SettingsScreen extends React.Component {
     );
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
-    workouts
-      .find(
-        {
-          status: "completed",
-          userName: this.state.userName
-        },
-        { sort: { date: -1 } }
-      )
-      .asArray()
-      .then(docs => {
-        this.setState({ workouts: docs });
-        this.setState({ refreshing: false });
-      })
-      .catch(err => {
-        console.warn(err);
-      });
+    try {
+      const value = await AsyncStorage.getItem('key');
+      console.log('async data: ', value);
+      if (value !== null) {
+        console.log('value: ', value);
+        workouts
+          .find({ status: "completed", userName: value }, { sort: { date: -1 } })
+          .asArray()
+          .then(docs => {
+            this.setState({ workouts: docs });
+            this.setState({ refreshing: false });
+          })
+          .catch(err => {
+            console.warn(err);
+          });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
   };
+
 
   render() {
     const { manifest } = Constants;
@@ -182,28 +191,7 @@ export default class SettingsScreen extends React.Component {
   };
 
   _loadClient() {
-    const stitchAppClient = Stitch.defaultAppClient;
-    const mongoClient = stitchAppClient.getServiceClient(
-      RemoteMongoClient.factory,
-      "mongodb-atlas"
-    );
-    const db = mongoClient.db("workoutmanager");
-    const workouts = db.collection("workouts");
-    workouts
-      .find(
-        {
-          status: "completed",
-          userName: this.state.userName
-        },
-        { sort: { date: -1 } }
-      )
-      .asArray()
-      .then(docs => {
-        this.setState({ workouts: docs });
-      })
-      .catch(err => {
-        console.warn(err);
-      });
+    this._grabAsyncDataPullFromDB();
   }
 
   _onPressEdit(itemID) {
@@ -251,18 +239,7 @@ export default class SettingsScreen extends React.Component {
           { upsert: true }
         )
         .then(() => {
-          workouts
-            .find({
-              status: "completed",
-              userName: this.state.userName
-            }, { sort: { date: -1 } })
-            .asArray()
-            .then(docs => {
-              this.setState({ workouts: docs });
-            })
-            .catch(err => {
-              console.warn(err);
-            });
+          this._grabAsyncDataPullFromDB();
         })
         .catch(err => {
           console.warn(err);
