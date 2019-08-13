@@ -32,8 +32,6 @@ export default class LinksScreen extends React.Component {
 
   _onRefresh = () => {
     this.setState({ refreshing: true });
-
-
   };
 
   _grabAsyncDataPullFromDB = async () => {
