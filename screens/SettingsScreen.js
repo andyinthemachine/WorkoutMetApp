@@ -1,11 +1,12 @@
 
 import React from "react";
-import { RefreshControl, Platform, SectionList, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from "react-native";
 import Constants from "expo-constants";
 import Swipeout from "react-native-swipeout";
 import moment from "moment/min/moment-with-locales";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
+
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {
@@ -22,8 +23,8 @@ export default class SettingsScreen extends React.Component {
 
   componentDidMount() {
     this._loadClient();
-    const { addListener } = this.props.navigation;          
-    this.listeners = [addListener('didFocus', () => { this._loadClient();})]  
+    const { addListener } = this.props.navigation;
+    this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
   }
 
   componentWillUnmount() {
@@ -34,6 +35,10 @@ export default class SettingsScreen extends React.Component {
 
   _onRefresh = () => {
     this.setState({ refreshing: true });
+    this._grabAsyncDataPullFromDB();
+  };
+
+  _grabAsyncDataPullFromDB = async () => {
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(
       RemoteMongoClient.factory,
@@ -41,23 +46,28 @@ export default class SettingsScreen extends React.Component {
     );
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
-    workouts
-      .find(
-        {
-          status: "completed",
-          userName: this.state.userName
-        },
-        { sort: { date: -1 } }
-      )
-      .asArray()
-      .then(docs => {
-        this.setState({ workouts: docs });
-        this.setState({ refreshing: false });
-      })
-      .catch(err => {
-        console.warn(err);
-      });
+    try {
+      const value = await AsyncStorage.getItem('key');
+      console.log('async data: ', value);
+      if (value !== null) {
+        console.log('value: ', value);
+        workouts
+          .find({ status: "completed", userName: value }, { sort: { date: -1 } })
+          .asArray()
+          .then(docs => {
+            this.setState({ workouts: docs });
+            this.setState({ refreshing: false });
+          })
+          .catch(err => {
+            console.warn(err);
+          });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
   };
+
 
   render() {
     const { manifest } = Constants;
@@ -101,6 +111,27 @@ export default class SettingsScreen extends React.Component {
         <Swipeout
           autoClose={true}
           backgroundColor="none"
+          left={[{
+            component: (
+              <View style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column"
+              }} >
+                <Ionicons name={Platform.OS == "ios"
+                  ? "ios-close-circle-outline"
+                  : "md-close-circle-outline"
+                }
+                  size={30}
+                  style={{ textAlign: "center", color: "white" }} />
+              </View>
+            ),
+            backgroundColor: "red",
+            onPress: () => this._onPressDelete(item._id)
+          }
+          ]} 
+
           right={[
             {
               component: (
@@ -120,44 +151,54 @@ export default class SettingsScreen extends React.Component {
                 </View>
               ),
               backgroundColor: "#2e78b7",
-              onPress: () => this._onPressArchive(item._id)
+              onPress: () => this._onPressUnComplete(item._id)
             }
-          ]}
-        >
-          <View style={styles.taskListTextTime}>
-            {item.title != "No completed workouts" &&
-              item.title != "Loading..." ? (
-                <Text style={styles.taskListTextTime}>
-                  created {moment(item.date).fromNow()}
-                </Text>
-              ) : item.title == "No completed workouts" ? (
-                <AntDesign
-                  name={Platform.OS == "ios" ? "smileo" : "smileo"}
-                  size={30}
-                  style={{
-                    textAlign: "center",
-                    color: "lightgray",
-                    marginTop: 25
-                  }}
-                />
-              ) : (
-                  <Text />
-                )}
-          </View>
-          <Text style={styles.sectionContentText}>
-            {item.title != "No completed workouts" ? item.description : ""}
-          </Text>
-          <Text style={styles.taskListTextTimeComplete}>
-            {item.title != "No completed workouts" && item.title != "Loading..."
-              ? "completed " + moment(item.completedDate).fromNow()
-              : null}
-          </Text>
+          ]} 
+          >
+          <TouchableOpacity onLongPress={() => this._onPressEdit(item._id)}>
+            <View style={styles.taskListTextTime}>
+              {item.title != "No completed workouts" &&
+                item.title != "Loading..." ? (
+                  <Text style={styles.taskListTextTime}>
+                    created {moment(item.date).fromNow()}
+                  </Text>
+                ) : item.title == "No completed workouts" ? (
+                  <AntDesign
+                    name={Platform.OS == "ios" ? "smileo" : "smileo"}
+                    size={30}
+                    style={{
+                      textAlign: "center",
+                      color: "lightgray",
+                      marginTop: 25
+                    }}
+                  />
+                ) : (
+                    <Text />
+                  )}
+            </View>
+            <Text style={styles.sectionContentText}>
+              {item.title != "No completed workouts" ? item.description : ""}
+            </Text>
+            <Text style={styles.taskListTextTimeComplete}>
+              {item.title != "No completed workouts" && item.title != "Loading..."
+                ? "completed " + moment(item.completedDate).fromNow()
+                : null}
+            </Text>
+          </TouchableOpacity>
         </Swipeout>
       </SectionContent>
     );
   };
 
   _loadClient() {
+    this._grabAsyncDataPullFromDB();
+  }
+
+  _onPressEdit(itemID) {
+    this.props.navigation.navigate('Home', {id: itemID});
+  }
+
+  _onPressDelete(itemID) {
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(
       RemoteMongoClient.factory,
@@ -165,25 +206,25 @@ export default class SettingsScreen extends React.Component {
     );
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
-    workouts
-      .find(
-        {
-          status: "completed",
-          userName: this.state.userName
-        },
-        { sort: { date: -1 } }
-      )
-      .asArray()
-      .then(docs => {
-        this.setState({ workouts: docs });
+    workouts.deleteOne({ _id: itemID })
+      .then(() => {
+        workouts.find({ status: "completed", userName: this.state.userName }, { sort: { date: -1 } })
+          .asArray()
+          .then(docs => {
+            this.setState({ workouts: docs });
+          })
+          .catch(err => {
+            console.warn(err);
+          });
       })
       .catch(err => {
         console.warn(err);
       });
   }
-  _onPressArchive(itemID) {
-    if (itemID) {
 
+
+  _onPressUnComplete(itemID) {
+    if (itemID) {
       const stitchAppClient = Stitch.defaultAppClient;
       const mongoClient = stitchAppClient.getServiceClient(
         RemoteMongoClient.factory,
@@ -194,20 +235,11 @@ export default class SettingsScreen extends React.Component {
       workouts
         .updateOne(
           { _id: itemID },
-          { $set: { status: "archived", archivedDate: new Date() } },
+          { $set: { status: "new", archivedDate: new Date() } },
           { upsert: true }
         )
         .then(() => {
-          workouts
-            .find({ status: "completed",
-            userName: this.state.userName }, { sort: { date: -1 } })
-            .asArray()
-            .then(docs => {
-              this.setState({ workouts: docs });
-            })
-            .catch(err => {
-              console.warn(err);
-            });
+          this._grabAsyncDataPullFromDB();
         })
         .catch(err => {
           console.warn(err);
@@ -248,10 +280,10 @@ SettingsScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#3F3E40',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#3F3E40',
+  },
   sectionHeaderContainer: {
     backgroundColor: "#fbfbfb",
     paddingVertical: 8,
