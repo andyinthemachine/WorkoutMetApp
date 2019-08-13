@@ -6,7 +6,8 @@ import {
   Keyboard,
   TextInput,
   Dimensions,
-  Button
+  Button,
+  Text
 } from "react-native";
 
 var height = Dimensions.get("window").height;
@@ -33,32 +34,51 @@ export default class LoginScreen extends React.Component {
 
   render() {
     return (
-      <View style={""}>
+      <View style={styles.container}>
+
+        <View style={styles.formContainer}>
+        <Text
+        style={{
+            color: "white",
+            textAlign: 'center',
+            fontSize: 16,
+            padding: 10,
+            marginBottom: 10
+        }}>Welcome! Login to begin.</Text>
+
         <TextInput
           style={{
-            color: "lightgray",
-            fontSize: 20,
-            marginTop: height / 2 - 60
+            color: "white",
+            fontSize: 16,
+            backgroundColor: 'black',
+            padding: 10,
+            marginBottom: 10
           }}
-          placeholder="Enter your user name"
+          placeholder="Enter username..."
+          placeholderTextColor="lightgrey"
           onChangeText={text => this.setState({ text })}
           value={this.state.text}
           onSubmitEditing={Keyboard.dismiss}
         />
+        
         <TextInput
           style={{
-            color: "lightgray",
-            fontSize: 20,
-            marginTop: height / 2 - 60
+            color: "white",
+            fontSize: 16,
+            backgroundColor: 'black',
+            padding: 10,
+            marginBottom: 50
           }}
-          placeholder="Enter your password"
+          placeholder="Enter password..."
+          placeholderTextColor="lightgrey"
           type="password"
           secureTextEntry={true}
           onChangeText={text2 => this.setState({ text2 })}
           value={this.state.text2}
           onSubmitEditing={Keyboard.dismiss}
         />
-        <Button title="Sign in!" onPress={this.handleNameSubmit} />
+        <Button style={styles.loginBtn} title="Sign in!" onPress={this.handleNameSubmit} />
+        </View>
 
       </View>
     );
@@ -68,8 +88,23 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#3F3E40',
+    color: 'white',
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    padding: 0
+  },
+  formContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    paddingTop: 20,
+    paddingBottom: 50,
+    marginHorizontal: 20,
+    color: 'white',
+    flexDirection: 'column',
+  },
+  loginBtn: {
+      color: 'red'
   }
 });
