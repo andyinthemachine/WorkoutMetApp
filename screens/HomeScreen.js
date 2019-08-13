@@ -21,6 +21,7 @@ import styled from "styled-components";
 import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
 import Confetti from "react-native-confetti";
 import customData from '../metObjects.json';
+import withOrientation from "@react-navigation/native/dist/withOrientation";
 
 var height = Dimensions.get("window").height;
 
@@ -64,6 +65,21 @@ export default class HomeScreen extends React.Component {
     this.setState({ selectedGroup: group });
   }
 
+  get_image = (title) => {
+    //   console.log("title = ", title);
+    let image = "";
+    customData.forEach(item => {
+        // console.log("item = ", item.title);
+
+      if (item.title === title){
+        // console.log("found ", item.image);
+
+        image = item.image;
+      }
+    })
+    return image;
+}
+
   handleSubmit = () => {
     Keyboard.dismiss();
     const stitchAppClient = Stitch.defaultAppClient;
@@ -89,6 +105,8 @@ export default class HomeScreen extends React.Component {
       })
       return met;
     }
+
+
 
     if (this.state.selectedGroup.length > 0 && this.state.text != "") {
       const new_arr = this.state.selectedGroup.map(exercise =>  {
@@ -125,86 +143,150 @@ export default class HomeScreen extends React.Component {
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/wkout1.png')
-                  : require('../assets/images/wkout1.png')
-              }
-              style={styles.welcomeImage}
-            />
-            <Confetti
-              confettiCount={50}
-              timeout={10}
-              duration={2000}
-              ref={node => (this._confettiView = node)} />
-          </View>
 
-          <SectionList style={{ paddingBottom: 100 }}
+        <Confetti
+            confettiCount={50}
+            timeout={10}
+            duration={2000}
+            ref={node => (this._confettiView = node)} />
+
+            <Text style={{
+                flex: 1,
+                flexDirection: 'column',
+                backgroundColor: '#262526',
+                color: '#fff',
+                marginHorizontal: 10,
+                padding: 10
+            }}>Description:</Text>
+            <Text style={{
+                flex: 1,
+                flexDirection: 'column',
+                backgroundColor: 'white',
+                marginHorizontal: 20,
+                marginBottom: 25,
+                padding: 10
+            }}>For our React Native group project, we have created this mobile app that allows users to keep track of the amount of calories being burned during a workout.</Text>
+
+            <Text style={{
+                flex: 1,
+                flexDirection: 'column',
+                backgroundColor: '#262526',
+                color: '#fff',
+                marginHorizontal: 10,
+                padding: 10
+            }}>Instructions:</Text>
+            <Text style={{
+                flex: 1,
+                flexDirection: 'column',
+                backgroundColor: 'white',
+                marginHorizontal: 20,
+                marginBottom: 100,
+                padding: 10
+            }}>Step 1. Select the exercise(s) you wish to track below, by tapping each item.{"\n"}
+            Step 2. Name your new workout and click the add icon.{"\n"}
+            Step 3. Click the "Workouts" tab below to check out your Workout list.{"\n"}
+            Step 4. Edit each workout duration by clicking the "Edit" tab.{"\n"}
+            Step 5. By completing each workout, they can be found in the "Completed" tab.
+            </Text>
+
+          <SectionList style={{ paddingBottom: 100}}
             sections={this.initData()}
             renderItem={({ item }) => <Contact
-              style={styles.item}
-              isActive={this.state.selectedItem === item}
-              onPress={() => this.onPress(item)}> {item}
+            style={styles.item}
+            renderSectionHeader={this._renderSectionHeader}
+            stickySectionHeadersEnabled={true}
+            isActive={this.state.selectedItem === item}
+            onPress={() => this.onPress(item)}> {item}
             </Contact>}
-            renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+            
+            renderSectionHeader={({ section }) => 
+            <View>
+            <Text style={styles.sectionHeader}>
+            <Ionicons
+                name={Platform.OS == "ios" ? "ios-fitness" : "md-fitness"}
+                size={25}
+                style={{ color: "white", paddingRight: 25, marginRight: 25}} />
+
+            {section.title}</Text>
+            </View>
+            }
             keyExtractor={(item, index) => index}
           />
+
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
+          <Text style={{
+              textAlign: 'center',
+              backgroundColor: 'white',
+              color: 'black',
+              padding: 5,
+          }}>Hello, Name!</Text>
+          <Text style={{
+              textAlign: 'center',
+              backgroundColor: 'white',
+              color: 'black',
+              padding: 8,
+              fontWeight: 'bold',
+          }}>Type your new workout name below:
+          </Text>
           <TextInput
             style={{
-              color: "darkgray",
+              color: "white",
               fontSize: 16,
+              padding: 10,
+              paddingLeft: 25,
+              backgroundColor: 'black',
             }}
-            placeholder="Enter Description: "
+            placeholder="Your workout..."
+            placeholderTextColor="lightgrey"
             onChangeText={text => this.setState({ text })}
             value={this.state.text}
             onSubmitEditing={() => this.handleSubmit()}
           />
-          <TouchableOpacity onPress={() => this.handleSubmit()}>
-            <Ionicons
-              name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
-              size={50}
-              style={{ marginTop: 0, color: "#2e78b7" }} />
-          </TouchableOpacity>
-          <ScrollView
-            contentContainerStyle={{ flex: 1 }}
-            keyboardShouldPersistTaps="handled"
-          />
-          <Text style={styles.tabBarInfoText}> Exercises Selected: {this.state.selectedGroup.length}</Text>
+
+          <View
+            style={{
+                flexDirection: 'row',
+                paddingHorizontal: 75,
+                marginTop: 10,
+            }}>
+
+            <Text style={styles.tabBarInfoText}> Exercises Selected: {this.state.selectedGroup.length}</Text>
+
+            <TouchableOpacity onPress={() => this.handleSubmit()} style={{}}>
+                <Ionicons
+                name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
+                size={35}
+                style={{ marginTop: 0, color: "red", flex: 1}} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+
+    </View>
     );
   }
 }
 
 HomeScreen.navigationOptions = {
-  headerTitle: (
-    <>
-    <Ionicons
-      name={Platform.OS == "ios" ? "ios-home" : "md-home"}
-      size={23}
-      style={{
-        color: "#2e78b7",
-        flex: 1,
-        textAlign: "center",
-        flexDirection: "row",
-        backgroundColor: 'black',
-        padding: 20
-      }}
-    />
-    </>
-  )
-};
-
+    headerTitle: (
+      <Ionicons
+        name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
+        size={23}
+        style={{
+          color: "black",
+          flex: 1,
+          textAlign: "center"
+        }}
+        resizeMode="contain"
+      />
+    )
+  };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#3F3E40',
   },
   developmentModeText: {
     marginBottom: 20,
@@ -214,19 +296,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 175,
   },
   welcomeContainer: {
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: 20,
   },
   welcomeImage: {
-    width: 100,
-    height: 80,
+    width: 75,
+    height: 25,
     resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
   },
   getStartedContainer: {
     alignItems: 'center',
@@ -251,7 +330,7 @@ const styles = StyleSheet.create({
   },
   tabBarInfoContainer: {
     position: 'absolute',
-    top: 0,
+    marginTop: 0,
     left: 0,
     right: 0,
     ...Platform.select({
@@ -265,14 +344,20 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
+    backgroundColor: '#3F3E40',
+    paddingBottom: 20,
+    color: 'white',
+    flexDirection: 'column',
+    shadowOffset:{ width: 0,  height: 0, },
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
   },
   tabBarInfoText: {
     fontSize: 14,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
+    color: 'white',
+    flex: 1, 
+    alignSelf: 'center'
+    // flexDirection: "row"
   },
   navigationFilename: {
     marginTop: 5,
@@ -295,12 +380,15 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
     fontSize: 18,
     fontWeight: 'bold',
-    backgroundColor: 'rgba(247,247,247,1.0)',
+    backgroundColor: '#262526',
+    color: '#fff',
     textAlign: 'left',
+    textAlignVertical: 'center'
   },
   item: {
     padding: 10,
     fontSize: 16,
-    height: 44
+    height: 44,
+    color: '#fff'
   },
 });

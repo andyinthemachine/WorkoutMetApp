@@ -65,7 +65,7 @@ export default class SettingsScreen extends React.Component {
       this.state.workouts == undefined
         ? [{ data: [{ title: "Loading..." }], title: "Loading..." }]
         : this.state.workouts.length > 0
-          ? [{ data: this.state.workouts, title: "Completed workouts" }]
+          ? [{ data: this.state.workouts, title: "Completed Workouts" }]
           : [
             {
               data: [{ title: "No completed workouts" }],
@@ -233,12 +233,12 @@ SettingsScreen.navigationOptions = {
     <Ionicons
       name={
         Platform.OS == "ios"
-          ? "ios-checkmark-circle-outline"
-          : "md-checkmark-circle-outline"
+          ? "ios-checkmark-circle"
+          : "md-checkmark-circle"
       }
       size={23}
       style={{
-        color: "#2e78b7",
+        color: "black",
         flex: 1,
         textAlign: "center"
       }}
@@ -248,10 +248,10 @@ SettingsScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#3F3E40',
+    },
   sectionHeaderContainer: {
     backgroundColor: "#fbfbfb",
     paddingVertical: 8,
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgray"
   },
   sectionContentText: {
-    color: "black",
+    color: "white",
     fontSize: 15,
     paddingBottom: 10,
     paddingHorizontal: 10,
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     paddingHorizontal: 10,
     textAlign: "left",
-    color: "green",
+    color: "red",
     fontSize: 13
   }
 });
