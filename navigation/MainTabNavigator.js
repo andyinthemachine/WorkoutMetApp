@@ -12,12 +12,33 @@ import SettingsScreen from "../screens/SettingsScreen";
 import LoginScreen from "../screens/LoginScreen"
 import EditScreen from '../screens/EditScreen'
 
+const LoginStack = createStackNavigator({
+  Login: LoginScreen
+});
+
+LoginStack.navigationOptions = {
+  tabBarLabel: "New",
+  tabBarVisible: false,
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === "ios"
+          ? `ios-add-circle${focused ? "" : "-outline"}`
+          : "md-add-circle"
+      }
+    />
+  )
+};
+
+
 const HomeStack = createStackNavigator({
   Home: HomeScreen
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: "New",
+  tabBarLabel: "login",
+  tabBarVisible: true,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -77,17 +98,17 @@ EditStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === "ios"
-          ? "ios-phone-circle-outline"
-          : "md-phone-circle-outline"
+          ? "ios-create"
+          : "md-create"
       }
     />
   )
 };
 
 export default createBottomTabNavigator({
+  LoginStack,
   HomeStack,
   LinksStack,
   SettingsStack,
-  EditScreen
+  EditStack
 });
-

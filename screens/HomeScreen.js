@@ -11,7 +11,9 @@ import {
   Keyboard,
   TextInput,
   Dimensions,
-  SectionList
+  SectionList,
+  AsyncStorage,
+  Button
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -27,6 +29,7 @@ backgroundColor: ${props => props.isActive ? 'red' : 'transparent'}
 color: ${props => props.isActive ? 'white' : 'black'}
 `
 
+
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -35,10 +38,11 @@ export default class HomeScreen extends React.Component {
       text: "",
       userName: null,
       selectedItem: "",
-      selectedGroup: []
+      selectedGroup: [],
+      userName: this.props.navigation.state.params
     };
   }
-
+  // this.setState({userName: this.props.navigation.state.params});
   initData = () => {
     const sections = customData.map(section => {
       const title = section.title;
@@ -114,46 +118,10 @@ export default class HomeScreen extends React.Component {
 
   static navigationOptions = { header: null };
 
-  handleNameSubmit = () => {
-    Keyboard.dismiss();
-    if (this.state.text != "") {
-      this.setState({userName: this.state.text, text: ""})
-    }
-  }
-
   render() {
-    console.log("userName: ", this.state.userName)
-    return (   
-      !this.state.userName ? 
+    console.log('this.state.userName', this.state.userName)
+    return (      
       <View style={styles.container}>
-        <TextInput
-          style={{
-            color: "lightgray",
-            fontSize: 20,
-            marginTop: height / 2 - 60
-          }}
-          placeholder="Enter your user name"
-          onChangeText={text => this.setState({ text })}
-          value={this.state.text}
-          onSubmitEditing={() => this.handleNameSubmit()} />
-
-        <TouchableOpacity onPress={() => this.handleNameSubmit()}>
-          <Ionicons
-            name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
-            size={50}
-            style={{
-              marginTop: 50,
-              color: "#2e78b7"
-            }} />
-
-        </TouchableOpacity>
-        <ScrollView
-          contentContainerStyle={{ flex: 1 }}
-          keyboardShouldPersistTaps="handled" />
-      </View>
-      :
-      <View style={styles.container}>
-
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>

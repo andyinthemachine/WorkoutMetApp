@@ -21,12 +21,9 @@ export default class LinksScreen extends React.Component {
   }
   
   componentDidMount() { 
-    this.setState({userName:this.props.navigation.getParam('userName')});
-    console.log('userName in componentDidMount: ', this.state.userName);
     this._loadClient();
     const { addListener } = this.props.navigation;
     this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
-    // Set the userName which was passed from the login screen
    
   }
 
