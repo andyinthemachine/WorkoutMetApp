@@ -207,7 +207,7 @@ export default class SettingsScreen extends React.Component {
   }
 
   _onPressEdit(itemID) {
-    this.props.navigation.navigate('Home', {id: itemID});
+    this.props.navigation.navigate('Edit', {id: itemID});
   }
 
   _onPressDelete(itemID) {

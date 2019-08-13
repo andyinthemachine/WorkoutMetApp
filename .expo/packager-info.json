@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://sf-u7a.anonymous.workoutmetapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.sf-u7a.anonymous.workoutmetapp.exp.direct",
+  "ngrokPid": 7467
 }
