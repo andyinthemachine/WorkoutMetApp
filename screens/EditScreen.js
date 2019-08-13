@@ -34,6 +34,7 @@ export default class SettingsScreen extends React.Component {
 
   
 
+
   render() {
     const { manifest } = Constants;
     const sections =
@@ -47,7 +48,7 @@ export default class SettingsScreen extends React.Component {
               title: "No workouts"
             }
           ];
-
+``
     return (
       <SectionList
         style={{ ...styles.container }}
@@ -229,65 +230,123 @@ const SectionContent = props => {
   return <View style={styles.sectionContentContainer}>{props.children}</View>;
 };
 
-SettingsScreen.navigationOptions = {
-  headerTitle: (
-    <Ionicons
-      name={
-        Platform.OS == "ios"
-          ? "ios-checkmark-circle-outline"
-          : "md-checkmark-circle-outline"
-      }
-      size={23}
-      style={{
-        color: "#2e78b7",
-        flex: 1,
-        textAlign: "center"
-      }}
-      resizeMode="contain"
-    />
-  )
+LinksScreen.navigationOptions = {
+    headerTitle: (
+        <Ionicons
+            name={Platform.OS == "ios" ? "ios-create" : "md-create"}
+            size={23}
+            style={{
+                color: "black",
+                flex: 1,
+                textAlign: "center"
+            }}
+            resizeMode="contain"
+        />
+    )
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
-  sectionHeaderContainer: {
-    backgroundColor: "#fbfbfb",
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "#ededed",
-    alignItems: "center"
-  },
-  sectionHeaderText: {
-    fontSize: 14,
-    fontWeight: "bold"
-  },
-  sectionContentContainer: {
-    paddingHorizontal: 15,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "lightgray"
-  },
-  sectionContentText: {
-    color: "black",
-    fontSize: 15,
-    paddingBottom: 10,
-    paddingHorizontal: 10,
-    textAlign: "left"
-  },
-  taskListTextTime: {
-    paddingHorizontal: 15,
-    paddingVertical: 3,
-    textAlign: "center",
-    color: "lightgray"
-  },
-  taskListTextTimeComplete: {
-    paddingVertical: 3,
-    paddingHorizontal: 10,
-    textAlign: "left",
-    color: "green",
-    fontSize: 13
-  }
+    container: {
+        flex: 1,
+        backgroundColor: '#3F3E40',
+    },
+    sectionHeaderContainer: {
+        backgroundColor: "#fbfbfb",
+        paddingVertical: 8,
+        paddingHorizontal: 15,
+        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: "#ededed",
+        alignItems: "center"
+    },
+    sectionHeaderText: {
+        fontSize: 12,
+        fontWeight: "bold"
+    },
+    sectionHeader: {
+        paddingTop: 2,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 2,
+        fontSize: 16,
+        fontWeight: 'bold',
+        backgroundColor: '#262526',
+        color: '#fff',
+        textAlign: 'left',
+        textAlignVertical: 'center'
+      },
+    sectionContentContainer: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: "lightgray"
+    },
+    sectionContentText: {
+        color: "white",
+        flex: 2,
+        fontSize: 15,
+        paddingBottom: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        paddingRight: 5,
+        textAlign: "left",
+        flexDirection: 'row'
+    },
+    sectionContentText2: {
+        color: "white",
+        flex: 2,
+        fontSize: 15,
+        paddingBottom: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        textAlign: "right",
+        flexDirection: 'row',
+    },
+    taskListTextTime: {
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        paddingBottom: 10,
+        fontSize: 15,
+        textAlign: "center",
+        color: "red",
+        flex: 1,
+        flexDirection: 'row',
+        fontWeight: "700"
+    },
+    operator: {
+        color: "white",
+        flex: 1,
+        fontSize: 15,
+        paddingBottom: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        textAlign: "center",
+        flexDirection: 'row',
+    },
+    sum: {
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        paddingBottom: 10,
+        fontSize: 15,
+        textAlign: "left",
+        color: "white",
+        fontWeight: "700",
+        flex: 1
+    },
+    equal: {
+        paddingVertical: 10,
+        paddingBottom: 10,
+        fontSize: 15,
+        textAlign: "center",
+        color: "white",
+        fontWeight: "700",
+        flex: 1
+    },
+    totalCal: {
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        paddingBottom: 10,
+        fontSize: 15,
+        textAlign: "right",
+        color: "white",
+        flex: 1,
+        fontWeight: "700"
+    },
 });

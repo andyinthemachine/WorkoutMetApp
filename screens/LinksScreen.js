@@ -252,7 +252,7 @@ LinksScreen.navigationOptions = {
       name={Platform.OS == "ios" ? "ios-clipboard" : "md-clipboard"}
       size={23}
       style={{
-        color: "#2e78b7",
+        color: "black",
         flex: 4,
         textAlign: "right",
         flexDirection: "row",
@@ -280,7 +280,7 @@ LinksScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#3F3E40',
   },
   sectionHeaderContainer: {
     backgroundColor: "#fbfbfb",
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgray"
   },
   sectionContentText: {
-    color: "black",
+    color: "white",
     fontSize: 15,
     paddingBottom: 10,
     paddingHorizontal: 10,
