@@ -11,7 +11,9 @@ import {
   Keyboard,
   TextInput,
   Dimensions,
-  SectionList
+  SectionList,
+  AsyncStorage,
+  Button
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -28,14 +30,17 @@ backgroundColor: ${props => props.isActive ? 'red' : 'transparent'}
 color: ${props => props.isActive ? 'white' : 'black'}
 `
 
+
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: false,
       text: "",
+      userName: null,
       selectedItem: "",
-      selectedGroup: []
+      selectedGroup: [],
+      userName: this.props.navigation.state.params.userName
     };
   }
 
@@ -44,6 +49,7 @@ export default class HomeScreen extends React.Component {
       const title = section.title;
       const subcategories = [];
       section.subcategories.forEach(subcategory => {
+        // subcategories.push(section.title + ": " + subcategory.subcategory + "\n\nmet: " + subcategory.met);
         subcategories.push(subcategory.subcategory);
       });
       return { title: title, data: subcategories };
@@ -106,8 +112,9 @@ export default class HomeScreen extends React.Component {
       const new_arr = this.state.selectedGroup.map(exercise =>  {
         return {exercise: exercise, met: get_met(exercise), duration: 5}
       });
+      console.log(this.state.userName)
       workouts.insertOne({
-        username: "",
+        userName: this.state.userName,
         status: "new",
         description: this.state.text,
         exercises: new_arr,
@@ -131,14 +138,8 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = { header: null };
 
   render() {
-
-    const that = this;
-    // console.log("Hope this works: ", `${this.get_image(section.title)}`);
-    console.log("test", that.get_image("Bicycling"))
-
-    return (
+    return (      
       <View style={styles.container}>
-
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { RefreshControl, Platform, SectionList, StyleSheet, Text, View } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -248,7 +247,6 @@ export default class LinksScreen extends React.Component {
             });
     }
 }
-
 const SectionHeader = ({ title }) => {
     return (
         <View style={styles.sectionHeaderContainer}>

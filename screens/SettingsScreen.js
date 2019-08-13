@@ -14,7 +14,8 @@ export default class SettingsScreen extends React.Component {
       currentUserId: undefined,
       client: undefined,
       workouts: undefined,
-      refreshing: false
+      refreshing: false,
+      userName: "Joe"
     };
     this._loadClient = this._loadClient.bind(this);
   }
@@ -43,7 +44,8 @@ export default class SettingsScreen extends React.Component {
     workouts
       .find(
         {
-          status: "completed"
+          status: "completed",
+          userName: this.state.userName
         },
         { sort: { date: -1 } }
       )
@@ -166,7 +168,8 @@ export default class SettingsScreen extends React.Component {
     workouts
       .find(
         {
-          status: "completed"
+          status: "completed",
+          userName: this.state.userName
         },
         { sort: { date: -1 } }
       )
@@ -196,7 +199,8 @@ export default class SettingsScreen extends React.Component {
         )
         .then(() => {
           workouts
-            .find({ status: "completed" }, { sort: { date: -1 } })
+            .find({ status: "completed",
+            userName: this.state.userName }, { sort: { date: -1 } })
             .asArray()
             .then(docs => {
               this.setState({ workouts: docs });

@@ -14,7 +14,8 @@ export default class LinksScreen extends React.Component {
       currentUserId: undefined,
       client: undefined,
       workouts: undefined,
-      refreshing: false
+      refreshing: false,
+      userName: "Joe"
     };
     this._loadClient = this._loadClient.bind(this);
   }
@@ -39,7 +40,7 @@ export default class LinksScreen extends React.Component {
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
     workouts
-      .find({ status: "new" }, { sort: { date: -1 } })
+      .find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
       .asArray()
       .then(docs => {
         this.setState({ workouts: docs });
@@ -49,8 +50,9 @@ export default class LinksScreen extends React.Component {
         console.warn(err);
       });
   };
-
+  
   render() {
+
     const sections =
       this.state.workouts == undefined
         ? [{ data: [{ title: "Loading..." }], title: "Loading..." }]
@@ -164,7 +166,7 @@ export default class LinksScreen extends React.Component {
     const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
     const db = mongoClient.db("workoutmanager");
     const workouts = db.collection("workouts");
-    workouts.find({ status: "new" }, { sort: { date: -1 } })
+    workouts.find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
       .asArray()
       .then(docs => {
         this.setState({ workouts: docs });
@@ -188,7 +190,7 @@ export default class LinksScreen extends React.Component {
         { $set: { status: "completed", completedDate: new Date() } },
         { upsert: true })
         .then(() => {
-          workouts.find({ status: "new" }, { sort: { date: -1 } })
+          workouts.find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
             .asArray()
             .then(docs => {
               this.setState({ workouts: docs });
@@ -216,7 +218,7 @@ export default class LinksScreen extends React.Component {
     const workouts = db.collection("workouts");
     workouts.deleteOne({ _id: itemID })
       .then(() => {
-        workouts.find({ status: "new" }, { sort: { date: -1 } })
+        workouts.find({ status: "new", userName: this.state.userName }, { sort: { date: -1 } })
           .asArray()
           .then(docs => {
             this.setState({ workouts: docs });
@@ -245,16 +247,33 @@ const SectionContent = props => {
 
 LinksScreen.navigationOptions = {
   headerTitle: (
+    <>
     <Ionicons
       name={Platform.OS == "ios" ? "ios-clipboard" : "md-clipboard"}
       size={23}
       style={{
         color: "black",
-        flex: 1,
-        textAlign: "center"
+        flex: 4,
+        textAlign: "right",
+        flexDirection: "row",
+        paddingLeft: 30
+
       }}
       resizeMode="contain"
     />
+    <Ionicons
+      name={Platform.OS == "ios" ? "ios-settings" : "md-settings"}
+      size={23}
+      style={{
+        color: "#2e78b7",
+        flex: 4,
+        textAlign: "right",
+        flexDirection: "row",
+        paddingRight: 20
+      }}
+      resizeMode="contain"
+    />
+    </>
   )
 };
 
