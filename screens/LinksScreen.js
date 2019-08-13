@@ -1,6 +1,6 @@
 
 import React from "react";
-import { RefreshControl, Platform, SectionList, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import moment from "moment";
 import Swipeout from "react-native-swipeout";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -50,7 +50,7 @@ export default class LinksScreen extends React.Component {
         console.warn(err);
       });
   };
-  
+
   render() {
 
     const sections =
@@ -135,27 +135,29 @@ export default class LinksScreen extends React.Component {
             onPress: () => this._onPressDelete(item._id)
           }
           ]} >
-          <View style={styles.taskListTextTime}>
-            {item.title != "No new workouts" && item.title != "Loading..." ? (
-              <Text style={styles.taskListTextTime}>
-                {moment(item.date).fromNow()}
-              </Text>
-            ) : item.title == "No new workouts" ? (
-              <AntDesign
-                name={Platform.OS == "ios" ? "smileo" : "smileo"}
-                size={30}
-                style={{
-                  textAlign: "center",
-                  color: "lightgray",
-                  marginTop: 25
-                }} />
-            ) : (
-                  <Text />
-                )}
-          </View>
-          <Text style={styles.sectionContentText}>
-            {item.title != "No new workouts" ? item.description : ""}
-          </Text>
+          <TouchableOpacity onLongPress={() => this._onPressEdit(item._id)}>
+            <View style={styles.taskListTextTime}>
+              {item.title != "No new workouts" && item.title != "Loading..." ? (
+                <Text style={styles.taskListTextTime}>
+                  {moment(item.date).fromNow()}
+                </Text>
+              ) : item.title == "No new workouts" ? (
+                <AntDesign
+                  name={Platform.OS == "ios" ? "smileo" : "smileo"}
+                  size={30}
+                  style={{
+                    textAlign: "center",
+                    color: "lightgray",
+                    marginTop: 25
+                  }} />
+              ) : (
+                    <Text />
+                  )}
+            </View>
+            <Text style={styles.sectionContentText}>
+              {item.title != "No new workouts" ? item.description : ""}
+            </Text>
+          </TouchableOpacity>
         </Swipeout>
       </SectionContent>
     );
@@ -174,6 +176,10 @@ export default class LinksScreen extends React.Component {
       .catch(err => {
         console.warn(err);
       });
+  }
+
+  _onPressEdit(itemID) {
+    this.props.navigation.navigate('Home', {id: itemID});
   }
 
   _onPressComplete(itemID) {
@@ -248,31 +254,31 @@ const SectionContent = props => {
 LinksScreen.navigationOptions = {
   headerTitle: (
     <>
-    <Ionicons
-      name={Platform.OS == "ios" ? "ios-clipboard" : "md-clipboard"}
-      size={23}
-      style={{
-        color: "black",
-        flex: 4,
-        textAlign: "right",
-        flexDirection: "row",
-        paddingLeft: 30
+      <Ionicons
+        name={Platform.OS == "ios" ? "ios-clipboard" : "md-clipboard"}
+        size={23}
+        style={{
+          color: "black",
+          flex: 4,
+          textAlign: "right",
+          flexDirection: "row",
+          paddingLeft: 30
 
-      }}
-      resizeMode="contain"
-    />
-    <Ionicons
-      name={Platform.OS == "ios" ? "ios-settings" : "md-settings"}
-      size={23}
-      style={{
-        color: "#2e78b7",
-        flex: 4,
-        textAlign: "right",
-        flexDirection: "row",
-        paddingRight: 20
-      }}
-      resizeMode="contain"
-    />
+        }}
+        resizeMode="contain"
+      />
+      <Ionicons
+        name={Platform.OS == "ios" ? "ios-settings" : "md-settings"}
+        size={23}
+        style={{
+          color: "#2e78b7",
+          flex: 4,
+          textAlign: "right",
+          flexDirection: "row",
+          paddingRight: 20
+        }}
+        resizeMode="contain"
+      />
     </>
   )
 };

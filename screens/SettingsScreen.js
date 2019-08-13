@@ -1,11 +1,12 @@
 
 import React from "react";
-import { RefreshControl, Platform, SectionList, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Constants from "expo-constants";
 import Swipeout from "react-native-swipeout";
 import moment from "moment/min/moment-with-locales";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
+
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {
@@ -22,8 +23,8 @@ export default class SettingsScreen extends React.Component {
 
   componentDidMount() {
     this._loadClient();
-    const { addListener } = this.props.navigation;          
-    this.listeners = [addListener('didFocus', () => { this._loadClient();})]  
+    const { addListener } = this.props.navigation;
+    this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
   }
 
   componentWillUnmount() {
@@ -122,36 +123,37 @@ export default class SettingsScreen extends React.Component {
               backgroundColor: "#2e78b7",
               onPress: () => this._onPressArchive(item._id)
             }
-          ]}
-        >
-          <View style={styles.taskListTextTime}>
-            {item.title != "No completed workouts" &&
-              item.title != "Loading..." ? (
-                <Text style={styles.taskListTextTime}>
-                  created {moment(item.date).fromNow()}
-                </Text>
-              ) : item.title == "No completed workouts" ? (
-                <AntDesign
-                  name={Platform.OS == "ios" ? "smileo" : "smileo"}
-                  size={30}
-                  style={{
-                    textAlign: "center",
-                    color: "lightgray",
-                    marginTop: 25
-                  }}
-                />
-              ) : (
-                  <Text />
-                )}
-          </View>
-          <Text style={styles.sectionContentText}>
-            {item.title != "No completed workouts" ? item.description : ""}
-          </Text>
-          <Text style={styles.taskListTextTimeComplete}>
-            {item.title != "No completed workouts" && item.title != "Loading..."
-              ? "completed " + moment(item.completedDate).fromNow()
-              : null}
-          </Text>
+          ]} >
+          <TouchableOpacity onLongPress={() => this._onPressEdit(item._id)}>
+            <View style={styles.taskListTextTime}>
+              {item.title != "No completed workouts" &&
+                item.title != "Loading..." ? (
+                  <Text style={styles.taskListTextTime}>
+                    created {moment(item.date).fromNow()}
+                  </Text>
+                ) : item.title == "No completed workouts" ? (
+                  <AntDesign
+                    name={Platform.OS == "ios" ? "smileo" : "smileo"}
+                    size={30}
+                    style={{
+                      textAlign: "center",
+                      color: "lightgray",
+                      marginTop: 25
+                    }}
+                  />
+                ) : (
+                    <Text />
+                  )}
+            </View>
+            <Text style={styles.sectionContentText}>
+              {item.title != "No completed workouts" ? item.description : ""}
+            </Text>
+            <Text style={styles.taskListTextTimeComplete}>
+              {item.title != "No completed workouts" && item.title != "Loading..."
+                ? "completed " + moment(item.completedDate).fromNow()
+                : null}
+            </Text>
+          </TouchableOpacity>
         </Swipeout>
       </SectionContent>
     );
@@ -181,6 +183,11 @@ export default class SettingsScreen extends React.Component {
         console.warn(err);
       });
   }
+
+  _onPressEdit(itemID) {
+    this.props.navigation.navigate('Home', {id: itemID});
+  }
+
   _onPressArchive(itemID) {
     if (itemID) {
 
@@ -199,8 +206,10 @@ export default class SettingsScreen extends React.Component {
         )
         .then(() => {
           workouts
-            .find({ status: "completed",
-            userName: this.state.userName }, { sort: { date: -1 } })
+            .find({
+              status: "completed",
+              userName: this.state.userName
+            }, { sort: { date: -1 } })
             .asArray()
             .then(docs => {
               this.setState({ workouts: docs });
@@ -248,10 +257,10 @@ SettingsScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#3F3E40',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#3F3E40',
+  },
   sectionHeaderContainer: {
     backgroundColor: "#fbfbfb",
     paddingVertical: 8,
