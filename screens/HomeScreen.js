@@ -48,7 +48,8 @@ export default class HomeScreen extends React.Component {
       const title = section.title;
       const subcategories = [];
       section.subcategories.forEach(subcategory => {
-        subcategories.push(section.title + ":" + subcategory.subcategory);
+        // subcategories.push(section.title + ": " + subcategory.subcategory + "\n\nmet: " + subcategory.met);
+        subcategories.push(subcategory.subcategory);
       });
       return { title: title, data: subcategories };
     });
@@ -179,6 +180,26 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+HomeScreen.navigationOptions = {
+  headerTitle: (
+    <>
+    <Ionicons
+      name={Platform.OS == "ios" ? "ios-home" : "md-home"}
+      size={23}
+      style={{
+        color: "#2e78b7",
+        flex: 1,
+        textAlign: "center",
+        flexDirection: "row",
+        backgroundColor: 'black',
+        padding: 20
+      }}
+    />
+    </>
+  )
+};
+
 
 const styles = StyleSheet.create({
   container: {

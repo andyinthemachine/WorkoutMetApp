@@ -17,7 +17,7 @@ const LoginStack = createStackNavigator({
 });
 
 LoginStack.navigationOptions = {
-  tabBarLabel: "New",
+  tabBarLabel: "Login",
   tabBarVisible: false,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -37,7 +37,7 @@ const HomeStack = createStackNavigator({
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: "login",
+  tabBarLabel: "New",
   tabBarVisible: true,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -56,7 +56,7 @@ const LinksStack = createStackNavigator({
 });
 
 LinksStack.navigationOptions = {
-  tabBarLabel: "Current",
+  tabBarLabel: "Workouts",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -109,6 +109,6 @@ export default createBottomTabNavigator({
   LoginStack,
   HomeStack,
   LinksStack,
+  EditStack,
   SettingsStack,
-  EditStack
 });

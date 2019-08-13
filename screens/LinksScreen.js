@@ -247,16 +247,33 @@ const SectionContent = props => {
 
 LinksScreen.navigationOptions = {
   headerTitle: (
+    <>
     <Ionicons
       name={Platform.OS == "ios" ? "ios-clipboard" : "md-clipboard"}
       size={23}
       style={{
         color: "#2e78b7",
-        flex: 1,
-        textAlign: "center"
+        flex: 4,
+        textAlign: "right",
+        flexDirection: "row",
+        paddingLeft: 30
+
       }}
       resizeMode="contain"
     />
+    <Ionicons
+      name={Platform.OS == "ios" ? "ios-settings" : "md-settings"}
+      size={23}
+      style={{
+        color: "#2e78b7",
+        flex: 4,
+        textAlign: "right",
+        flexDirection: "row",
+        paddingRight: 20
+      }}
+      resizeMode="contain"
+    />
+    </>
   )
 };
 
