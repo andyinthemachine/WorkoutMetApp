@@ -49,8 +49,7 @@ export default class HomeScreen extends React.Component {
       const title = section.title;
       const subcategories = [];
       section.subcategories.forEach(subcategory => {
-        // subcategories.push(section.title + ": " + subcategory.subcategory + "\n\nmet: " + subcategory.met);
-        subcategories.push(subcategory.subcategory);
+        subcategories.push(section.title + ":" + subcategory.subcategory);
       });
       return { title: title, data: subcategories };
     });
@@ -66,14 +65,9 @@ export default class HomeScreen extends React.Component {
   }
 
   get_image = (title) => {
-    //   console.log("title = ", title);
     let image = "";
     customData.forEach(item => {
-        // console.log("item = ", item.title);
-
       if (item.title === title){
-        // console.log("found ", item.image);
-
         image = item.image;
       }
     })
@@ -185,7 +179,7 @@ export default class HomeScreen extends React.Component {
             }}>Step 1. Select the exercise(s) you wish to track below, by tapping each item.{"\n"}
             Step 2. Name your new workout and click the add icon.{"\n"}
             Step 3. Click the "Workouts" tab below to check out your Workout list.{"\n"}
-            Step 4. Edit each workout duration by clicking the "Edit" tab.{"\n"}
+            Step 4. Edit each workout by a long press{"\n"}
             Step 5. By completing each workout, they can be found in the "Completed" tab.
             </Text>
 
