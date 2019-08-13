@@ -93,6 +93,7 @@ export default class HomeScreen extends React.Component {
       const new_arr = this.state.selectedGroup.map(exercise =>  {
         return {exercise: exercise, met: get_met(exercise), duration: 5}
       });
+      console.log(this.state.userName)
       workouts.insertOne({
         userName: this.state.userName,
         status: "new",
@@ -118,7 +119,6 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = { header: null };
 
   render() {
-    console.log('this.state.userName', this.state.userName)
     return (      
       <View style={styles.container}>
         <ScrollView
