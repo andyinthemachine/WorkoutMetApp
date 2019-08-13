@@ -106,8 +106,6 @@ export default class HomeScreen extends React.Component {
       return met;
     }
 
-
-
     if (this.state.selectedGroup.length > 0 && this.state.text != "") {
       const new_arr = this.state.selectedGroup.map(exercise =>  {
         return {exercise: exercise, met: get_met(exercise), duration: 5}

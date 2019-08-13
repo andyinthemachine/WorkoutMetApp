@@ -6,8 +6,10 @@ import Swipeout from "react-native-swipeout";
 import moment from "moment/min/moment-with-locales";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
+import customData from '../metObjects.json';
 
-export default class SettingsScreen extends React.Component {
+
+export default class EditScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +23,7 @@ export default class SettingsScreen extends React.Component {
   }
 
   componentDidMount() {
+    console.log("Component Mounted")
     // this._loadClient();
     const { addListener } = this.props.navigation;          
     this.listeners = [addListener('didFocus', () => { this._loadClient();})]  
@@ -32,10 +35,8 @@ export default class SettingsScreen extends React.Component {
     )
   }
 
-  
-
-
   render() {
+    console.log("Render")
     const { manifest } = Constants;
     const sections =
       this.state.workouts == undefined
@@ -48,7 +49,7 @@ export default class SettingsScreen extends React.Component {
               title: "No workouts"
             }
           ];
-``
+
     return (
       <SectionList
         style={{ ...styles.container }}
@@ -72,8 +73,23 @@ export default class SettingsScreen extends React.Component {
   };
 
   _renderItem = ({ item }) => {
-      console.log("Item:", item.description)
-      console.log("Item:", item.description)
+    console.log("Render Item")
+    // console.log("Item:", item)
+    // console.log("Array:", item.exercises)
+
+    initExercises = () => {
+        console.log("Init: ",item)
+      // const exercises = item.exercises.map(act => {
+      //     const exercise = act.exercise;
+      //     const activities = []; 
+      //     act.activities.forEach(exercise => {
+      //         activities.push(exercise.exercise)
+      //     })
+      //     console.log(activities)
+      //     return { title: exercise, data: item}
+      // })
+      // return exercises
+    }
     return (
       <SectionContent>
         <Swipeout
@@ -106,7 +122,7 @@ export default class SettingsScreen extends React.Component {
             {item.title != "No workouts" &&
               item.title != "Loading..." ? (
                 <Text style={styles.taskListTextTime}>
-                  created {moment(item.date).fromNow()}
+                  BLAHHHHHHHH
                 </Text>
               ) : item.title == "No workouts" ? (
                 <AntDesign
@@ -128,18 +144,13 @@ export default class SettingsScreen extends React.Component {
           <Text style={styles.taskListTextTimeComplete}>
             {item.title != "No workouts" && item.title != "Loading..."}
           </Text>
-          <Text>
-              hello!
-          </Text>
-          <Text>
-              how aew toy
-          </Text>
         </Swipeout>
       </SectionContent>
     );
   };
 
   _onRefresh = () => {
+    console.log("Refreshing")
     this.setState({ refreshing: true });
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(
@@ -150,7 +161,7 @@ export default class SettingsScreen extends React.Component {
     const workouts = db.collection("workouts");
     workouts
       .find(
-        { _id: new BSON.ObjectId("5d5304859b1aa282fea1f044") }
+        { _id: new BSON.ObjectId("5d5329e9a25d1aef6ed22066") }
       )
       .asArray()
       .then(docs => {
@@ -163,6 +174,7 @@ export default class SettingsScreen extends React.Component {
   };
 
   _loadClient() {
+    console.log("Loading Client")
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(
       RemoteMongoClient.factory,
@@ -172,7 +184,7 @@ export default class SettingsScreen extends React.Component {
     const workouts = db.collection("workouts");
     workouts
       .find(
-        { _id: new BSON.ObjectId("5d5304859b1aa282fea1f044") }
+        { _id: new BSON.ObjectId("5d5329e9a25d1aef6ed22066") }
       )
       .asArray()
       .then(docs => {
@@ -184,6 +196,7 @@ export default class SettingsScreen extends React.Component {
   }
 
   _onPressArchive(itemID) {
+      console.log("Archived")
     if (itemID) {
 
       const stitchAppClient = Stitch.defaultAppClient;
@@ -195,7 +208,7 @@ export default class SettingsScreen extends React.Component {
       const workouts = db.collection("workouts");
       workouts
         .findOne(
-          { _id: new BSON.ObjectId("5d5304859b1aa282fea1f044") },
+          { _id: new BSON.ObjectId("5d5329e9a25d1aef6ed22066") },
           { $set: { status: "archived", archivedDate: new Date() } },
           { upsert: true }
         )
@@ -230,7 +243,7 @@ const SectionContent = props => {
   return <View style={styles.sectionContentContainer}>{props.children}</View>;
 };
 
-LinksScreen.navigationOptions = {
+EditScreen.navigationOptions = {
     headerTitle: (
         <Ionicons
             name={Platform.OS == "ios" ? "ios-create" : "md-create"}
@@ -273,7 +286,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         textAlign: 'left',
         textAlignVertical: 'center'
-      },
+    },
     sectionContentContainer: {
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: "lightgray"
