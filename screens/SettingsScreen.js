@@ -22,7 +22,6 @@ export default class SettingsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this._loadClient();
     const { addListener } = this.props.navigation;
     this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
   }
