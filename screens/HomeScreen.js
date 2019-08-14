@@ -37,10 +37,8 @@ export default class HomeScreen extends React.Component {
     this.state = {
       value: false,
       text: "",
-      userName: null,
       selectedItem: "",
       selectedGroup: [],
-      userName: this.props.navigation.state.params.userName
     };
   }
 
@@ -90,9 +88,9 @@ export default class HomeScreen extends React.Component {
       const exercise = temp_arr[1];
       let met = 0;
       customData.forEach(item1 => {
-        if (item1.title === title){
+        if (item1.title === title) {
           item1.subcategories.forEach(item2 => {
-            if (item2.subcategory === exercise) 
+            if (item2.subcategory === exercise)
               met = item2.met;
           })
         }
@@ -100,39 +98,54 @@ export default class HomeScreen extends React.Component {
       return met;
     }
 
-
-
     if (this.state.selectedGroup.length > 0 && this.state.text != "") {
-      const new_arr = this.state.selectedGroup.map(exercise =>  {
-        return {exercise: exercise, met: get_met(exercise), duration: 5}
+      const new_arr = this.state.selectedGroup.map(exercise => {
+        return { exercise: exercise, met: get_met(exercise), duration: 5 }
       });
-      console.log(this.state.userName)
-      workouts.insertOne({
-        userName: this.state.userName,
-        status: "new",
-        description: this.state.text,
-        exercises: new_arr,
-        date: new Date()
-      })
-        .then(() => {
-          if (this._confettiView) {
-            this._confettiView.startConfetti();
-          }
-          this.setState({ selectedGroup: [] });
-          this.setState({ selectedItem: "" });
-          this.setState({ value: !this.state.value });
-          this.setState({ text: "" });
-        })
-        .catch(err => {
-          console.warn(err);
-        });
+      this._insertAsyncDataIntoDB(new_arr, workouts);
+      
     }
   };
 
   static navigationOptions = { header: null };
 
+
+  // retrieve userName from asyncStorage
+  // and insert workout into db
+  _insertAsyncDataIntoDB = async (new_arr, workouts) => {
+
+    try {
+      const value = await AsyncStorage.getItem('key');
+      if (value !== null) {
+        console.log('value: ', value);
+        workouts.insertOne({
+          userName: value,
+          status: "new",
+          description: this.state.text,
+          exercises: new_arr,
+          date: new Date()
+        })
+          .then(() => {
+            if (this._confettiView) {
+              this._confettiView.startConfetti();
+            }
+            this.setState({ selectedGroup: [] });
+            this.setState({ selectedItem: "" });
+            this.setState({ value: !this.state.value });
+            this.setState({ text: "" });
+          })
+          .catch(err => {
+            console.warn(err);
+          });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
+  };
+
   render() {
-    return (      
+    return (
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
