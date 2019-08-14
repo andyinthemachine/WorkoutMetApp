@@ -19,19 +19,20 @@ export default class EditScreen extends React.Component {
             userName: "Joe",
             met: 0,
             duration: 0,
-            caloriesBurned: 0,
+            caloriesBurned: 909090,
             totalCal: 0,
         };
         this._loadClient = this._loadClient.bind(this);
     }
 
-    calculateCal = (met) => {
-        console.log("MET:", met)
-        // console.log("MET::::::::      ", this.state.workout.exercises[index].met)
-        let simplifiedMet = this.state.workout.exercises.met/60
-        var caloriesBurned = (Math.floor(simplifiedMet * this.state.workout.exercises.duration ) * 76.4)
-        // this.setState({caloriesBurned:caloriesBurned.toFixed(0)})
-        return(caloriesBurned)
+    calculateCal = (met, duration) => {
+        let simplifiedMet = met/60
+        console.log(simplifiedMet)
+        console.log(duration)
+        let caloriesBurned = ((simplifiedMet * duration ) * 76.4)
+        // this.setState({ caloriesBurned: caloriesBurned.toFixed(0) })
+        console.log(caloriesBurned)
+        return(caloriesBurned.toFixed(0))
     }
 
     calculateTotal = () => {
@@ -69,10 +70,8 @@ export default class EditScreen extends React.Component {
                         color: 'white',
                         padding: 5,
                         fontSize: 16
-                    }}>{this.state.caloriesBurned} cal</Text>
-                    <Text>
-                        {this.calculateCal(item.met).toString()}
-                    </Text>
+                    }}>
+                    {this.calculateCal(item.met, item.duration)} Cal</Text>
                     </>
                 }
                 
