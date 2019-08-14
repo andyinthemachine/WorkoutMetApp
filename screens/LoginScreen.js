@@ -5,7 +5,6 @@ import {
   View,
   Keyboard,
   TextInput,
-  Dimensions,
   Button,
   AsyncStorage,
   Text
