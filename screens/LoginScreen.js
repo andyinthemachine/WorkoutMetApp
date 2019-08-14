@@ -24,6 +24,7 @@ export default class LoginScreen extends React.Component {
       weight: "",
     };
   }
+
   handleNameSubmit = () => {
     Keyboard.dismiss();
     this.setState({ userName: this.state.text, passWord: this.state.text2, weight: this.state.text3 }, () => {
