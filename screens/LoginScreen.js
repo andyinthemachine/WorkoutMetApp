@@ -11,7 +11,7 @@ import {
   Text
 } from "react-native";
 
-var height = Dimensions.get("window").height;
+
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -19,15 +19,17 @@ export default class LoginScreen extends React.Component {
     this.state = {
       text: "",
       text2: "",
-      userName: ""
+      text3: "",
+      userName: "",
+      weight: "",
     };
   }
   handleNameSubmit = () => {
     Keyboard.dismiss();
-    this.setState({ userName: this.state.text, passWord: this.state.text2 }, () => {
-      if (this.state.text != "") {
+    this.setState({ userName: this.state.text, passWord: this.state.text2, weight: this.state.text3 }, () => {
+      if (this.state.text != "" && this.state.text3 != "") {
         this.props.navigation.navigate('Home'/*, { userName: this.state.userName }*/);
-        this._storeData(this.state.userName)
+        this._storeData(this.state.userName, this.state.weight)
         // this._retrieveData();
       };
     });
@@ -35,73 +37,90 @@ export default class LoginScreen extends React.Component {
 
   static navigationOptions = { header: null };
 
-  _storeData = async (wkoutID) => {
+  _storeData = async (key, weight) => {
     try {
-      await AsyncStorage.setItem('key', wkoutID);
+      await AsyncStorage.setItem('key', key);
+      await AsyncStorage.setItem('weight', weight)
+      console.log('weight: ', weight)
     } catch (error) {
       console.log(error)
     }
   };
 
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('key');
-      if (value !== null) {
-        // console.log('value: ', value);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-    return (value);
-  };
+  // _retrieveData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('key');
+  //     if (value !== null) {
+  //       // console.log('value: ', value);
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  //   return (value);
+  // };
 
   render() {
-   
+
     return (
       <View style={styles.container}>
 
         <View style={styles.formContainer}>
-        <Text
-        style={{
-            color: "white",
-            textAlign: 'center',
-            fontSize: 16,
-            padding: 10,
-            marginBottom: 10
-        }}>Welcome! Login to begin.</Text>
+          <Text
+            style={{
+              color: "white",
+              textAlign: 'center',
+              fontSize: 16,
+              padding: 10,
+              marginBottom: 10
+            }}>Welcome! Login to begin.</Text>
 
-        <TextInput
-          style={{
-            color: "white",
-            fontSize: 16,
-            backgroundColor: 'black',
-            padding: 10,
-            marginBottom: 10
-          }}
-          placeholder="Enter username..."
-          placeholderTextColor="lightgrey"
-          onChangeText={text => this.setState({ text })}
-          value={this.state.text}
-          onSubmitEditing={Keyboard.dismiss}
-        />
-        
-        <TextInput
-          style={{
-            color: "white",
-            fontSize: 16,
-            backgroundColor: 'black',
-            padding: 10,
-            marginBottom: 50
-          }}
-          placeholder="Enter password..."
-          placeholderTextColor="lightgrey"
-          type="password"
-          secureTextEntry={true}
-          onChangeText={text2 => this.setState({ text2 })}
-          value={this.state.text2}
-          onSubmitEditing={Keyboard.dismiss}
-        />
-        <Button style={styles.loginBtn} title="Sign in!" onPress={this.handleNameSubmit} />
+          <TextInput
+            style={{
+              color: "white",
+              fontSize: 16,
+              backgroundColor: 'black',
+              padding: 10,
+              marginBottom: 10
+            }}
+            placeholder="Enter username..."
+            placeholderTextColor="lightgrey"
+            onChangeText={text => this.setState({ text })}
+            value={this.state.text}
+            onSubmitEditing={Keyboard.dismiss}
+          />
+
+          <TextInput
+            style={{
+              color: "white",
+              fontSize: 16,
+              backgroundColor: 'black',
+              padding: 10,
+              marginBottom: 50
+            }}
+            placeholder="Enter password..."
+            placeholderTextColor="lightgrey"
+            type="password"
+            secureTextEntry={true}
+            onChangeText={text2 => this.setState({ text2 })}
+            value={this.state.text2}
+            onSubmitEditing={Keyboard.dismiss}
+          />
+
+          <TextInput
+            style={{
+              color: "white",
+              fontSize: 16,
+              backgroundColor: 'black',
+              padding: 10,
+              marginBottom: 10
+            }}
+            placeholder="Enter your weight..."
+            placeholderTextColor="lightgrey"
+            onChangeText={text3 => this.setState({ text3 })}
+            value={this.state.text3}
+            onSubmitEditing={Keyboard.dismiss}
+          />
+          <Text style={styles.loginBtn} title="Sign in!" onPress={this.handleNameSubmit}>Sign in!</Text>
         </View>
 
       </View>
@@ -129,6 +148,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   loginBtn: {
-      color: 'red'
+    color: 'white',
+    backgroundColor: 'red',
+    textAlign: 'center',
+    padding: 10,
+    marginHorizontal: 100,
+    fontWeight: 'bold'
   }
 });

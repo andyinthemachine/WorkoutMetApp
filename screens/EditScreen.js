@@ -8,8 +8,6 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
 import customData from '../metObjects.json';
 
-const temp_id = "5d533801890e838513221a2f";
-
 export default class EditScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -18,9 +16,25 @@ export default class EditScreen extends React.Component {
             client: undefined,
             workout: [],
             refreshing: false,
-            userName: "Joe"
+            userName: "Joe",
+            met: 21,
+            duration: 0,
+            caloriesBurned: 1231,
+            totalCal: 0,
         };
         this._loadClient = this._loadClient.bind(this);
+    }
+
+    calculateCal = () => {
+        console.log("MET::::::::      ",this.state.workout.rem)
+        let simplifiedMet = this.state.workout.exercises.met/60
+        var caloriesBurned = (Math.floor(simplifiedMet * this.state.workout.exercises.duration ) * 76.4)
+        console.log(caloriesBurned)
+        this.setState({caloriesBurned:caloriesBurned.toFixed(0)})
+    }
+
+    calculateTotal = () => {
+        
     }
 
     componentWillMount() {
@@ -29,14 +43,14 @@ export default class EditScreen extends React.Component {
         this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
     }
 
+    componentDidMount() {
+        console.log("mount")
+        this.calculateCal()
+    }
+
     componentWillUnmount() {
         this.listeners.forEach( sub => { sub.remove() },)
     }
-
-    // _onRefresh = () => {
-    //     this.setState({ refreshing: true });
-    //   };
-    
 
     render() {
         const arr1 = [{key: "Billy",}, { key: "Bob" } ];
@@ -46,44 +60,30 @@ export default class EditScreen extends React.Component {
             <View style={styles.container}>
                 <FlatList
                     data={this.state.workout.exercises}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => 
+                    <>
                     <Text
                     style={{
                         color: 'white',
                         padding: 5,
                         fontSize: 16
-                    }}>{item.exercise}</Text>}
-                    keyExtractor={(item, index) => index}
+                    }}>{item.exercise}</Text>
+                    <Text
+                    style={{
+                        color: 'white',
+                        padding: 5,
+                        fontSize: 16
+                    }}>{this.state.caloriesBurned} cal</Text>
+                    </>
+                }
                 
-                    // key={item.name}
-                    // refreshControl={
-                    //   <RefreshControl
-                    //     refreshing={this.state.refreshing}
-                    //     onRefresh={this._onRefresh} />
-                    // }
                 />
             </View>
     );
   }
 
   _renderItem = ({ item }) => {
-            // console.log("Item:", item)
-            // console.log("Array:", item.exercises)ac516da5805ba027bf8595b0928c5611bae324
-
-            // initExercises = () => {
-            //     console.log("Init: ",item)
-
-            // const exercises = item.exercises.map(act => {
-            //     const exercise = act.exercise;
-            //     const activities = []; 
-            //     act.activities.forEach(exercise => {
-            //         activities.push(exercise.exercise)
-            //     })
-            //     console.log(activities)
-            //     return { title: exercise, data: item}
-            // })
-            // return exercises
-            // }
             return (
                 <SectionContent>
                     <Swipeout
@@ -141,31 +141,8 @@ export default class EditScreen extends React.Component {
             );
         };
 
-        // _onRefresh = () => {
-        //     console.log("Refreshing")
-        //     this.setState({ refreshing: true });
-        //     const stitchAppClient = Stitch.defaultAppClient;
-        //     const mongoClient = stitchAppClient.getServiceClient(
-        //         RemoteMongoClient.factory,
-        //         "mongodb-atlas"
-        //     );
-        //     const db = mongoClient.db("workoutmanager");
-        //     const workouts = db.collection("workouts");
-        //     workouts
-        //         .find(
-        //             { _id: new BSON.ObjectId(temp_id) }
-        //         )
-        //         .asArray()
-        //         .then(docs => {
-        //             this.setState({ workouts: docs });
-        //             this.setState({ refreshing: false });
-        //         })
-        //         .catch(err => {
-        //             console.warn(err);
-        //         });
-        // };
-
         _loadClient() {
+            const temp_id = this.props.navigation.state.params.id;
             console.log("Loading Client")
             const stitchAppClient = Stitch.defaultAppClient;
             const mongoClient = stitchAppClient.getServiceClient(
