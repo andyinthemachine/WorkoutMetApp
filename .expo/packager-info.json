@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 80418,
-  "expoServerNgrokUrl": "https://5x-cjq.anonymous.workoutmetapp.exp.direct",
-  "packagerNgrokUrl": "https://packager.5x-cjq.anonymous.workoutmetapp.exp.direct",
-  "ngrokPid": 80426
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": "https://8c-hsq.anonymous.workoutmetapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.8c-hsq.anonymous.workoutmetapp.exp.direct",
+  "ngrokPid": 82037
 }

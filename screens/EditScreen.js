@@ -28,9 +28,9 @@ export default class EditScreen extends React.Component {
     calculateCal = (met) => {
         console.log("MET:", met)
         // console.log("MET::::::::      ", this.state.workout.exercises[index].met)
-        let simplifiedMet = this.state.workout.exercises.met/60
+        let simplifiedMet = met/60
         var caloriesBurned = (Math.floor(simplifiedMet * this.state.workout.exercises.duration ) * 76.4)
-        // this.setState({caloriesBurned:caloriesBurned.toFixed(0)})
+        this.setState({caloriesBurned:caloriesBurned.toFixed(0)})
         return(caloriesBurned)
     }
 

@@ -19,7 +19,7 @@ export default class LoginScreen extends React.Component {
     this.state = {
       text: "",
       text2: "",
-      text3: "",
+      text3: "150",
       userName: "",
       weight: "",
     };
@@ -72,8 +72,8 @@ export default class LoginScreen extends React.Component {
               fontSize: 16,
               padding: 10,
               marginBottom: 10
-            }}>Welcome! Login to begin.</Text>
-
+            }}>Welcome to our Workout App! {"\n"} Login to begin.</Text>
+        <Text style={{color: 'white', padding: 5}}>Username</Text>
           <TextInput
             style={{
               color: "white",
@@ -88,14 +88,14 @@ export default class LoginScreen extends React.Component {
             value={this.state.text}
             onSubmitEditing={Keyboard.dismiss}
           />
-
+        <Text style={{color: 'white', padding: 5}}>Password</Text>
           <TextInput
             style={{
               color: "white",
               fontSize: 16,
               backgroundColor: 'black',
               padding: 10,
-              marginBottom: 50
+              marginBottom: 10
             }}
             placeholder="Enter password..."
             placeholderTextColor="lightgrey"
@@ -106,13 +106,14 @@ export default class LoginScreen extends React.Component {
             onSubmitEditing={Keyboard.dismiss}
           />
 
+          <Text style={{color: 'white', padding: 5}}>Current Body Weight</Text>
           <TextInput
             style={{
               color: "white",
               fontSize: 16,
               backgroundColor: 'black',
               padding: 10,
-              marginBottom: 10
+              marginBottom: 25
             }}
             placeholder="Enter your weight..."
             placeholderTextColor="lightgrey"
