@@ -17,20 +17,21 @@ export default class EditScreen extends React.Component {
             workout: [],
             refreshing: false,
             userName: "Joe",
-            met: 21,
+            met: 0,
             duration: 0,
-            caloriesBurned: 1231,
+            caloriesBurned: 0,
             totalCal: 0,
         };
         this._loadClient = this._loadClient.bind(this);
     }
 
-    calculateCal = () => {
-        console.log("MET::::::::      ",this.state.workout.rem)
+    calculateCal = (met) => {
+        console.log("MET:", met)
+        // console.log("MET::::::::      ", this.state.workout.exercises[index].met)
         let simplifiedMet = this.state.workout.exercises.met/60
         var caloriesBurned = (Math.floor(simplifiedMet * this.state.workout.exercises.duration ) * 76.4)
-        console.log(caloriesBurned)
-        this.setState({caloriesBurned:caloriesBurned.toFixed(0)})
+        // this.setState({caloriesBurned:caloriesBurned.toFixed(0)})
+        return(caloriesBurned)
     }
 
     calculateTotal = () => {
@@ -43,18 +44,12 @@ export default class EditScreen extends React.Component {
         this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
     }
 
-    componentDidMount() {
-        console.log("mount")
-        this.calculateCal()
-    }
-
     componentWillUnmount() {
+        this.calculateCal()
         this.listeners.forEach( sub => { sub.remove() },)
     }
 
     render() {
-        const arr1 = [{key: "Billy",}, { key: "Bob" } ];
-        console.log("State:::::::::::     ", this.state.workout.exercises)
         return (
 
             <View style={styles.container}>
@@ -75,6 +70,9 @@ export default class EditScreen extends React.Component {
                         padding: 5,
                         fontSize: 16
                     }}>{this.state.caloriesBurned} cal</Text>
+                    <Text>
+                        {this.calculateCal(item.met).toString()}
+                    </Text>
                     </>
                 }
                 
@@ -143,7 +141,6 @@ export default class EditScreen extends React.Component {
 
         _loadClient() {
             const temp_id = this.props.navigation.state.params.id;
-            console.log("Loading Client")
             const stitchAppClient = Stitch.defaultAppClient;
             const mongoClient = stitchAppClient.getServiceClient(
                 RemoteMongoClient.factory,
@@ -157,7 +154,6 @@ export default class EditScreen extends React.Component {
                 )
                 // .asArray()
                 .then(docs => {
-                    console.log("Docs:::::::::: ", docs);
                     this.setState({ workout: docs });
                 })
                 .catch(err => {
