@@ -120,7 +120,7 @@ export default class LoginScreen extends React.Component {
             value={this.state.text3}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Button style={styles.loginBtn} title="Sign in!" onPress={this.handleNameSubmit} />
+          <Text style={styles.loginBtn} title="Sign in!" onPress={this.handleNameSubmit}>Sign in!</Text>
         </View>
 
       </View>
@@ -148,6 +148,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   loginBtn: {
-    color: 'red'
+    color: 'white',
+    backgroundColor: 'red',
+    textAlign: 'center',
+    padding: 10,
+    marginHorizontal: 100,
+    fontWeight: 'bold'
   }
 });

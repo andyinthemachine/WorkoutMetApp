@@ -1,10 +1,5 @@
 
 import React from "react";
-<<<<<<< HEAD
-import Confetti from "react-native-confetti";
-import { TextInput } from "react-native-gesture-handler";
-=======
->>>>>>> 7bbd695fd635498ef1501857d7d07f1e80dab7e3
 import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, FlatList } from "react-native";
 import Constants from "expo-constants";
 import Swipeout from "react-native-swipeout";
