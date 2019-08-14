@@ -11,5 +11,5 @@
 ##### Features data persistence using MongoDB database.
 
 ##### Gif Preview
-![GifPreview](./React-Native-Workout-App.gif “React Native App”)
+![GifPreview](/React-Native-Workout-App.gif)
 
