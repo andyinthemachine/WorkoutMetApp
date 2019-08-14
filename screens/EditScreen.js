@@ -52,9 +52,19 @@ export default class EditScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+
+                <Text
+                    style={{
+                        color: 'red',
+                        textAlign: 'center',
+                        padding: 5,
+                        fontSize: 32,
+                        marginBottom: 10
+                    }}>{this.state.workout.description}</Text>
                 
                 <FlatList
                     // {...count++}
+                    style={{ marginHorizontal: 25 }}
                     data={this.state.workout.exercises}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => 
@@ -62,8 +72,11 @@ export default class EditScreen extends React.Component {
                     <Text
                     style={{
                         color: 'white',
+                        backgroundColor: '#262526',
                         padding: 5,
-                        fontSize: 16
+                        marginTop: 10,
+                        fontSize: 16,
+                        textAlign: 'center'
                     }}>{item.exercise}</Text>
                     {/* <TextInput
                         editable = {true}
@@ -75,7 +88,15 @@ export default class EditScreen extends React.Component {
                     style={{
                         color: 'white',
                         padding: 5,
-                        fontSize: 16
+                        fontSize: 16,
+                        marginBottom: 10
+                    }}>{item.duration} min</Text>
+                    <Text
+                    style={{
+                        color: 'white',
+                        padding: 5,
+                        fontSize: 16,
+                        marginBottom: 10
                     }}>
                     Calories Burned ≈ {this.calculateCal(item.met, item.duration)} calories</Text>
                     </>
