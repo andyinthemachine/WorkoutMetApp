@@ -1,10 +1,17 @@
 import React from "react";
-import { RefreshControl, Platform, SectionList, StyleSheet, Text, View } from "react-native";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
 import Confetti from "react-native-confetti";
 import { TextInput } from "react-native-gesture-handler";
+import { RefreshControl, Platform, SectionList, StyleSheet, Text, View, FlatList } from "react-native";
+import Constants from "expo-constants";
+import Swipeout from "react-native-swipeout";
+import moment from "moment/min/moment-with-locales";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
+import customData from '../metObjects.json';
 
+
+
+const temp_id = "5d533801890e838513221a2f";
 export default class LinksScreen extends React.Component {
     static navigationOptions = { header: null };
 
@@ -51,8 +58,8 @@ export default class LinksScreen extends React.Component {
     }
 
     _onRefresh = () => {
-        console.log("refresh");
         this.setState({ refreshing: true });
+        console.log("Loading Client")
         const stitchAppClient = Stitch.defaultAppClient;
         const mongoClient = stitchAppClient.getServiceClient(
             RemoteMongoClient.factory,
@@ -61,11 +68,13 @@ export default class LinksScreen extends React.Component {
         const db = mongoClient.db("workoutmanager");
         const workouts = db.collection("workouts");
         workouts
-            .find({ status: "new" }, { sort: { date: -1 } })
-            .asArray()
+            .findOne(
+                { _id: new BSON.ObjectId(temp_id) }
+            )
+            // .asArray()
             .then(docs => {
-                this.setState({ workouts: docs });
-                this.setState({ refreshing: false });
+                console.log(docs);
+                this.setState({ workout: docs });
             })
             .catch(err => {
                 console.warn(err);
@@ -172,21 +181,28 @@ export default class LinksScreen extends React.Component {
     };
 
     _loadClient() {
-        console.log("load client");
-
+        console.log("Loading Client")
         const stitchAppClient = Stitch.defaultAppClient;
-        const mongoClient = stitchAppClient.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+        const mongoClient = stitchAppClient.getServiceClient(
+            RemoteMongoClient.factory,
+            "mongodb-atlas"
+        );
         const db = mongoClient.db("workoutmanager");
         const workouts = db.collection("workouts");
-        workouts.find({ status: "new" }, { sort: { date: -1 } })
-            .asArray()
+        workouts
+            .findOne(
+                { _id: new BSON.ObjectId(temp_id) }
+            )
+            // .asArray()
             .then(docs => {
-                this.setState({ workouts: docs });
+                console.log(docs);
+                this.setState({ workout: docs });
             })
             .catch(err => {
                 console.warn(err);
             });
     }
+
 
     _onPressComplete(itemID) {
         if (itemID) {
