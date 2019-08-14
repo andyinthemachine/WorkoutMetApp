@@ -6,6 +6,8 @@ import Swipeout from "react-native-swipeout";
 import moment from "moment/min/moment-with-locales";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
+import { TextInput } from "react-native-gesture-handler";
+// let count = 0;
 
 export default class EditScreen extends React.Component {
     constructor(props) {
@@ -28,7 +30,7 @@ export default class EditScreen extends React.Component {
         const weight = this.state.workout.weight
         let simplifiedweight = weight/2.2
         let simplifiedMet = met/60
-        let caloriesBurned = ((simplifiedMet * duration ) * simplifiedweight)
+        let caloriesBurned = ((simplifiedMet * 5 ) * simplifiedweight)
         return(caloriesBurned.toFixed(0))
     }
 
@@ -48,11 +50,11 @@ export default class EditScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state.workout.weight)
         return (
-
             <View style={styles.container}>
+                
                 <FlatList
+                    // {...count++}
                     data={this.state.workout.exercises}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => 
@@ -63,13 +65,19 @@ export default class EditScreen extends React.Component {
                         padding: 5,
                         fontSize: 16
                     }}>{item.exercise}</Text>
+                    {/* <TextInput
+                        editable = {true}
+                        keyboardType={'numeric'}
+                        placeholder={"edit min here"}
+                        value={this.state.[duration]}
+                    /> */}
                     <Text
                     style={{
                         color: 'white',
                         padding: 5,
                         fontSize: 16
                     }}>
-                    {this.calculateCal(item.met, item.duration)} Cal</Text>
+                    Calories Burned ≈ {this.calculateCal(item.met, item.duration)} calories</Text>
                     </>
                 }
                 
