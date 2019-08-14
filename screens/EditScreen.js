@@ -6,7 +6,6 @@ import Swipeout from "react-native-swipeout";
 import moment from "moment/min/moment-with-locales";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
-import customData from '../metObjects.json';
 
 export default class EditScreen extends React.Component {
     constructor(props) {
@@ -26,12 +25,10 @@ export default class EditScreen extends React.Component {
     }
 
     calculateCal = (met, duration) => {
+        const weight = this.state.workout.weight
+        let simplifiedweight = weight/2.2
         let simplifiedMet = met/60
-        console.log(simplifiedMet)
-        console.log(duration)
-        let caloriesBurned = ((simplifiedMet * duration ) * 76.4)
-        // this.setState({ caloriesBurned: caloriesBurned.toFixed(0) })
-        console.log(caloriesBurned)
+        let caloriesBurned = ((simplifiedMet * duration ) * simplifiedweight)
         return(caloriesBurned.toFixed(0))
     }
 
@@ -51,6 +48,7 @@ export default class EditScreen extends React.Component {
     }
 
     render() {
+        console.log(this.state.workout.weight)
         return (
 
             <View style={styles.container}>
@@ -151,8 +149,8 @@ export default class EditScreen extends React.Component {
                 .findOne(
                     { _id: new BSON.ObjectId(temp_id) }
                 )
-                // .asArray()
                 .then(docs => {
+                    console.log("DOCS: ", docs)
                     this.setState({ workout: docs });
                 })
                 .catch(err => {
