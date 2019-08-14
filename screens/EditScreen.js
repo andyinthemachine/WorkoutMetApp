@@ -6,7 +6,8 @@ import Swipeout from "react-native-swipeout";
 import moment from "moment/min/moment-with-locales";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
-import customData from '../metObjects.json';
+import { TextInput } from "react-native-gesture-handler";
+// let count = 0;
 
 export default class EditScreen extends React.Component {
     constructor(props) {
@@ -17,20 +18,20 @@ export default class EditScreen extends React.Component {
             workout: [],
             refreshing: false,
             userName: "Joe",
-            met: 21,
+            met: 0,
             duration: 0,
-            caloriesBurned: 1231,
+            caloriesBurned: 909090,
             totalCal: 0,
         };
         this._loadClient = this._loadClient.bind(this);
     }
 
-    calculateCal = () => {
-        console.log("MET::::::::      ",this.state.workout.rem)
-        let simplifiedMet = this.state.workout.exercises.met/60
-        var caloriesBurned = (Math.floor(simplifiedMet * this.state.workout.exercises.duration ) * 76.4)
-        console.log(caloriesBurned)
-        this.setState({caloriesBurned:caloriesBurned.toFixed(0)})
+    calculateCal = (met, duration) => {
+        const weight = this.state.workout.weight
+        let simplifiedweight = weight/2.2
+        let simplifiedMet = met/60
+        let caloriesBurned = ((simplifiedMet * 5 ) * simplifiedweight)
+        return(caloriesBurned.toFixed(0))
     }
 
     calculateTotal = () => {
@@ -43,22 +44,17 @@ export default class EditScreen extends React.Component {
         this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
     }
 
-    componentDidMount() {
-        console.log("mount")
-        this.calculateCal()
-    }
-
     componentWillUnmount() {
+        this.calculateCal()
         this.listeners.forEach( sub => { sub.remove() },)
     }
 
     render() {
-        const arr1 = [{key: "Billy",}, { key: "Bob" } ];
-        console.log("State:::::::::::     ", this.state.workout.exercises)
         return (
-
             <View style={styles.container}>
+                
                 <FlatList
+                    // {...count++}
                     data={this.state.workout.exercises}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => 
@@ -69,12 +65,19 @@ export default class EditScreen extends React.Component {
                         padding: 5,
                         fontSize: 16
                     }}>{item.exercise}</Text>
+                    {/* <TextInput
+                        editable = {true}
+                        keyboardType={'numeric'}
+                        placeholder={"edit min here"}
+                        value={this.state.[duration]}
+                    /> */}
                     <Text
                     style={{
                         color: 'white',
                         padding: 5,
                         fontSize: 16
-                    }}>{this.state.caloriesBurned} cal</Text>
+                    }}>
+                    Calories Burned ≈ {this.calculateCal(item.met, item.duration)} calories</Text>
                     </>
                 }
                 
@@ -142,6 +145,7 @@ export default class EditScreen extends React.Component {
         };
 
         _loadClient() {
+            const temp_id = this.props.navigation.state.params.id;
             const stitchAppClient = Stitch.defaultAppClient;
             const mongoClient = stitchAppClient.getServiceClient(
                 RemoteMongoClient.factory,
@@ -150,14 +154,12 @@ export default class EditScreen extends React.Component {
             const db = mongoClient.db("workoutmanager");
             const workouts = db.collection("workouts");
   
-            const temp_id = this.props.navigation.state.params.id;
                 workouts
                 .findOne(
                     { _id: new BSON.ObjectId(temp_id) }
                 )
-                // .asArray()
                 .then(docs => {
-                    console.log("Docs:::::::::: ", docs);
+                    console.log("DOCS: ", docs)
                     this.setState({ workout: docs });
                 })
                 .catch(err => {

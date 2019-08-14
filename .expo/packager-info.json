@@ -3,7 +3,19 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
+<<<<<<< HEAD
   "expoServerNgrokUrl": null,
   "packagerNgrokUrl": null,
   "ngrokPid": null
+=======
+<<<<<<< HEAD
+  "expoServerNgrokUrl": "https://8c-hsq.anonymous.workoutmetapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.8c-hsq.anonymous.workoutmetapp.exp.direct",
+  "ngrokPid": 82037
+=======
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
+>>>>>>> 1a3994e69572bc64e25abd3ec8799eb5cb4cbefe
+>>>>>>> c15eb0c66b2f2eb50e9661c66cd04b47a0cf19aa
 }
