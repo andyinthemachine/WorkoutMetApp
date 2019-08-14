@@ -116,6 +116,7 @@ export default class HomeScreen extends React.Component {
 
     try {
       const value = await AsyncStorage.getItem('key');
+      const weight = await AsyncStorage.getItem('weight');
       if (value !== null) {
         console.log('value: ', value);
         workouts.insertOne({
@@ -123,7 +124,8 @@ export default class HomeScreen extends React.Component {
           status: "new",
           description: this.state.text,
           exercises: new_arr,
-          date: new Date()
+          date: new Date(),
+          weight: weight
         })
           .then(() => {
             if (this._confettiView) {
