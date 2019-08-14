@@ -174,7 +174,8 @@ export default class EditScreen extends React.Component {
             );
             const db = mongoClient.db("workoutmanager");
             const workouts = db.collection("workouts");
-            workouts
+  
+                workouts
                 .findOne(
                     { _id: new BSON.ObjectId(temp_id) }
                 )
@@ -184,7 +185,8 @@ export default class EditScreen extends React.Component {
                 })
                 .catch(err => {
                     console.warn(err);
-                });
+                });        
+            console.log("Loading Client")     
         }
 
     }

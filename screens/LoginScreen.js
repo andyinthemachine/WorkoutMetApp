@@ -5,7 +5,6 @@ import {
   View,
   Keyboard,
   TextInput,
-  Dimensions,
   Button,
   AsyncStorage,
   Text
@@ -19,7 +18,7 @@ export default class LoginScreen extends React.Component {
     this.state = {
       text: "",
       text2: "",
-      text3: "150",
+      text3: "182",
       userName: "",
       weight: "",
     };
