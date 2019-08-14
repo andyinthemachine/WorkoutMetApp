@@ -142,8 +142,6 @@ export default class EditScreen extends React.Component {
         };
 
         _loadClient() {
-            const temp_id = this.props.navigation.state.params.id;
-            console.log("Loading Client")
             const stitchAppClient = Stitch.defaultAppClient;
             const mongoClient = stitchAppClient.getServiceClient(
                 RemoteMongoClient.factory,
@@ -151,7 +149,9 @@ export default class EditScreen extends React.Component {
             );
             const db = mongoClient.db("workoutmanager");
             const workouts = db.collection("workouts");
-            workouts
+  
+            const temp_id = this.props.navigation.state.params.id;
+                workouts
                 .findOne(
                     { _id: new BSON.ObjectId(temp_id) }
                 )
@@ -162,7 +162,8 @@ export default class EditScreen extends React.Component {
                 })
                 .catch(err => {
                     console.warn(err);
-                });
+                });        
+            console.log("Loading Client")     
         }
 
     }

@@ -18,7 +18,7 @@ export default class LoginScreen extends React.Component {
     this.state = {
       text: "",
       text2: "",
-      text3: "",
+      text3: "182",
       userName: "",
       weight: "",
     };
