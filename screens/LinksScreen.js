@@ -180,7 +180,7 @@ export default class LinksScreen extends React.Component {
   }
 
   _onPressEdit(itemID) {
-    this.props.navigation.navigate('Home', {id: itemID});
+    this.props.navigation.navigate('Edit', {id: itemID});
   }
 
   _onPressComplete(itemID) {
