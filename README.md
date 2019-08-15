@@ -9,8 +9,8 @@
 
 ##### Features data persistence using MongoDB database.
 ##### Implements full CRUD - creation, updating, and delelting of workout data from Cloud database
-### Tracks workouts and calories burned for each user based on user weight and met/duration of exercises.
-### Allow switching to completed list and return to main list
+#### Tracks workouts and calories burned for each user based on user weight and met/duration of exercises.
+#### Provides ability to switch to completed list and return to main list
 
 ##### Gif Preview
 ![GifPreview](/React-Native-Workout-App.gif)
