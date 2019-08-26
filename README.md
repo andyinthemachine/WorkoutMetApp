@@ -7,7 +7,7 @@
 #### Tracks workouts and calories burned for each user based on user weight and met/duration of exercises.
 
 ##### Front end/client side is React Native in Expo development environment
-##### MongoDB Atlas backend for cloud data with Stitch
+##### MongoDB Atlas/Stich backend for cloud data 
 
 ##### Features data persistence using MongoDB database.
 ##### Implements full CRUD - creation, updating, and delelting of workout data from Cloud database
