@@ -87,10 +87,10 @@ const MainTabNavigator = createStackNavigator(
     },
     Edit: {
       screen: EditScreen,
-      navigationOptions: {
-        headerMode: "none",
-        header: null
-      }
+      // navigationOptions: {
+      //   headerMode: "none",
+      //   header: null
+      // }
     },
   },
   {
