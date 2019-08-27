@@ -29,23 +29,7 @@ import EditScreen from '../screens/EditScreen'
 // };
 
 
-// const HomeStack = createStackNavigator({
-//   Home: HomeScreen
-// });
 
-// HomeStack.navigationOptions = {
-//   tabBarLabel: "Create",
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={
-//         Platform.OS === "ios"
-//           ? `ios-add-circle${focused ? "" : "-outline"}`
-//           : "md-add-circle"
-//       }
-//     />
-//   )
-// };
 
 // const LinksStack = createStackNavigator({
 //   Links: LinksScreen
@@ -101,7 +85,20 @@ import EditScreen from '../screens/EditScreen'
 
 const AppTabNavigator = createBottomTabNavigator({
   Login: {
-    screen: LoginScreen
+    screen: LoginScreen,
+    navigationOptions: {
+      tabBarLabel: "Login",
+      tabBarVisible: false,
+      tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+          focused={focused}
+          name={
+            Platform.OS === "ios"
+              ? `ios-add-circle${focused ? "" : "-outline"}`
+              : "md-add-circle"
+          } />
+      )
+    }
   },
   Home: {
     screen: HomeScreen,
@@ -119,10 +116,34 @@ const AppTabNavigator = createBottomTabNavigator({
     }
   },
   Links: {
-    screen: LinksScreen
+    screen: LinksScreen,
+    navigationOptions: {
+      tabBarLabel: "Workouts",
+      tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+          focused={focused}
+          name={
+            Platform.OS === "ios"
+              ? `ios-mail${focused ? "-open" : ""}`
+              : `md-mail${focused ? "-open" : ""}`
+          } />
+      )
+    }
   },
   Settings: {
-    screen: SettingsScreen
+    screen: SettingsScreen,
+    navigationOptions: {
+      tabBarLabel: "Completed",
+      tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+          focused={focused}
+          name={
+            Platform.OS === "ios"
+              ? "ios-checkmark-circle-outline"
+              : "md-checkmark-circle-outline"
+          }/>
+      )
+    }
   },
 
 });
@@ -143,18 +164,13 @@ const MainTabNavigator = createStackNavigator(
         header: null
       }
     },
-   
-  //   {
-  //     initialRouteName: "LoginScreen"
-  // }
+
+    //   {
+    //     initialRouteName: "LoginScreen"
+    // }
   }
 );
 
 
-
 export { MainTabNavigator };
 
-
-// const HomeStack = createStackNavigator({
-//   Home: HomeScreen
-// });
