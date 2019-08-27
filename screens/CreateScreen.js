@@ -31,7 +31,7 @@ color: ${props => props.isActive ? 'white' : 'black'}
 `
 
 
-export default class HomeScreen extends React.Component {
+export default class CreateScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -278,7 +278,7 @@ export default class HomeScreen extends React.Component {
   }
 }
 
-HomeScreen.navigationOptions = {
+CreateScreen.navigationOptions = {
     headerTitle: (
       <Ionicons
         name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 50,
   },
-  homeScreenFilename: {
+  createScreenFilename: {
     marginVertical: 7,
   },
   codeHighlightText: {

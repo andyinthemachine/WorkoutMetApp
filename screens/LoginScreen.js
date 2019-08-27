@@ -1,5 +1,5 @@
 import React from "react";
-import HomeScreen from "./HomeScreen";
+import CreateScreen from "./CreateScreen";
 import {
   StyleSheet,
   View,
@@ -28,7 +28,7 @@ export default class LoginScreen extends React.Component {
     Keyboard.dismiss();
     this.setState({ userName: this.state.text, passWord: this.state.text2, weight: this.state.text3 }, () => {
       if (this.state.text != "" && this.state.text3 != "") {
-        this.props.navigation.navigate('Home'/*, { userName: this.state.userName }*/);
+        this.props.navigation.navigate('Create'/*, { userName: this.state.userName }*/);
         this._storeData(this.state.userName, this.state.weight)
         // this._retrieveData();
       };

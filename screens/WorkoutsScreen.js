@@ -7,7 +7,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
 import Confetti from "react-native-confetti";
 
-export default class LinksScreen extends React.Component {
+export default class WorkoutsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -234,7 +234,7 @@ const SectionContent = props => {
   return <View style={styles.sectionContentContainer}>{props.children}</View>;
 };
 
-LinksScreen.navigationOptions = {
+WorkoutsScreen.navigationOptions = {
   headerTitle: (
     <>
       <Ionicons
