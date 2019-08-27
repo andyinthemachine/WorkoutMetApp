@@ -14,7 +14,6 @@ export default class EditScreen extends React.Component {
         super(props);
         this.state = {
             currentUserId: undefined,
-            // wkoutID: props.id,
             client: undefined,
             workout: [],
             refreshing: false,
@@ -39,7 +38,6 @@ export default class EditScreen extends React.Component {
     }
 
     componentWillMount() {
-        // this._loadClient()
         const { addListener } = this.props.navigation;
         this.listeners = [addListener('didFocus', () => { this._loadClient(); })]
     }
@@ -170,6 +168,7 @@ export default class EditScreen extends React.Component {
     //             );
     //         };
 
+    
     _loadClient() {
         const temp_id = this.props.navigation.state.params.id;
         const stitchAppClient = Stitch.defaultAppClient;
