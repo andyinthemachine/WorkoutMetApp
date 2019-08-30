@@ -39,6 +39,7 @@ export default class HomeScreen extends React.Component {
       text: "",
       selectedItem: "",
       selectedGroup: [],
+      userName: ""
     };
   }
 
@@ -174,7 +175,7 @@ export default class HomeScreen extends React.Component {
                 marginHorizontal: 20,
                 marginBottom: 25,
                 padding: 10
-            }}>For our React Native group project, we have created this mobile app that allows users to keep track of the amount of calories being burned during a workout.</Text>
+            }}>This mobile app allows users to keep track of the amount of calories burned during a workout.</Text>
 
             <Text style={{
                 flex: 1,
@@ -225,12 +226,12 @@ export default class HomeScreen extends React.Component {
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
-          <Text style={{
+          {/* <Text style={{
               textAlign: 'center',
               backgroundColor: 'white',
               color: 'black',
               padding: 5,
-          }}>Hello, Name!</Text>
+          }}>Hello, Name!</Text> */}
           <Text style={{
               textAlign: 'center',
               backgroundColor: 'white',

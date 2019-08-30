@@ -6,7 +6,8 @@ import Swipeout from "react-native-swipeout";
 import moment from "moment/min/moment-with-locales";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
-import customData from '../metObjects.json';
+import { TextInput } from "react-native-gesture-handler";
+// let count = 0;
 
 export default class EditScreen extends React.Component {
     constructor(props) {
@@ -26,12 +27,10 @@ export default class EditScreen extends React.Component {
     }
 
     calculateCal = (met, duration) => {
+        const weight = this.state.workout.weight
+        let simplifiedweight = weight/2.2
         let simplifiedMet = met/60
-        console.log(simplifiedMet)
-        console.log(duration)
-        let caloriesBurned = ((simplifiedMet * duration ) * 76.4)
-        // this.setState({ caloriesBurned: caloriesBurned.toFixed(0) })
-        console.log(caloriesBurned)
+        let caloriesBurned = ((simplifiedMet * 5 ) * simplifiedweight)
         return(caloriesBurned.toFixed(0))
     }
 
@@ -52,9 +51,20 @@ export default class EditScreen extends React.Component {
 
     render() {
         return (
-
             <View style={styles.container}>
+
+                <Text
+                    style={{
+                        color: 'red',
+                        textAlign: 'center',
+                        padding: 5,
+                        fontSize: 32,
+                        marginBottom: 10
+                    }}>{this.state.workout.description}</Text>
+                
                 <FlatList
+                    // {...count++}
+                    style={{ marginHorizontal: 25 }}
                     data={this.state.workout.exercises}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => 
@@ -62,16 +72,33 @@ export default class EditScreen extends React.Component {
                     <Text
                     style={{
                         color: 'white',
+                        backgroundColor: '#262526',
                         padding: 5,
-                        fontSize: 16
+                        marginTop: 10,
+                        fontSize: 16,
+                        textAlign: 'center'
                     }}>{item.exercise}</Text>
+                    {/* <TextInput
+                        editable = {true}
+                        keyboardType={'numeric'}
+                        placeholder={"edit min here"}
+                        value={this.state.[duration]}
+                    /> */}
                     <Text
                     style={{
                         color: 'white',
                         padding: 5,
-                        fontSize: 16
+                        fontSize: 16,
+                        marginBottom: 10
+                    }}>{item.duration} min</Text>
+                    <Text
+                    style={{
+                        color: 'white',
+                        padding: 5,
+                        fontSize: 16,
+                        marginBottom: 10
                     }}>
-                    {this.calculateCal(item.met, item.duration)} Cal</Text>
+                    Calories Burned ≈ {this.calculateCal(item.met, item.duration)} calories</Text>
                     </>
                 }
                 
@@ -147,17 +174,19 @@ export default class EditScreen extends React.Component {
             );
             const db = mongoClient.db("workoutmanager");
             const workouts = db.collection("workouts");
-            workouts
+  
+                workouts
                 .findOne(
                     { _id: new BSON.ObjectId(temp_id) }
                 )
-                // .asArray()
                 .then(docs => {
+                    console.log("DOCS: ", docs)
                     this.setState({ workout: docs });
                 })
                 .catch(err => {
                     console.warn(err);
-                });
+                });        
+            console.log("Loading Client")     
         }
 
     }
