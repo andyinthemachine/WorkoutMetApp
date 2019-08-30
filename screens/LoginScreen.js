@@ -1,159 +1,206 @@
-import React from "react";
-import HomeScreen from "./HomeScreen";
-import {
-  StyleSheet,
-  View,
-  Keyboard,
-  TextInput,
-  Button,
-  AsyncStorage,
-  Text
-} from "react-native";
 
 
+import React from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { AuthSession } from 'expo';
 
-export default class LoginScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: "",
-      text2: "",
-      text3: "182",
-      userName: "",
-      weight: "",
-    };
-  }
+const FB_APP_ID = '517234079026546'; 
 
-  handleNameSubmit = () => {
-    Keyboard.dismiss();
-    this.setState({ userName: this.state.text, passWord: this.state.text2, weight: this.state.text3 }, () => {
-      if (this.state.text != "" && this.state.text3 != "") {
-        this.props.navigation.navigate('Home'/*, { userName: this.state.userName }*/);
-        this._storeData(this.state.userName, this.state.weight)
-        // this._retrieveData();
-      };
-    });
+export default class App extends React.Component {
+  state = {
+    result: null,
   };
-
-  static navigationOptions = { header: null };
-
-  _storeData = async (key, weight) => {
-    try {
-      await AsyncStorage.setItem('key', key);
-      await AsyncStorage.setItem('weight', weight)
-      console.log('weight: ', weight)
-    } catch (error) {
-      console.log(error)
-    }
-  };
-
-  // _retrieveData = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('key');
-  //     if (value !== null) {
-  //       // console.log('value: ', value);
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  //   return (value);
-  // };
 
   render() {
-
     return (
       <View style={styles.container}>
-
-        <View style={styles.formContainer}>
-          <Text
-            style={{
-              color: "white",
-              textAlign: 'center',
-              fontSize: 16,
-              padding: 10,
-              marginBottom: 10
-            }}>Welcome to our Workout App! {"\n"} Login to begin.</Text>
-        <Text style={{color: 'white', padding: 5}}>Username</Text>
-          <TextInput
-            style={{
-              color: "white",
-              fontSize: 16,
-              backgroundColor: 'black',
-              padding: 10,
-              marginBottom: 10
-            }}
-            placeholder="Enter username..."
-            placeholderTextColor="lightgrey"
-            onChangeText={text => this.setState({ text })}
-            value={this.state.text}
-            onSubmitEditing={Keyboard.dismiss}
-          />
-        <Text style={{color: 'white', padding: 5}}>Password</Text>
-          <TextInput
-            style={{
-              color: "white",
-              fontSize: 16,
-              backgroundColor: 'black',
-              padding: 10,
-              marginBottom: 10
-            }}
-            placeholder="Enter password..."
-            placeholderTextColor="lightgrey"
-            type="password"
-            secureTextEntry={true}
-            onChangeText={text2 => this.setState({ text2 })}
-            value={this.state.text2}
-            onSubmitEditing={Keyboard.dismiss}
-          />
-
-          <Text style={{color: 'white', padding: 5}}>Current Body Weight</Text>
-          <TextInput
-            style={{
-              color: "white",
-              fontSize: 16,
-              backgroundColor: 'black',
-              padding: 10,
-              marginBottom: 25
-            }}
-            placeholder="Enter your weight..."
-            placeholderTextColor="lightgrey"
-            onChangeText={text3 => this.setState({ text3 })}
-            value={this.state.text3}
-            onSubmitEditing={Keyboard.dismiss}
-          />
-          <Text style={styles.loginBtn} title="Sign in!" onPress={this.handleNameSubmit}>Sign in!</Text>
+        <Button title="Open FB Auth" onPress={this._handlePressAsync} />
+        {this.state.result ? (
+          <Text>{JSON.stringify(this.state.result)}</Text>
+        ) : null}
         </View>
-
-      </View>
     );
   }
+
+  _handlePressAsync = async () => {
+    let redirectUrl = AuthSession.getRedirectUrl();
+    let result = await AuthSession.startAsync({
+      authUrl:
+        `https://www.facebook.com/v2.8/dialog/oauth?response_type=token` +
+        `&client_id=${FB_APP_ID}` +
+        `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
+    });
+    this.setState({ result });
+  };
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3F3E40',
-    color: 'white',
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 0
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  formContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    paddingTop: 20,
-    paddingBottom: 50,
-    marginHorizontal: 20,
-    color: 'white',
-    flexDirection: 'column',
-  },
-  loginBtn: {
-    color: 'white',
-    backgroundColor: 'red',
-    textAlign: 'center',
-    padding: 10,
-    marginHorizontal: 100,
-    fontWeight: 'bold'
-  }
 });
+
+
+
+
+// import React from "react";
+// import HomeScreen from "./HomeScreen";
+// import {
+//   StyleSheet,
+//   View,
+//   Keyboard,
+//   TextInput,
+//   Button,
+//   AsyncStorage,
+//   Text
+// } from "react-native";
+
+
+
+// export default class LoginScreen extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       text: "",
+//       text2: "",
+//       text3: "182",
+//       userName: "",
+//       weight: "",
+//     };
+//   }
+
+//   handleNameSubmit = () => {
+//     Keyboard.dismiss();
+//     this.setState({ userName: this.state.text, passWord: this.state.text2, weight: this.state.text3 }, () => {
+//       if (this.state.text != "" && this.state.text3 != "") {
+//         this.props.navigation.navigate('Home'/*, { userName: this.state.userName }*/);
+//         this._storeData(this.state.userName, this.state.weight)
+//         // this._retrieveData();
+//       };
+//     });
+//   };
+
+//   static navigationOptions = { header: null };
+
+//   _storeData = async (key, weight) => {
+//     try {
+//       await AsyncStorage.setItem('key', key);
+//       await AsyncStorage.setItem('weight', weight)
+//       console.log('weight: ', weight)
+//     } catch (error) {
+//       console.log(error)
+//     }
+//   };
+
+//   // _retrieveData = async () => {
+//   //   try {
+//   //     const value = await AsyncStorage.getItem('key');
+//   //     if (value !== null) {
+//   //       // console.log('value: ', value);
+//   //     }
+//   //   } catch (error) {
+//   //     console.log(error.message);
+//   //   }
+//   //   return (value);
+//   // };
+
+//   render() {
+
+//     return (
+//       <View style={styles.container}>
+
+//         <View style={styles.formContainer}>
+//           <Text
+//             style={{
+//               color: "white",
+//               textAlign: 'center',
+//               fontSize: 16,
+//               padding: 10,
+//               marginBottom: 10
+//             }}>Welcome to our Workout App! {"\n"} Login to begin.</Text>
+//         <Text style={{color: 'white', padding: 5}}>Username</Text>
+//           <TextInput
+//             style={{
+//               color: "white",
+//               fontSize: 16,
+//               backgroundColor: 'black',
+//               padding: 10,
+//               marginBottom: 10
+//             }}
+//             placeholder="Enter username..."
+//             placeholderTextColor="lightgrey"
+//             onChangeText={text => this.setState({ text })}
+//             value={this.state.text}
+//             onSubmitEditing={Keyboard.dismiss}
+//           />
+//         <Text style={{color: 'white', padding: 5}}>Password</Text>
+//           <TextInput
+//             style={{
+//               color: "white",
+//               fontSize: 16,
+//               backgroundColor: 'black',
+//               padding: 10,
+//               marginBottom: 10
+//             }}
+//             placeholder="Enter password..."
+//             placeholderTextColor="lightgrey"
+//             type="password"
+//             secureTextEntry={true}
+//             onChangeText={text2 => this.setState({ text2 })}
+//             value={this.state.text2}
+//             onSubmitEditing={Keyboard.dismiss}
+//           />
+
+//           <Text style={{color: 'white', padding: 5}}>Current Body Weight</Text>
+//           <TextInput
+//             style={{
+//               color: "white",
+//               fontSize: 16,
+//               backgroundColor: 'black',
+//               padding: 10,
+//               marginBottom: 25
+//             }}
+//             placeholder="Enter your weight..."
+//             placeholderTextColor="lightgrey"
+//             onChangeText={text3 => this.setState({ text3 })}
+//             value={this.state.text3}
+//             onSubmitEditing={Keyboard.dismiss}
+//           />
+//           <Text style={styles.loginBtn} title="Sign in!" onPress={this.handleNameSubmit}>Sign in!</Text>
+//         </View>
+
+//       </View>
+//     );
+//   }
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#3F3E40',
+//     color: 'white',
+//     justifyContent: "center",
+//     alignItems: "center",
+//     padding: 0
+//   },
+//   formContainer: {
+//     position: 'absolute',
+//     left: 0,
+//     right: 0,
+//     paddingTop: 20,
+//     paddingBottom: 50,
+//     marginHorizontal: 20,
+//     color: 'white',
+//     flexDirection: 'column',
+//   },
+//   loginBtn: {
+//     color: 'white',
+//     backgroundColor: 'red',
+//     textAlign: 'center',
+//     padding: 10,
+//     marginHorizontal: 100,
+//     fontWeight: 'bold'
+//   }
+// });
