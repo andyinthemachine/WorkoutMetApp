@@ -7,7 +7,6 @@ import moment from "moment/min/moment-with-locales";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
 import { TextInput } from "react-native-gesture-handler";
-// let count = 0;
 
 export default class EditScreen extends React.Component {
     constructor(props) {
@@ -15,11 +14,27 @@ export default class EditScreen extends React.Component {
         this.state = {
             currentUserId: undefined,
             client: undefined,
-            workout: [],
+            workout: {},
+            test_obj: {
+                description: "smitty",
+                exercises: [
+                    {
+                        exercise: "kettle bells",
+                        duration: 4,
+                        met: 12.4
+                    }, 
+                    {
+                        exercise: "sit ups",
+                        duration: 7,
+                        met: 7.3
+                    },
+    
+                ]
+            },
             refreshing: false,
             userName: "Joe",
             met: 0,
-            duration: 0,
+            duration: 5,
             caloriesBurned: 909090,
             totalCal: 0,
         };
@@ -30,11 +45,21 @@ export default class EditScreen extends React.Component {
         const weight = this.state.workout.weight
         let simplifiedweight = weight / 2.2
         let simplifiedMet = met / 60
-        let caloriesBurned = ((simplifiedMet * 5) * simplifiedweight)
+        let caloriesBurned = ((simplifiedMet * duration) * simplifiedweight)
         return (caloriesBurned.toFixed(0))
     }
 
     calculateTotal = () => {
+
+        // console.log(this.state.test_obj.exercises);
+        // console.log("Test 2: ", this.state.test_obj.exercises[1].exercise)
+
+        // console.log('here', this.state.workout.description);
+        console.log(this.state.test_obj.exercises[1].exercise);
+        // console.log(typeof this.state.workout.weight);
+        // this.state.workout.exercises.forEach(item => console.log(item.exercise))
+        return(3);
+
     }
 
     componentWillMount() {
@@ -43,30 +68,32 @@ export default class EditScreen extends React.Component {
     }
 
     componentWillUnmount() {
-        this.calculateCal()
         this.listeners.forEach(sub => { sub.remove() })
+    } 
+    
+    componentDidMount() {
+        // this.setState({totalCal: this.calculateTotal()});
     }
 
     render() {
         return (
             <View style={styles.container}>
-
                 <Text
                     style={{
                         color: 'red',
                         textAlign: 'center',
                         padding: 5,
-                        fontSize: 32,
+                        fontSize: 28,
                         marginBottom: 10
-                    }}>{this.state.workout.description}</Text>
+                    }}>{this.state.workout.description} Cal : {this.state.totalCal}</Text>
 
                 <FlatList
-                    // {...count++}
                     style={{ marginHorizontal: 25 }}
-                    data={this.state.workout.exercises}
+                    // data={this.state.workout.exercises}
+                    data={this.state.test_obj.exercises}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) =>
-                        <>
+                        <View>
                             <Text
                                 style={{
                                     color: 'white',
@@ -74,35 +101,48 @@ export default class EditScreen extends React.Component {
                                     padding: 5,
                                     marginTop: 10,
                                     fontSize: 16,
-                                    textAlign: 'center'
-                                }}>{item.exercise}</Text>
-                            {/* <TextInput
-                        editable = {true}
-                        keyboardType={'numeric'}
-                        placeholder={"edit min here"}
-                        value={this.state.[duration]}
-                    /> */}
-                            <Text
-                                style={{
-                                    color: 'white',
-                                    padding: 5,
-                                    fontSize: 16,
+                                    textAlign: 'center',
                                     marginBottom: 10
-                                }}>{item.duration} min</Text>
-                            <Text
+
+                                }}
+                            >{item.exercise}</Text>
+                            {/* <TextInput 
+                             editable={true}
+                                keyboardType={'numeric'}
+                             placeholder={"edit min here"}
+                            value={this.state.[duration]}
+                             /> */}
+                            <View
                                 style={{
-                                    color: 'white',
-                                    padding: 5,
-                                    fontSize: 16,
-                                    marginBottom: 10
-                                }}>
-                                Calories Burned ≈ {this.calculateCal(item.met, item.duration)} calories</Text>
-                        </>
+                                    flexDirection: 'row',
+                                    textAlign: 'center',
+                                }} >
+                                <Text
+                                    style={{
+                                        color: 'white',
+                                        padding: 5,
+                                        fontSize: 16,
+                                        marginBottom: 10,
+                                    }} >
+                                    {item.duration} min</Text>
+                                <Text
+                                    style={{
+                                        color: 'white',
+                                        padding: 5,
+                                        fontSize: 16,
+                                        marginBottom: 10
+                                    }} >
+                                    Cal: {this.calculateCal(item.met, item.duration)}</Text>
+                            </View>
+                        </View>
                     }
 
                 />
                 <Button
-                    onPress={() => this.props.navigation.goBack()}
+                        
+                    onPress={() => this.setState({totalCal: this.calculateTotal()})}
+
+                    // onPress={() => this.props.navigation.goBack()}
                     title="Save"
                     color="#841584"
                 />
@@ -168,9 +208,9 @@ export default class EditScreen extends React.Component {
     //             );
     //         };
 
-    
+
     _loadClient() {
-        const temp_id = this.props.navigation.state.params.id;
+        const wkout_id = this.props.navigation.state.params.id;
         const stitchAppClient = Stitch.defaultAppClient;
         const mongoClient = stitchAppClient.getServiceClient(
             RemoteMongoClient.factory,
@@ -179,14 +219,37 @@ export default class EditScreen extends React.Component {
         const db = mongoClient.db("workoutmanager");
         const workouts = db.collection("workouts");
 
+        // const temp_obj = {
+        //     description: "fred",
+        //     exercises: [
+        //         {
+        //             exercise: "pushups",
+        //             duration: 4,
+        //             met: 12.4
+        //         }, 
+        //         {
+        //             exercise: "pullups",
+        //             duration: 7,
+        //             met: 7.3
+        //         },
+
+        //     ]
+        // }
+
         workouts
             .findOne(
                 // { _id: new BSON.ObjectId(temp_id) }
-                { _id: temp_id }
+                { _id: wkout_id }
             )
-            .then(docs => {
-                console.log("DOCS: ", docs)
-                this.setState({ workout: docs });
+            .then(wkout => {
+                // console.log("DOCS: ", wkout)
+                // console.log("DOCS: ", wkout.exercises[1].duration)
+                this.setState({ workout: wkout });
+
+                // console.log("TEST: ", temp_obj.exercises[1].exercise)
+
+                // this.setState({ test_obj: temp_obj });
+                
             })
             .catch(err => {
                 console.warn(err);
@@ -196,17 +259,17 @@ export default class EditScreen extends React.Component {
 
 }
 
-const SectionHeader = ({ title }) => {
-    return (
-        <View style={styles.sectionHeaderContainer}>
-            <Text style={styles.sectionHeaderText}>{title}</Text>
-        </View>
-    );
-};
+// const SectionHeader = ({ title }) => {
+//     return (
+//         <View style={styles.sectionHeaderContainer}>
+//             <Text style={styles.sectionHeaderText}>{title}</Text>
+//         </View>
+//     );
+// };
 
-const SectionContent = props => {
-    return <View style={styles.sectionContentContainer}>{props.children}</View>;
-};
+// const SectionContent = props => {
+//     return <View style={styles.sectionContentContainer}>{props.children}</View>;
+// };
 
 EditScreen.navigationOptions = {
     headerTitle: (
@@ -228,103 +291,104 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#3F3E40',
     },
-    sectionHeaderContainer: {
-        backgroundColor: "#fbfbfb",
-        paddingVertical: 8,
-        paddingHorizontal: 15,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderColor: "#ededed",
-        alignItems: "center"
-    },
-    sectionHeaderText: {
-        fontSize: 12,
-        fontWeight: "bold"
-    },
-    sectionHeader: {
-        paddingTop: 2,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingBottom: 2,
-        fontSize: 16,
-        fontWeight: 'bold',
-        backgroundColor: '#262526',
-        color: '#fff',
-        textAlign: 'left',
-        textAlignVertical: 'center'
-    },
-    sectionContentContainer: {
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: "lightgray"
-    },
-    sectionContentText: {
-        color: "white",
-        flex: 2,
-        fontSize: 15,
-        paddingBottom: 10,
-        paddingHorizontal: 10,
-        paddingVertical: 15,
-        paddingRight: 5,
-        textAlign: "left",
-        flexDirection: 'row'
-    },
-    sectionContentText2: {
-        color: "white",
-        flex: 2,
-        fontSize: 15,
-        paddingBottom: 10,
-        paddingHorizontal: 10,
-        paddingVertical: 15,
-        textAlign: "right",
-        flexDirection: 'row',
-    },
-    taskListTextTime: {
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-        paddingBottom: 10,
-        fontSize: 15,
-        textAlign: "center",
-        color: "red",
-        flex: 1,
-        flexDirection: 'row',
-        fontWeight: "700"
-    },
-    operator: {
-        color: "white",
-        flex: 1,
-        fontSize: 15,
-        paddingBottom: 10,
-        paddingHorizontal: 10,
-        paddingVertical: 15,
-        textAlign: "center",
-        flexDirection: 'row',
-    },
-    sum: {
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-        paddingBottom: 10,
-        fontSize: 15,
-        textAlign: "left",
-        color: "white",
-        fontWeight: "700",
-        flex: 1
-    },
-    equal: {
-        paddingVertical: 10,
-        paddingBottom: 10,
-        fontSize: 15,
-        textAlign: "center",
-        color: "white",
-        fontWeight: "700",
-        flex: 1
-    },
-    totalCal: {
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-        paddingBottom: 10,
-        fontSize: 15,
-        textAlign: "right",
-        color: "white",
-        flex: 1,
-        fontWeight: "700"
-    },
 });
+
+    // sectionHeaderContainer: {
+    //     backgroundColor: "#fbfbfb",
+    //     paddingVertical: 8,
+    //     paddingHorizontal: 15,
+    //     borderWidth: StyleSheet.hairlineWidth,
+    //     borderColor: "#ededed",
+    //     alignItems: "center"
+    // },
+    // sectionHeaderText: {
+    //     fontSize: 12,
+    //     fontWeight: "bold"
+    // // },
+    // sectionHeader: {
+    //     paddingTop: 2,
+    //     paddingLeft: 10,
+    //     paddingRight: 10,
+    //     paddingBottom: 2,
+    //     fontSize: 16,
+    //     fontWeight: 'bold',
+    //     backgroundColor: '#262526',
+    //     color: '#fff',
+    //     textAlign: 'left',
+    //     textAlignVertical: 'center'
+    // },
+    // sectionContentContainer: {
+    //     borderBottomWidth: StyleSheet.hairlineWidth,
+    //     borderBottomColor: "lightgray"
+    // },
+    // sectionContentText: {
+    //     color: "white",
+    //     flex: 2,
+    //     fontSize: 15,
+    //     paddingBottom: 10,
+    //     paddingHorizontal: 10,
+    //     paddingVertical: 15,
+    //     paddingRight: 5,
+    //     textAlign: "left",
+    //     flexDirection: 'row'
+    // },
+    // sectionContentText2: {
+    //     color: "white",
+    //     flex: 2,
+    //     fontSize: 15,
+    //     paddingBottom: 10,
+    //     paddingHorizontal: 10,
+    //     paddingVertical: 15,
+    //     textAlign: "right",
+    //     flexDirection: 'row',
+    // },
+    // taskListTextTime: {
+    //     paddingHorizontal: 10,
+    //     paddingVertical: 10,
+    //     paddingBottom: 10,
+    //     fontSize: 15,
+    //     textAlign: "center",
+    //     color: "red",
+    //     flex: 1,
+    //     flexDirection: 'row',
+    //     fontWeight: "700"
+    // // },
+    // operator: {
+    //     color: "white",
+    //     flex: 1,
+    //     fontSize: 15,
+    //     paddingBottom: 10,
+    //     paddingHorizontal: 10,
+    //     paddingVertical: 15,
+    //     textAlign: "center",
+    //     flexDirection: 'row',
+    // },
+    // sum: {
+    //     paddingHorizontal: 10,
+    //     paddingVertical: 10,
+    //     paddingBottom: 10,
+    //     fontSize: 15,
+    //     textAlign: "left",
+    //     color: "white",
+    //     fontWeight: "700",
+    //     flex: 1
+    // },
+    // equal: {
+    //     paddingVertical: 10,
+    //     paddingBottom: 10,
+    //     fontSize: 15,
+    //     textAlign: "center",
+    //     color: "white",
+    //     fontWeight: "700",
+    //     flex: 1
+    // },
+    // totalCal: {
+    //     paddingHorizontal: 10,
+    //     paddingVertical: 10,
+    //     paddingBottom: 10,
+    //     fontSize: 15,
+    //     textAlign: "right",
+    //     color: "white",
+    //     flex: 1,
+    //     fontWeight: "700"
+    // },

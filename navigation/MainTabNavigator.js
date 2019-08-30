@@ -80,17 +80,9 @@ const MainTabNavigator = createStackNavigator(
   {
     TabNavigator: {
       screen: AppTabNavigator,
-      // navigationOptions: {
-      //   headerMode: "none",
-      //   header: null
-      // }
     },
     Edit: {
       screen: EditScreen,
-      // navigationOptions: {
-      //   headerMode: "none",
-      //   header: null
-      // }
     },
   },
   {
