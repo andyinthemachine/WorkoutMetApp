@@ -8,7 +8,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
 
 
-export default class SettingsScreen extends React.Component {
+export default class CompletedScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,7 +130,6 @@ export default class SettingsScreen extends React.Component {
             onPress: () => this._onPressDelete(item._id)
           }
           ]} 
-
           right={[
             {
               component: (
@@ -259,7 +258,7 @@ const SectionContent = props => {
   return <View style={styles.sectionContentContainer}>{props.children}</View>;
 };
 
-SettingsScreen.navigationOptions = {
+CompletedScreen.navigationOptions = {
   headerTitle: (
     <Ionicons
       name={
