@@ -55,12 +55,12 @@ export default class EditScreen extends React.Component {
         // console.log(arr[0]);
         // console.log("Test 2: ", this.state.test_obj.exercises[1].exercise)
 
+        // console.log(this.state.workout.exercises);
         console.log(this.state.workout.exercises[0]);
-        // console.log(this.state.workout.exercises[0]);
         // console.log(typeof this.state.workout.weight);
         // this.state.workout.exercises.forEach(item => console.log(item.exercise))
         
-        return(3);
+        return(7);
 
     }
 
@@ -73,7 +73,7 @@ export default class EditScreen extends React.Component {
         this.listeners.forEach(sub => { sub.remove() })
     } 
     
-    componentDidMount() {
+    componentDidUpdate() {
     }
 
     render() {
@@ -86,8 +86,8 @@ export default class EditScreen extends React.Component {
                         padding: 5,
                         fontSize: 28,
                         marginBottom: 10
-                    // }}>{this.state.workout.description} Cal : 5 {this.calculateTotal()}</Text>
-                    }}>{this.state.workout.description} Cal : {this.state.totalCal} </Text>
+                    // }}>{this.state.workout.description} Cal : {this.calculateTotal()}</Text>
+                     }}>{this.state.workout.description} Cal : {this.state.totalCal} </Text> 
 
                 <FlatList
                     style={{ marginHorizontal: 25 }}
@@ -227,7 +227,8 @@ export default class EditScreen extends React.Component {
                 { _id: wkout_id }
             )
             .then(wkout => {
-                this.setState({ workout: wkout });
+                this.setState({ workout: wkout }, () => this.setState({totalCal: this.calculateTotal()}) 
+                );
             })
             .catch(err => {
                 console.warn(err);
