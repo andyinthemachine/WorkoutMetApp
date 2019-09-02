@@ -12,15 +12,11 @@ export default class EditScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: "",
             currentUserId: undefined,
             client: undefined,
             workout: {},
             refreshing: false,
             userName: "Joe",
-            // met: 0,
-            // duration: 5,
-            // caloriesBurned: 909090,
             totalCal: 0,
         };
         this._loadClient = this._loadClient.bind(this);
@@ -44,7 +40,6 @@ export default class EditScreen extends React.Component {
     }
 
     setDuration = (dur, index) => {
-
         // deep copy of object
         let new_wkout = JSON.parse(JSON.stringify(this.state.workout));
 
@@ -67,14 +62,8 @@ export default class EditScreen extends React.Component {
     componentDidUpdate() {
     }
 
-    handleDurationSubmit = (index) => {
-
-
-        console.log("Index: ", index);
-    }
 
     handleWorkoutSubmit = () => {
-
         const stitchAppClient = Stitch.defaultAppClient;
         const mongoClient = stitchAppClient.getServiceClient(
             RemoteMongoClient.factory,
@@ -83,7 +72,6 @@ export default class EditScreen extends React.Component {
         const db = mongoClient.db("workoutmanager");
         const workouts = db.collection("workouts");
 
-        console.log("type = ", typeof this.state.workout._id)
         workouts
             .findOneAndReplace(
                 { _id: new BSON.ObjectId(this.state.workout._id) },
@@ -150,13 +138,10 @@ export default class EditScreen extends React.Component {
                                         marginBottom: 10,
                                     }}
                                     keyboardType={'numeric'}
-
                                     returnKeyType='done'
                                     onEndEditing={() => this.handleDurationSubmit(index)}
-                                    // defaultValue={item.duration.toString()}
                                     placeholder={item.duration.toString()}
                                     onChangeText={(text) => this.setDuration(parseInt(text), index)}
-                                // value={item.duration.toString()}
                                 />
                                 <Text
                                     style={{
@@ -179,63 +164,6 @@ export default class EditScreen extends React.Component {
         );
     }
 
-    //   _renderItem = ({ item }) => {
-    //             return (
-    //                 <SectionContent>
-    //                     <Swipeout
-    //                         autoClose={true}
-    //                         backgroundColor="none"
-    //                         right={[
-    //                             {
-    //                                 component: (
-    //                                     <View
-    //                                         style={{
-    //                                             flex: 1,
-    //                                             alignItems: "center",
-    //                                             justifyContent: "center",
-    //                                             flexDirection: "column"
-    //                                         }}
-    //                                     >
-    //                                         <Ionicons
-    //                                             name={Platform.OS == "ios" ? "ios-archive" : "md-archive"}
-    //                                             size={30}
-    //                                             style={{ textAlign: "center", color: "white" }}
-    //                                         />
-    //                                     </View>
-    //                                 ),
-    //                                 backgroundColor: "#2e78b7",
-    //                             }
-    //                         ]}
-    //                     >
-    //                         <View style={styles.taskListTextTime}>
-    //                             {item.title != "No workouts" &&
-    //                                 item.title != "Loading..." ? (
-    //                                     <Text style={styles.taskListTextTime}></Text>
-    //                                 ) : item.title == "No workouts" ? (
-    //                                     <AntDesign
-    //                                         name={Platform.OS == "ios" ? "smileo" : "smileo"}
-    //                                         size={30}
-    //                                         style={{
-    //                                             textAlign: "center",
-    //                                             color: "lightgray",
-    //                                             marginTop: 25
-    //                                         }}
-    //                                     />
-    //                                 ) : (
-    //                                         <Text />
-    //                                     )}
-    //                         </View>
-
-    //                         <Text style={styles.sectionContentText}>
-    //                             {item.title != "No workouts" ? item.description : ""}
-    //                         </Text>
-    //                         <Text style={styles.taskListTextTimeComplete}>
-    //                             {item.title != "No workouts" && item.title != "Loading..."}
-    //                         </Text>
-    //                     </Swipeout>
-    //                 </SectionContent>
-    //             );
-    //         };
 
 
     _loadClient() {
@@ -248,10 +176,8 @@ export default class EditScreen extends React.Component {
         const db = mongoClient.db("workoutmanager");
         const workouts = db.collection("workouts");
 
-
         workouts
             .findOne(
-                // { _id: new BSON.ObjectId(temp_id) }
                 { _id: wkout_id }
             )
             .then(wkout => {
@@ -262,7 +188,6 @@ export default class EditScreen extends React.Component {
             });
         console.log("Loading Client")
     }
-
 }
 
 EditScreen.navigationOptions = {
@@ -289,6 +214,67 @@ const styles = StyleSheet.create({
 
 
 
+
+
+//   _renderItem = ({ item }) => {
+//             return (
+//                 <SectionContent>
+//                     <Swipeout
+//                         autoClose={true}
+//                         backgroundColor="none"
+//                         right={[
+//                             {
+//                                 component: (
+//                                     <View
+//                                         style={{
+//                                             flex: 1,
+//                                             alignItems: "center",
+//                                             justifyContent: "center",
+//                                             flexDirection: "column"
+//                                         }}
+//                                     >
+//                                         <Ionicons
+//                                             name={Platform.OS == "ios" ? "ios-archive" : "md-archive"}
+//                                             size={30}
+//                                             style={{ textAlign: "center", color: "white" }}
+//                                         />
+//                                     </View>
+//                                 ),
+//                                 backgroundColor: "#2e78b7",
+//                             }
+//                         ]}
+//                     >
+//                         <View style={styles.taskListTextTime}>
+//                             {item.title != "No workouts" &&
+//                                 item.title != "Loading..." ? (
+//                                     <Text style={styles.taskListTextTime}></Text>
+//                                 ) : item.title == "No workouts" ? (
+//                                     <AntDesign
+//                                         name={Platform.OS == "ios" ? "smileo" : "smileo"}
+//                                         size={30}
+//                                         style={{
+//                                             textAlign: "center",
+//                                             color: "lightgray",
+//                                             marginTop: 25
+//                                         }}
+//                                     />
+//                                 ) : (
+//                                         <Text />
+//                                     )}
+//                         </View>
+
+//                         <Text style={styles.sectionContentText}>
+//                             {item.title != "No workouts" ? item.description : ""}
+//                         </Text>
+//                         <Text style={styles.taskListTextTimeComplete}>
+//                             {item.title != "No workouts" && item.title != "Loading..."}
+//                         </Text>
+//                     </Swipeout>
+//                 </SectionContent>
+//             );
+//         };
+
+
 // const SectionHeader = ({ title }) => {
 //     return (
 //         <View style={styles.sectionHeaderContainer}>
@@ -300,24 +286,25 @@ const styles = StyleSheet.create({
 // const SectionContent = props => {
 //     return <View style={styles.sectionContentContainer}>{props.children}</View>;
 // };
-   {/* 
-                <TextInput
-                    style={{
-                        color: 'white',
-                        backgroundColor: '#262526',
-                        padding: 5,
-                        marginTop: 10,
-                        fontSize: 16,
-                        textAlign: 'center',
-                        marginBottom: 10
-                    }}
-                    keyboardType='numeric'
-                    returnKeyType='done'
-                    placeholder="temp text"
-                    onChangeText={(text) => this.setState({ text })}
-                    // value={this.state.text}
-                    onSubmitEditing={() => this.handleDurationSubmit()}
-                /> */}
+
+// 
+//                 <TextInput
+//                     style={{
+//                         color: 'white',
+//                         backgroundColor: '#262526',
+//                         padding: 5,
+//                         marginTop: 10,
+//                         fontSize: 16,
+//                         textAlign: 'center',
+//                         marginBottom: 10
+//                     }}
+//                     keyboardType='numeric'
+//                     returnKeyType='done'
+//                     placeholder="temp text"
+//                     onChangeText={(text) => this.setState({ text })}
+//                     // value={this.state.text}
+//                     onSubmitEditing={() => this.handleDurationSubmit()}
+//                 /> 
 
 
     // sectionHeaderContainer: {
