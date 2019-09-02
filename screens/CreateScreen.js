@@ -66,12 +66,12 @@ export default class CreateScreen extends React.Component {
   get_image = (title) => {
     let image = "";
     customData.forEach(item => {
-      if (item.title === title){
+      if (item.title === title) {
         image = item.image;
       }
     })
     return image;
-}
+  }
 
   handleSubmit = () => {
     Keyboard.dismiss();
@@ -104,7 +104,6 @@ export default class CreateScreen extends React.Component {
         return { exercise: exercise, met: get_met(exercise), duration: 5 }
       });
       this._insertAsyncDataIntoDB(new_arr, workouts);
-      
     }
   };
 
@@ -154,71 +153,71 @@ export default class CreateScreen extends React.Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
 
-        <Confetti
+          <Confetti
             confettiCount={50}
             timeout={10}
             duration={2000}
             ref={node => (this._confettiView = node)} />
 
-            <Text style={{
-                flex: 1,
-                flexDirection: 'column',
-                backgroundColor: '#262526',
-                color: '#fff',
-                marginHorizontal: 10,
-                padding: 10
-            }}>Description:</Text>
-            <Text style={{
-                flex: 1,
-                flexDirection: 'column',
-                backgroundColor: 'white',
-                marginHorizontal: 20,
-                marginBottom: 25,
-                padding: 10
-            }}>This mobile app allows users to keep track of the amount of calories burned during a workout.</Text>
+          <Text style={{
+            flex: 1,
+            flexDirection: 'column',
+            backgroundColor: '#262526',
+            color: '#fff',
+            marginHorizontal: 10,
+            padding: 10
+          }}>Description:</Text>
+          <Text style={{
+            flex: 1,
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            marginHorizontal: 20,
+            marginBottom: 25,
+            padding: 10
+          }}>This mobile app allows users to keep track of the amount of calories burned during a workout.</Text>
 
-            <Text style={{
-                flex: 1,
-                flexDirection: 'column',
-                backgroundColor: '#262526',
-                color: '#fff',
-                marginHorizontal: 10,
-                padding: 10
-            }}>Instructions:</Text>
-            <Text style={{
-                flex: 1,
-                flexDirection: 'column',
-                backgroundColor: 'white',
-                marginHorizontal: 20,
-                marginBottom: 100,
-                padding: 10
-            }}>Step 1. Select the exercise(s) you wish to track below, by tapping each item.{"\n"}
+          <Text style={{
+            flex: 1,
+            flexDirection: 'column',
+            backgroundColor: '#262526',
+            color: '#fff',
+            marginHorizontal: 10,
+            padding: 10
+          }}>Instructions:</Text>
+          <Text style={{
+            flex: 1,
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            marginHorizontal: 20,
+            marginBottom: 100,
+            padding: 10
+          }}>Step 1. Select the exercise(s) you wish to track below, by tapping each item.{"\n"}
             Step 2. Name your new workout and click the add icon.{"\n"}
             Step 3. Click the "Workouts" tab below to check out your Workout list.{"\n"}
             Step 4. Edit each workout by a long press{"\n"}
             Step 5. By completing each workout, they can be found in the "Completed" tab.
             </Text>
 
-          <SectionList style={{ paddingBottom: 100}}
+          <SectionList style={{ paddingBottom: 100 }}
             sections={this.initData()}
             renderItem={({ item }) => <Contact
-            style={styles.item}
-            renderSectionHeader={this._renderSectionHeader}
-            stickySectionHeadersEnabled={true}
-            isActive={this.state.selectedItem === item}
-            onPress={() => this.onPress(item)}> {item}
+              style={styles.item}
+              renderSectionHeader={this._renderSectionHeader}
+              stickySectionHeadersEnabled={true}
+              isActive={this.state.selectedItem === item}
+              onPress={() => this.onPress(item)}> {item}
             </Contact>}
-            
-            renderSectionHeader={({ section }) => 
-            <View>
-            <Text style={styles.sectionHeader}>
-            <Ionicons
-                name={Platform.OS == "ios" ? "ios-fitness" : "md-fitness"}
-                size={25}
-                style={{ color: "white", paddingRight: 25, marginRight: 25}} />
 
-            {section.title}</Text>
-            </View>
+            renderSectionHeader={({ section }) =>
+              <View>
+                <Text style={styles.sectionHeader}>
+                  <Ionicons
+                    name={Platform.OS == "ios" ? "ios-fitness" : "md-fitness"}
+                    size={25}
+                    style={{ color: "white", paddingRight: 25, marginRight: 25 }} />
+
+                  {section.title}</Text>
+              </View>
             }
             keyExtractor={(item, index) => index}
           />
@@ -233,11 +232,11 @@ export default class CreateScreen extends React.Component {
               padding: 5,
           }}>Hello, Name!</Text> */}
           <Text style={{
-              textAlign: 'center',
-              backgroundColor: 'white',
-              color: 'black',
-              padding: 8,
-              fontWeight: 'bold',
+            textAlign: 'center',
+            backgroundColor: 'white',
+            color: 'black',
+            padding: 8,
+            fontWeight: 'bold',
           }}>Type your new workout name below:
           </Text>
           <TextInput
@@ -257,41 +256,41 @@ export default class CreateScreen extends React.Component {
 
           <View
             style={{
-                flexDirection: 'row',
-                paddingHorizontal: 75,
-                marginTop: 10,
+              flexDirection: 'row',
+              paddingHorizontal: 75,
+              marginTop: 10,
             }}>
 
             <Text style={styles.tabBarInfoText}> Exercises Selected: {this.state.selectedGroup.length}</Text>
 
             <TouchableOpacity onPress={() => this.handleSubmit()} style={{}}>
-                <Ionicons
+              <Ionicons
                 name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
                 size={35}
-                style={{ marginTop: 0, color: "red", flex: 1}} />
+                style={{ marginTop: 0, color: "red", flex: 1 }} />
             </TouchableOpacity>
           </View>
         </View>
 
-    </View>
+      </View>
     );
   }
 }
 
 CreateScreen.navigationOptions = {
-    headerTitle: (
-      <Ionicons
-        name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
-        size={23}
-        style={{
-          color: "black",
-          flex: 1,
-          textAlign: "center"
-        }}
-        resizeMode="contain"
-      />
-    )
-  };
+  headerTitle: (
+    <Ionicons
+      name={Platform.OS == "ios" ? "ios-add-circle" : "md-add-circle"}
+      size={23}
+      style={{
+        color: "black",
+        flex: 1,
+        textAlign: "center"
+      }}
+      resizeMode="contain"
+    />
+  )
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -358,14 +357,14 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     color: 'white',
     flexDirection: 'column',
-    shadowOffset:{ width: 0,  height: 0, },
+    shadowOffset: { width: 0, height: 0, },
     shadowColor: 'black',
     shadowOpacity: 0.5,
   },
   tabBarInfoText: {
     fontSize: 14,
     color: 'white',
-    flex: 1, 
+    flex: 1,
     alignSelf: 'center'
     // flexDirection: "row"
   },
