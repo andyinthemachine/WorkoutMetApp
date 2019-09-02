@@ -12,31 +12,16 @@ export default class EditScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            text: "",
             currentUserId: undefined,
             client: undefined,
             workout: {},
-            test_obj: {
-                description: "smitty",
-                exercises: [
-                    {
-                        exercise: "kettle bells",
-                        duration: 4,
-                        met: 12.4
-                    }, 
-                    {
-                        exercise: "sit ups",
-                        duration: 7,
-                        met: 7.3
-                    },
-    
-                ]
-            },
             refreshing: false,
             userName: "Joe",
-            met: 0,
-            duration: 5,
-            caloriesBurned: 909090,
-            totalCal: 2,
+            // met: 0,
+            // duration: 5,
+            // caloriesBurned: 909090,
+            totalCal: 0,
         };
         this._loadClient = this._loadClient.bind(this);
     }
@@ -50,18 +35,24 @@ export default class EditScreen extends React.Component {
     }
 
     calculateTotal = () => {
+        let total = 0;
 
-        // console.log(this.state.test_obj.exercises);
-        // console.log(arr[0]);
-        // console.log("Test 2: ", this.state.test_obj.exercises[1].exercise)
+        this.state.workout.exercises.forEach(item => {
+            total += parseInt(this.calculateCal(item.met, item.duration));
+        })
+        return total;
+    }
 
-        console.log(this.state.workout.exercises[0]);
-        // console.log(this.state.workout.exercises[0]);
-        // console.log(typeof this.state.workout.weight);
-        this.state.workout.exercises.forEach(item => console.log(item.exercise))
-        
-        return(3);
+    setDuration = (dur, index) => {
 
+        // deep copy of object
+        let new_wkout = JSON.parse(JSON.stringify(this.state.workout));
+
+        // re-objectify id field
+        new_wkout._id = new BSON.ObjectId(new_wkout._id);
+
+        new_wkout.exercises[index].duration = dur;
+        this.setState({ workout: new_wkout }, () => this.setState({ totalCal: this.calculateTotal() }));
     }
 
     componentWillMount() {
@@ -71,10 +62,41 @@ export default class EditScreen extends React.Component {
 
     componentWillUnmount() {
         this.listeners.forEach(sub => { sub.remove() })
-    } 
-    
-    componentDidMount() {
     }
+
+    componentDidUpdate() {
+    }
+
+    handleDurationSubmit = (index) => {
+
+
+        console.log("Index: ", index);
+    }
+
+    handleWorkoutSubmit = () => {
+
+        const stitchAppClient = Stitch.defaultAppClient;
+        const mongoClient = stitchAppClient.getServiceClient(
+            RemoteMongoClient.factory,
+            "mongodb-atlas"
+        );
+        const db = mongoClient.db("workoutmanager");
+        const workouts = db.collection("workouts");
+
+        console.log("type = ", typeof this.state.workout._id)
+        workouts
+            .findOneAndReplace(
+                { _id: new BSON.ObjectId(this.state.workout._id) },
+                this.state.workout,
+                { returnNewDocument: true }
+            )
+            // .then(doc => console.log(doc))
+            .catch(err => console.warn(err));
+
+        console.log("Submit");
+        this.props.navigation.goBack();
+    }
+
 
     render() {
         return (
@@ -84,16 +106,15 @@ export default class EditScreen extends React.Component {
                         color: 'red',
                         textAlign: 'center',
                         padding: 5,
-                        fontSize: 28,
+                        fontSize: 25,
                         marginBottom: 10
-                    // }}>{this.state.workout.description} Cal : 5 {this.calculateTotal()}</Text>
                     }}>{this.state.workout.description} Cal : {this.state.totalCal} </Text>
 
                 <FlatList
                     style={{ marginHorizontal: 25 }}
                     data={this.state.workout.exercises}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) =>
+                    renderItem={({ item: item, index }) =>
                         <View>
                             <Text
                                 style={{
@@ -104,15 +125,9 @@ export default class EditScreen extends React.Component {
                                     fontSize: 16,
                                     textAlign: 'center',
                                     marginBottom: 10
-
                                 }}
                             >{item.exercise}</Text>
-                            {/* <TextInput 
-                             editable={true}
-                                keyboardType={'numeric'}
-                             placeholder={"edit min here"}
-                            value={this.state.[duration]}
-                             /> */}
+
                             <View
                                 style={{
                                     flexDirection: 'row',
@@ -123,9 +138,26 @@ export default class EditScreen extends React.Component {
                                         color: 'white',
                                         padding: 5,
                                         fontSize: 16,
-                                        marginBottom: 10,
+                                        marginBottom: 10
                                     }} >
-                                    {item.duration} min</Text>
+                                    Minutes: </Text>
+                                <TextInput
+                                    style={{
+                                        color: 'black',
+                                        backgroundColor: 'white',
+                                        padding: 5,
+                                        fontSize: 16,
+                                        marginBottom: 10,
+                                    }}
+                                    keyboardType={'numeric'}
+
+                                    returnKeyType='done'
+                                    onEndEditing={() => this.handleDurationSubmit(index)}
+                                    // defaultValue={item.duration.toString()}
+                                    placeholder={item.duration.toString()}
+                                    onChangeText={(text) => this.setDuration(parseInt(text), index)}
+                                // value={item.duration.toString()}
+                                />
                                 <Text
                                     style={{
                                         color: 'white',
@@ -133,19 +165,15 @@ export default class EditScreen extends React.Component {
                                         fontSize: 16,
                                         marginBottom: 10
                                     }} >
-                                    Cal: {this.calculateCal(item.met, item.duration)}</Text>
+                                    Calories: {this.calculateCal(item.met, item.duration)}</Text>
                             </View>
                         </View>
                     }
-
                 />
                 <Button
-                        
-                    onPress={() => this.setState({totalCal: this.calculateTotal()})}
-
-                    // onPress={() => this.props.navigation.goBack()}
+                    onPress={() => this.handleWorkoutSubmit()}
                     title="Save"
-                    color="#841584"
+                    color="white"
                 />
             </View>
         );
@@ -227,7 +255,7 @@ export default class EditScreen extends React.Component {
                 { _id: wkout_id }
             )
             .then(wkout => {
-                this.setState({ workout: wkout });
+                this.setState({ workout: wkout }, () => this.setState({ totalCal: this.calculateTotal() }));
             })
             .catch(err => {
                 console.warn(err);
@@ -236,18 +264,6 @@ export default class EditScreen extends React.Component {
     }
 
 }
-
-// const SectionHeader = ({ title }) => {
-//     return (
-//         <View style={styles.sectionHeaderContainer}>
-//             <Text style={styles.sectionHeaderText}>{title}</Text>
-//         </View>
-//     );
-// };
-
-// const SectionContent = props => {
-//     return <View style={styles.sectionContentContainer}>{props.children}</View>;
-// };
 
 EditScreen.navigationOptions = {
     headerTitle: (
@@ -270,6 +286,39 @@ const styles = StyleSheet.create({
         backgroundColor: '#3F3E40',
     },
 });
+
+
+
+// const SectionHeader = ({ title }) => {
+//     return (
+//         <View style={styles.sectionHeaderContainer}>
+//             <Text style={styles.sectionHeaderText}>{title}</Text>
+//         </View>
+//     );
+// };
+
+// const SectionContent = props => {
+//     return <View style={styles.sectionContentContainer}>{props.children}</View>;
+// };
+   {/* 
+                <TextInput
+                    style={{
+                        color: 'white',
+                        backgroundColor: '#262526',
+                        padding: 5,
+                        marginTop: 10,
+                        fontSize: 16,
+                        textAlign: 'center',
+                        marginBottom: 10
+                    }}
+                    keyboardType='numeric'
+                    returnKeyType='done'
+                    placeholder="temp text"
+                    onChangeText={(text) => this.setState({ text })}
+                    // value={this.state.text}
+                    onSubmitEditing={() => this.handleDurationSubmit()}
+                /> */}
+
 
     // sectionHeaderContainer: {
     //     backgroundColor: "#fbfbfb",
