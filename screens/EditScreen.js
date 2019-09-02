@@ -12,11 +12,8 @@ export default class EditScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUserId: undefined,
-            client: undefined,
             workout: {},
             refreshing: false,
-            userName: "Joe",
             totalCal: 0,
         };
         this._loadClient = this._loadClient.bind(this);
@@ -139,7 +136,7 @@ export default class EditScreen extends React.Component {
                                     }}
                                     keyboardType={'numeric'}
                                     returnKeyType='done'
-                                    onEndEditing={() => this.handleDurationSubmit(index)}
+                                    // onEndEditing={() => this.handleDurationSubmit(index)}
                                     placeholder={item.duration.toString()}
                                     onChangeText={(text) => this.setDuration(parseInt(text), index)}
                                 />
