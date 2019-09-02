@@ -44,12 +44,15 @@ export default class EditScreen extends React.Component {
     }
 
     setDuration = (dur, index) => {
+
+        // deep copy of object
         let new_wkout = JSON.parse(JSON.stringify(this.state.workout));
 
-        new_wkout.exercises[index].duration = dur;
-        // this.setState({ workout: new_wkout });
-        this.setState({ workout: new_wkout }, () => this.setState({ totalCal: this.calculateTotal() }));
+        // re-objectify id field
+        new_wkout._id = new BSON.ObjectId(new_wkout._id);
 
+        new_wkout.exercises[index].duration = dur;
+        this.setState({ workout: new_wkout }, () => this.setState({ totalCal: this.calculateTotal() }));
     }
 
     componentWillMount() {
@@ -71,12 +74,27 @@ export default class EditScreen extends React.Component {
     }
 
     handleWorkoutSubmit = () => {
+
+        const stitchAppClient = Stitch.defaultAppClient;
+        const mongoClient = stitchAppClient.getServiceClient(
+            RemoteMongoClient.factory,
+            "mongodb-atlas"
+        );
+        const db = mongoClient.db("workoutmanager");
+        const workouts = db.collection("workouts");
+
+        console.log("type = ", typeof this.state.workout._id)
+        workouts
+            .findOneAndReplace(
+                { _id: new BSON.ObjectId(this.state.workout._id) },
+                this.state.workout,
+                { returnNewDocument: true }
+            )
+            // .then(doc => console.log(doc))
+            .catch(err => console.warn(err));
+
         console.log("Submit");
-        let new_wkout = JSON.parse(JSON.stringify(this.state.workout));
-
-        new_wkout.exercises[0].exercise = "fred";
-
-        this.setState({ workout: new_wkout });
+        this.props.navigation.goBack();
     }
 
 
@@ -91,24 +109,6 @@ export default class EditScreen extends React.Component {
                         fontSize: 25,
                         marginBottom: 10
                     }}>{this.state.workout.description} Cal : {this.state.totalCal} </Text>
-                {/* 
-                <TextInput
-                    style={{
-                        color: 'white',
-                        backgroundColor: '#262526',
-                        padding: 5,
-                        marginTop: 10,
-                        fontSize: 16,
-                        textAlign: 'center',
-                        marginBottom: 10
-                    }}
-                    keyboardType='numeric'
-                    returnKeyType='done'
-                    placeholder="temp text"
-                    onChangeText={(text) => this.setState({ text })}
-                    // value={this.state.text}
-                    onSubmitEditing={() => this.handleDurationSubmit()}
-                /> */}
 
                 <FlatList
                     style={{ marginHorizontal: 25 }}
@@ -158,8 +158,6 @@ export default class EditScreen extends React.Component {
                                     onChangeText={(text) => this.setDuration(parseInt(text), index)}
                                 // value={item.duration.toString()}
                                 />
-
-
                                 <Text
                                     style={{
                                         color: 'white',
@@ -172,10 +170,7 @@ export default class EditScreen extends React.Component {
                         </View>
                     }
                 />
-
                 <Button
-                    // onPress={() => this.setState({ totalCal: this.calculateTotal() })}
-                    // onPress={() => this.props.navigation.goBack()}
                     onPress={() => this.handleWorkoutSubmit()}
                     title="Save"
                     color="white"
@@ -270,18 +265,6 @@ export default class EditScreen extends React.Component {
 
 }
 
-// const SectionHeader = ({ title }) => {
-//     return (
-//         <View style={styles.sectionHeaderContainer}>
-//             <Text style={styles.sectionHeaderText}>{title}</Text>
-//         </View>
-//     );
-// };
-
-// const SectionContent = props => {
-//     return <View style={styles.sectionContentContainer}>{props.children}</View>;
-// };
-
 EditScreen.navigationOptions = {
     headerTitle: (
         <Ionicons
@@ -303,6 +286,39 @@ const styles = StyleSheet.create({
         backgroundColor: '#3F3E40',
     },
 });
+
+
+
+// const SectionHeader = ({ title }) => {
+//     return (
+//         <View style={styles.sectionHeaderContainer}>
+//             <Text style={styles.sectionHeaderText}>{title}</Text>
+//         </View>
+//     );
+// };
+
+// const SectionContent = props => {
+//     return <View style={styles.sectionContentContainer}>{props.children}</View>;
+// };
+   {/* 
+                <TextInput
+                    style={{
+                        color: 'white',
+                        backgroundColor: '#262526',
+                        padding: 5,
+                        marginTop: 10,
+                        fontSize: 16,
+                        textAlign: 'center',
+                        marginBottom: 10
+                    }}
+                    keyboardType='numeric'
+                    returnKeyType='done'
+                    placeholder="temp text"
+                    onChangeText={(text) => this.setState({ text })}
+                    // value={this.state.text}
+                    onSubmitEditing={() => this.handleDurationSubmit()}
+                /> */}
+
 
     // sectionHeaderContainer: {
     //     backgroundColor: "#fbfbfb",
