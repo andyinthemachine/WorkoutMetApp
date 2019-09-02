@@ -108,7 +108,7 @@ export default class EditScreen extends React.Component {
                         padding: 5,
                         fontSize: 25,
                         marginBottom: 10
-                    }}>{this.state.workout.description} Cal : {this.state.totalCal} </Text>
+                    }}>{this.state.workout.description} {this.state.totalCal ? " Cal : " + this.state.totalCal : ""} </Text>
 
                 <FlatList
                     style={{ marginHorizontal: 25 }}
