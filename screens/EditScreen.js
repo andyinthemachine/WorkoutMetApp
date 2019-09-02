@@ -58,7 +58,7 @@ export default class EditScreen extends React.Component {
         console.log(this.state.workout.exercises[0]);
         // console.log(this.state.workout.exercises[0]);
         // console.log(typeof this.state.workout.weight);
-        // this.state.workout.exercises.forEach(item => console.log(item.exercise))
+        this.state.workout.exercises.forEach(item => console.log(item.exercise))
         
         return(3);
 
