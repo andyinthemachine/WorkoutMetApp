@@ -13,7 +13,6 @@ import {
   Dimensions,
   SectionList,
   AsyncStorage,
-  Button
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -21,7 +20,6 @@ import styled from "styled-components";
 import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
 import Confetti from "react-native-confetti";
 import customData from '../metObjects.json';
-import withOrientation from "@react-navigation/native/dist/withOrientation";
 
 var height = Dimensions.get("window").height;
 
@@ -118,7 +116,6 @@ export default class CreateScreen extends React.Component {
       const value = await AsyncStorage.getItem('key');
       const weight = await AsyncStorage.getItem('weight');
       if (value !== null) {
-        console.log('value: ', value);
         workouts.insertOne({
           userName: value,
           status: "new",
@@ -225,12 +222,6 @@ export default class CreateScreen extends React.Component {
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
-          {/* <Text style={{
-              textAlign: 'center',
-              backgroundColor: 'white',
-              color: 'black',
-              padding: 5,
-          }}>Hello, Name!</Text> */}
           <Text style={{
             textAlign: 'center',
             backgroundColor: 'white',

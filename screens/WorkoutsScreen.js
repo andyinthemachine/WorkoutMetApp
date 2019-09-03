@@ -43,9 +43,7 @@ export default class WorkoutsScreen extends React.Component {
     const workouts = db.collection("workouts");
     try {
       const value = await AsyncStorage.getItem('key');
-      console.log('async data: ', value);
       if (value !== null) {
-        console.log('value: ', value);
         workouts
           .find({ status: "new", userName: value }, { sort: { date: -1 } })
           .asArray()
@@ -108,7 +106,7 @@ export default class WorkoutsScreen extends React.Component {
         <Swipeout
           autoClose={true}
           backgroundColor="none"
-          right={[{
+          left={[{
             component: (
               <View style={{
                 flex: 1,
@@ -126,7 +124,7 @@ export default class WorkoutsScreen extends React.Component {
             onPress: () => this._onPressComplete(item._id)
           }
           ]}
-          left={[{
+          right={[{
             component: (
               <View style={{
                 flex: 1,
