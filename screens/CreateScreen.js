@@ -2,7 +2,6 @@
 import React from "react";
 import {
   Text,
-  Image,
   Platform,
   StyleSheet,
   View,
@@ -13,7 +12,6 @@ import {
   Dimensions,
   SectionList,
   AsyncStorage,
-  Button
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -225,12 +223,6 @@ export default class CreateScreen extends React.Component {
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
-          {/* <Text style={{
-              textAlign: 'center',
-              backgroundColor: 'white',
-              color: 'black',
-              padding: 5,
-          }}>Hello, Name!</Text> */}
           <Text style={{
             textAlign: 'center',
             backgroundColor: 'white',
