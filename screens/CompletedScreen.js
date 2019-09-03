@@ -110,7 +110,7 @@ export default class CompletedScreen extends React.Component {
         <Swipeout
           autoClose={true}
           backgroundColor="none"
-          left={[{
+          right={[{
             component: (
               <View style={{
                 flex: 1,
@@ -130,7 +130,7 @@ export default class CompletedScreen extends React.Component {
             onPress: () => this._onPressDelete(item._id)
           }
           ]} 
-          right={[
+          left={[
             {
               component: (
                 <View

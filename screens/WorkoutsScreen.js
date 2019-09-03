@@ -108,7 +108,7 @@ export default class WorkoutsScreen extends React.Component {
         <Swipeout
           autoClose={true}
           backgroundColor="none"
-          right={[{
+          left={[{
             component: (
               <View style={{
                 flex: 1,
@@ -126,7 +126,7 @@ export default class WorkoutsScreen extends React.Component {
             onPress: () => this._onPressComplete(item._id)
           }
           ]}
-          left={[{
+          right={[{
             component: (
               <View style={{
                 flex: 1,
