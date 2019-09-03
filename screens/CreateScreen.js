@@ -2,6 +2,7 @@
 import React from "react";
 import {
   Text,
+  Image,
   Platform,
   StyleSheet,
   View,
@@ -19,7 +20,6 @@ import styled from "styled-components";
 import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
 import Confetti from "react-native-confetti";
 import customData from '../metObjects.json';
-import withOrientation from "@react-navigation/native/dist/withOrientation";
 
 var height = Dimensions.get("window").height;
 

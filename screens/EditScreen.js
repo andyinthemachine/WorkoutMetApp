@@ -5,6 +5,7 @@ import Swipeout from "react-native-swipeout";
 import { Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
 import { TextInput } from "react-native-gesture-handler";
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
 
 export default class EditScreen extends React.Component {
     constructor(props) {
@@ -102,7 +103,7 @@ export default class EditScreen extends React.Component {
                         marginBottom: 10
                     }}>{this.state.workout.description} {this.state.totalCal ? " Cal : " + this.state.totalCal : ""} </Text>
 
-                <FlatList
+                <KeyboardAwareFlatList
                     style={{ marginHorizontal: 25 }}
                     data={this.state.workout.exercises}
                     keyExtractor={(item, index) => index.toString()}
