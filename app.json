@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "WorkoutP2",
-    "slug": "workoutP2",
+    "name": "Workout Calorie Tracker",
+    "slug": "workoutcalorietracker",
     "privacy": "public",
     "sdkVersion": "34.0.0",
     "platforms": [
@@ -11,7 +11,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/workout_app_icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -24,7 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "com.superbdevelopers.workoutcaloriecounter"
+    },
+    "android":{
+      "package": "com.superbdevelopers.workoutcaloriecounter"
+    },
+    "description": "A mobile device application for IOS/Android that allows users to compile individual exercises into customized workouts. The application shows the calories burned for each exercise and the workout as a whole based on the times, the met values for each exercise, and the users weight. The workouts are saved into a cloud database under the users' name and can be marked as completed and edited to change the duration of each exercise within a workout."
   }
 }
