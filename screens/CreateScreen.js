@@ -116,7 +116,6 @@ export default class CreateScreen extends React.Component {
       const value = await AsyncStorage.getItem('key');
       const weight = await AsyncStorage.getItem('weight');
       if (value !== null) {
-        console.log('value: ', value);
         workouts.insertOne({
           userName: value,
           status: "new",

@@ -22,7 +22,12 @@ export default class EditScreen extends React.Component {
         const weight = this.state.workout.weight
         let simplifiedweight = weight / 2.2
         let simplifiedMet = met / 60
-        let caloriesBurned = ((simplifiedMet * duration) * simplifiedweight)
+        let caloriesBurned = 0;
+        // This checks to see if duration is NaN
+        if (duration > 0)
+             caloriesBurned = ((simplifiedMet * parseInt(duration)) * simplifiedweight)
+        else
+             caloriesBurned = 0;
         return (caloriesBurned.toFixed(0))
     }
 
@@ -86,7 +91,7 @@ export default class EditScreen extends React.Component {
             // .then(doc => console.log(doc))
             .catch(err => console.warn(err));
 
-        console.log("Submit");
+        // console.log("Submit");
         this.props.navigation.goBack();
     }
 
@@ -107,7 +112,7 @@ export default class EditScreen extends React.Component {
                     style={{ marginHorizontal: 25 }}
                     data={this.state.workout.exercises}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item: item, index }) =>
+                    renderItem={({ item, index }) =>
                         <View>
                             <Swipeout
                                 autoClose={true}
@@ -167,8 +172,9 @@ export default class EditScreen extends React.Component {
                                         }}
                                         keyboardType={'numeric'}
                                         returnKeyType='done'
-                                        placeholder={item.duration.toString()}
-                                        onChangeText={(text) => this.setDuration(parseInt(text), index)}
+                                        // placeholder={item.duration.toString()}
+                                        onChangeText={(text) => this.setDuration(text, index)}
+                                        value={item.duration.toString()}
                                     />
                                     <Text
                                         style={{

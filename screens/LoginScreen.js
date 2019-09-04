@@ -1,14 +1,60 @@
+
+// import React from 'react';
+// import { Button, StyleSheet, Text, View } from 'react-native';
+// import { AuthSession } from 'expo';
+
+// const FB_APP_ID = '517234079026546'; 
+
+// export default class App extends React.Component {
+//   state = {
+//     result: null,
+//   };
+
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <Button title="Open FB Auth" onPress={this._handlePressAsync} />
+//         {this.state.result ? (
+//           <Text>{JSON.stringify(this.state.result)}</Text>
+//         ) : null}
+//         </View>
+//     );
+//   }
+
+//   _handlePressAsync = async () => {
+//     let redirectUrl = AuthSession.getRedirectUrl();
+//     let result = await AuthSession.startAsync({
+//       authUrl:
+//         `https://www.facebook.com/v2.8/dialog/oauth?response_type=token` +
+//         `&client_id=${FB_APP_ID}` +
+//         `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
+//     });
+//     this.setState({ result });
+//   };
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
+
+
+
+
 import React from "react";
+import CreateScreen from "./CreateScreen";
 import {
   StyleSheet,
   View,
   Keyboard,
   TextInput,
+  Button,
   AsyncStorage,
-  Text,
-  ScrollView
+  Text
 } from "react-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 
@@ -28,7 +74,7 @@ export default class LoginScreen extends React.Component {
     Keyboard.dismiss();
     this.setState({ userName: this.state.text, passWord: this.state.text2, weight: this.state.text3 }, () => {
       if (this.state.text != "" && this.state.text3 != "") {
-        this.props.navigation.navigate('Create');
+        this.props.navigation.navigate('Create'/*, { userName: this.state.userName }*/);
         this._storeData(this.state.userName, this.state.weight)
         // this._retrieveData();
       };
@@ -41,7 +87,6 @@ export default class LoginScreen extends React.Component {
     try {
       await AsyncStorage.setItem('key', key);
       await AsyncStorage.setItem('weight', weight)
-      console.log('weight: ', weight)
     } catch (error) {
       console.log(error)
     }
@@ -62,12 +107,9 @@ export default class LoginScreen extends React.Component {
   render() {
 
     return (
-      <View
-        style={styles.container} >
-        {/* <View style={styles.formContainer}> */}
-        <KeyboardAwareScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
+      <View style={styles.container}>
+
+        <View style={styles.formContainer}>
           <Text
             style={{
               color: "white",
@@ -75,8 +117,8 @@ export default class LoginScreen extends React.Component {
               fontSize: 16,
               padding: 10,
               marginBottom: 10
-            }}>Welcome to the Workout Met App! {"\n"} Login to begin.</Text>
-          <Text style={{ color: 'white', padding: 5 }}>Username</Text>
+            }}>Welcome to our Workout App! {"\n"} Login to begin.</Text>
+        <Text style={{color: 'white', padding: 5}}>Username</Text>
           <TextInput
             style={{
               color: "white",
@@ -91,7 +133,7 @@ export default class LoginScreen extends React.Component {
             value={this.state.text}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={{ color: 'white', padding: 5 }}>Password</Text>
+        <Text style={{color: 'white', padding: 5}}>Password</Text>
           <TextInput
             style={{
               color: "white",
@@ -109,7 +151,7 @@ export default class LoginScreen extends React.Component {
             onSubmitEditing={Keyboard.dismiss}
           />
 
-          <Text style={{ color: 'white', padding: 5 }}>Weight (for met/calorie calculation)</Text>
+          <Text style={{color: 'white', padding: 5}}>Current Body Weight</Text>
           <TextInput
             style={{
               color: "white",
@@ -118,14 +160,15 @@ export default class LoginScreen extends React.Component {
               padding: 10,
               marginBottom: 25
             }}
-            placeholder="weight"
+            placeholder="Enter your weight..."
             placeholderTextColor="lightgrey"
             onChangeText={text3 => this.setState({ text3 })}
             value={this.state.text3}
             onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.loginBtn} title="Sign in!" onPress={this.handleNameSubmit}>Sign in!</Text>
-        </KeyboardAwareScrollView>
+        </View>
+
       </View>
     );
   }
@@ -136,24 +179,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#3F3E40',
     color: 'white',
-    // justifyContent: "center",
-    // alignItems: "center",
-    padding: 0
-  },
-  contentContainer: {
-    // flex: 1,
-    backgroundColor: '#3F3E40',
-    color: 'white',
     justifyContent: "center",
-    // alignItems: "center",
-    // position: 'absolute',
-    // left: 0,
-    // right: 0,
-    // paddingTop: 20,
-    // paddingBottom: 50,
-    // marginHorizontal: 20,
-    // color: 'white',
-    // flexDirection: 'column',
+    alignItems: "center",
+    padding: 0
   },
   formContainer: {
     position: 'absolute',
