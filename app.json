@@ -6,14 +6,13 @@
     "sdkVersion": "34.0.0",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/workout_app_icon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/workout_splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -28,8 +27,14 @@
       "bundleIdentifier": "com.superbdevelopers.workoutcaloriecounter"
     },
     "android":{
+      "permissions" : [],
       "package": "com.superbdevelopers.workoutcaloriecounter"
     },
+    "androidStatusBar": 
+    {
+    "barStyle": "dark-content"
+    },
+    "primaryColor": "#3F3E40",
     "description": "A mobile device application for IOS/Android that allows users to compile individual exercises into customized workouts. The application shows the calories burned for each exercise and the workout as a whole based on the times, the met values for each exercise, and the users weight. The workouts are saved into a cloud database under the users' name and can be marked as completed and edited to change the duration of each exercise within a workout."
   }
 }
