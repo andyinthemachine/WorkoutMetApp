@@ -117,7 +117,7 @@ export default class LoginScreen extends React.Component {
               fontSize: 16,
               padding: 10,
               marginBottom: 10
-            }}>Welcome to our Workout App! {"\n"} Login to begin.</Text>
+            }}>Workout Calorie Tracker{"\n"} Enter your Username to Continue</Text>
         <Text style={{color: 'white', padding: 5}}>Username</Text>
           <TextInput
             style={{

@@ -17,6 +17,7 @@
     "@react-navigation/web": "^1.0.0-alpha.9",
     "expo": "^34.0.1",
     "expo-asset": "^6.0.0",
+    "expo-cli": "^3.0.10",
     "expo-constants": "^6.0.0",
     "expo-font": "^6.0.1",
     "expo-web-browser": "6.0.0",
@@ -33,6 +34,7 @@
     "react-native-swipeout": "^2.3.6",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.0",
+    "sharp": "^0.23.0",
     "styled-components": "^4.3.2"
   },
   "devDependencies": {
