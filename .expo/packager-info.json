@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 8276,
+  "expoServerNgrokUrl": "https://b6-bfu.anonymous.workoutmetapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.b6-bfu.anonymous.workoutmetapp.exp.direct",
+  "ngrokPid": 2932
 }
