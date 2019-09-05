@@ -192,7 +192,9 @@ export default class EditScreen extends React.Component {
                 <Button
                     onPress={() => this.handleWorkoutSubmit()}
                     title="Save"
-                    color="white"
+                    color="#3F3E40"
+                    style={styles.button}
+                    
                 />
             </View >
         );
@@ -242,5 +244,13 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#3F3E40',
     },
+    button: {
+            // borderStyle: "solid",
+            // borderWidth: 6,
+            // borderColor: "red",
+            // textAlign: 'center',
+            // marginBottom: 10,
+            // backgroundColor: "lightgrey"
+    }
 });
 
