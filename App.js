@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Platform, StatusBar, StyleSheet, View } from "react-native";
+import { Platform, StatusBar, StyleSheet, View, SafeAreaView } from "react-native";
 import * as Font from 'expo-font';
 import { AppLoading, Asset } from "expo";
 import { Icon } from '@expo/vector-icons';
@@ -30,19 +30,22 @@ export default class App extends React.Component {
           startAsync={this._loadResourcesAsync}
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading} />
+
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
+        <SafeAreaView style={{flex: 1}}>
+          <View style={styles.container}>
+            {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+            <AppNavigator />
+          </View>
+        </SafeAreaView>
       );
     }
   }
 
   _loadResourcesAsync = async () => {
-    return Promise.all(require('./assets/images/wkout1.png'));
+    return Promise.all(require('./assets/images/workout_app_icon.png'));
   };
 
   _handleLoadingError = error => {

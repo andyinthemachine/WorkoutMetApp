@@ -1,6 +1,6 @@
 
 import React from "react";
-import { RefreshControl, Platform, Button, StyleSheet, Text, View, FlatList } from "react-native";
+import { RefreshControl, Platform, Button, StyleSheet, Text, View, KeyboardAvoidingView, FlatList } from "react-native";
 import Swipeout from "react-native-swipeout";
 import { Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
@@ -171,6 +171,7 @@ export default class EditScreen extends React.Component {
                                             marginBottom: 10,
                                         }}
                                         keyboardType={'numeric'}
+                                        
                                         returnKeyType='done'
                                         // placeholder={item.duration.toString()}
                                         onChangeText={(text) => this.setDuration(text, index)}
@@ -192,7 +193,7 @@ export default class EditScreen extends React.Component {
                 <Button
                     onPress={() => this.handleWorkoutSubmit()}
                     title="Save"
-                    color="#3F3E40"
+                    color="#ffffff"
                     style={styles.button}
                     
                 />
