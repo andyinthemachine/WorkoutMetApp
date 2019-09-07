@@ -27,7 +27,6 @@
       "bundleIdentifier": "com.superbdevelopers.workoutcaloriecounter"
     },
     "android":{
-      "permissions" : [],
       "package": "com.superbdevelopers.workoutcaloriecounter"
     },
     "androidStatusBar": 

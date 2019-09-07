@@ -53,7 +53,8 @@ import {
   TextInput,
   Button,
   AsyncStorage,
-  Text
+  Text,
+  StatusBar
 } from "react-native";
 
 
@@ -69,7 +70,6 @@ export default class LoginScreen extends React.Component {
       weight: "",
     };
   }
-
   handleNameSubmit = () => {
     Keyboard.dismiss();
     this.setState({ userName: this.state.text, passWord: this.state.text2, weight: this.state.text3 }, () => {
@@ -107,6 +107,7 @@ export default class LoginScreen extends React.Component {
   render() {
 
     return (
+      
       <View style={styles.container}>
 
         <View style={styles.formContainer}>
