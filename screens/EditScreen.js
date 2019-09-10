@@ -1,6 +1,6 @@
 
 import React from "react";
-import { RefreshControl, Platform, Button, StyleSheet, Text, View, KeyboardAvoidingView, FlatList } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import Swipeout from "react-native-swipeout";
 import { Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
@@ -91,7 +91,7 @@ export default class EditScreen extends React.Component {
             // .then(doc => console.log(doc))
             .catch(err => console.warn(err));
 
-        // console.log("Submit");
+
         this.props.navigation.goBack();
     }
 
