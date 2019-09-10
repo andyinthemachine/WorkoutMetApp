@@ -1,13 +1,4 @@
 import React, { Component } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  ScrollView,
-  Dimensions
-} from "react-native";
 import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
 import LoginScreen from "./Screens/LoginScreen";
 export default class App extends Component {
