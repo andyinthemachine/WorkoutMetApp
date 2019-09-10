@@ -164,9 +164,10 @@ export default class EditScreen extends React.Component {
                                         Minutes: </Text>
                                     <TextInput
                                         style={{
-                                            color: 'black',
-                                            backgroundColor: 'white',
+                                            color: 'white',
+                                            backgroundColor: '#4B4A4D',
                                             padding: 5,
+                                            paddingHorizontal: 20,
                                             fontSize: 16,
                                             marginBottom: 10,
                                         }}
@@ -182,7 +183,8 @@ export default class EditScreen extends React.Component {
                                             color: 'white',
                                             padding: 5,
                                             fontSize: 16,
-                                            marginBottom: 10
+                                            marginBottom: 10,
+                                            marginLeft: 50,
                                         }} >
                                         Calories: {this.calculateCal(item.met, item.duration)}</Text>
                                 </View>
@@ -190,13 +192,8 @@ export default class EditScreen extends React.Component {
                         </View>
                     }
                 />
-                <Button
-                    onPress={() => this.handleWorkoutSubmit()}
-                    title="Save"
-                    color="#ffffff"
-                    style={styles.button}
-                    
-                />
+
+                <Text style={styles.loginBtn} title="SAVE" onPress={() => this.handleWorkoutSubmit()}>SAVE</Text>
             </View >
         );
     }
@@ -245,13 +242,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#3F3E40',
     },
-    button: {
-            // borderStyle: "solid",
-            // borderWidth: 6,
-            // borderColor: "red",
-            // textAlign: 'center',
-            // marginBottom: 10,
-            // backgroundColor: "lightgrey"
-    }
+    loginBtn: {
+        color: 'white',
+        backgroundColor: 'red',
+        textAlign: 'center',
+        padding: 10,
+        fontWeight: 'bold'
+      },
 });
 

@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://b6-bfu.anonymous.workoutmetapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.b6-bfu.anonymous.workoutmetapp.exp.direct",
+  "ngrokPid": 20855
 }
