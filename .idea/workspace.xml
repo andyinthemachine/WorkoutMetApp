@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ace21c61-8b80-41a1-9f6f-eae4a5f3653b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.expo/packager-info.json" beforeDir="false" afterPath="$PROJECT_DIR$/.expo/packager-info.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/EditScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/EditScreen.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,7 +15,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="1253" />
     <option name="y" value="154" />
     <option name="width" value="1228" />
@@ -31,6 +32,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
@@ -60,7 +62,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1253" y="154" width="1228" height="1131" extended-state="0" />
+    <frame x="1253" y="154" width="1228" height="1131" extended-state="1" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.25210792" />
       <window_info id="Structure" side_tool="true" />
