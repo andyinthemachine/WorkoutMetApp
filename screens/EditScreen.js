@@ -1,6 +1,6 @@
 
 import React from "react";
-import { RefreshControl, Platform, Button, StyleSheet, Text, View, FlatList, KeyboardAvoidingView } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import Swipeout from "react-native-swipeout";
 import { Ionicons } from "@expo/vector-icons";
 import { Stitch, RemoteMongoClient, BSON } from "mongodb-stitch-react-native-sdk";
@@ -91,7 +91,7 @@ export default class EditScreen extends React.Component {
             // .then(doc => console.log(doc))
             .catch(err => console.warn(err));
 
-        // console.log("Submit");
+
         this.props.navigation.goBack();
     }
 
@@ -146,6 +146,7 @@ export default class EditScreen extends React.Component {
                                             fontSize: 16,
                                             textAlign: 'center',
                                             marginBottom: 10
+<<<<<<< HEAD
                                         }}
                                     >{item.exercise}</Text>
 
@@ -153,6 +154,33 @@ export default class EditScreen extends React.Component {
                                         style={{
                                             flexDirection: 'row',
                                             textAlign: 'center',
+=======
+                                        }} >
+                                        Minutes: </Text>
+                                    <TextInput
+                                        style={{
+                                            color: 'white',
+                                            backgroundColor: '#4B4A4D',
+                                            padding: 5,
+                                            paddingHorizontal: 20,
+                                            fontSize: 16,
+                                            marginBottom: 10,
+                                        }}
+                                        keyboardType={'numeric'}
+                                        
+                                        returnKeyType='done'
+                                        // placeholder={item.duration.toString()}
+                                        onChangeText={(text) => this.setDuration(text, index)}
+                                        value={item.duration.toString()}
+                                    />
+                                    <Text
+                                        style={{
+                                            color: 'white',
+                                            padding: 5,
+                                            fontSize: 16,
+                                            marginBottom: 10,
+                                            marginLeft: 50,
+>>>>>>> 2a2ce227c60fdab716b9ff4fb4e8395a92409be9
                                         }} >
                                         <Text
                                             style={{
@@ -188,11 +216,8 @@ export default class EditScreen extends React.Component {
                             </View>
                     }
                 />
-                <Button
-                    onPress={() => this.handleWorkoutSubmit()}
-                    title="Save"
-                    color="white"
-                />
+
+                <Text style={styles.loginBtn} title="SAVE" onPress={() => this.handleWorkoutSubmit()}>SAVE</Text>
             </View >
         );
     }
@@ -241,5 +266,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#3F3E40',
     },
+    loginBtn: {
+        color: 'white',
+        backgroundColor: 'red',
+        textAlign: 'center',
+        padding: 10,
+        fontWeight: 'bold'
+      },
 });
 

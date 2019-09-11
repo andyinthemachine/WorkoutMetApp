@@ -80,9 +80,17 @@ const MainTabNavigator = createStackNavigator(
   {
     TabNavigator: {
       screen: AppTabNavigator,
+      navigationOptions: {
+        headerMode: "none",
+        header: null,
+      }
     },
     Edit: {
       screen: EditScreen,
+      navigationOptions: {
+        headerMode: "none",
+        header: null,
+      }
     },
   },
   {
@@ -90,6 +98,36 @@ const MainTabNavigator = createStackNavigator(
   },
 );
 
+// MainTabNavigator.navigationOptions = ({ }) => {
+//   let tabNavigatorOptions;
+//   let editOptions;
+//   if (Platform.OS === "android") {
+//     tabNavigatorOptions = {
+//       TabNavigator: {
+//         screen: AppTabNavigator,
+//         navigationOptions: {
+//           headerMode: "none",
+//           header: null,
+//         }
+//       }
+//     }
+//     editOptions = {
+//       Edit: {
+//         screen: EditScreen,
+//       },
+//       TabNavigator: {
+//         screen: AppTabNavigator,
+//         navigationOptions: {
+//           headerMode: "none",
+//           header: null,
+//         }
+//       }
+//     }
+//   }
+//   return {
+//     tabNavigatorOptions
+//   };
+// };
 
 export { MainTabNavigator };
 
