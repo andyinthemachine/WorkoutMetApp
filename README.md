@@ -14,7 +14,7 @@ To Open on your android device, download the
  [Expo](https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=www) app.  Scan the QR code on https://expo.io/@stevearchi/workoutcalorietracker with the app.
 
 ##### Gif Preview
-![GifPreview](/React-Native-Workout-App.gif)
+![GifPreview](/WorkoutTracker.gif)
 
 
 
