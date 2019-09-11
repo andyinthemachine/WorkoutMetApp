@@ -113,81 +113,61 @@ export default class EditScreen extends React.Component {
                     data={this.state.workout.exercises}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) =>
-                        <View>
-                            <Swipeout
-                                autoClose={true}
-                                backgroundColor="none"
-                                right={[{
-                                    component: (
-                                        <View style={{
-                                            flex: 1,
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            flexDirection: "column"
-                                        }} >
-                                            <Ionicons name={Platform.OS == "ios"
-                                                ? "ios-close-circle-outline"
-                                                : "md-close-circle-outline"
-                                            }
-                                                size={30}
-                                                style={{ textAlign: "center", color: "white" }} />
-                                        </View>
-                                    ),
-                                    backgroundColor: "red",
-                                    onPress: () => this.onPressDelete(index)
-                                }
-                                ]} >
-                                <Text
-                                    style={{
-                                        color: 'white',
-                                        backgroundColor: '#262526',
-                                        padding: 5,
-                                        marginTop: 10,
-                                        fontSize: 16,
-                                        textAlign: 'center',
-                                        marginBottom: 10
-                                    }} >
-                                    Minutes: </Text>
-                                <TextInput
-                                    style={{
-                                        color: 'white',
-                                        backgroundColor: '#4B4A4D',
-                                        padding: 5,
-                                        paddingHorizontal: 20,
-                                        fontSize: 16,
-                                        marginBottom: 10,
-                                    }}
-                                    keyboardType={'numeric'}
-                                    returnKeyType='done'
-                                    onChangeText={(text) => this.setDuration(text, index)}
-                                    value={item.duration.toString()}
-                                />
-                                <Text
-                                    style={{
-                                        color: 'white',
-                                        padding: 5,
-                                        fontSize: 16,
-                                        marginBottom: 10,
-                                        marginLeft: 50,
-                                    }} >
+                            <View>
+                                <Swipeout
+                                    autoClose={true}
+                                    backgroundColor="none"
+                                    right={[{
+                                        component: (
+                                            <View style={{
+                                                flex: 1,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                flexDirection: "column"
+                                            }} >
+                                                <Ionicons name={Platform.OS == "ios"
+                                                    ? "ios-close-circle-outline"
+                                                    : "md-close-circle-outline"
+                                                }
+                                                    size={30}
+                                                    style={{ textAlign: "center", color: "white" }} />
+                                            </View>
+                                        ),
+                                        backgroundColor: "red",
+                                        onPress: () => this.onPressDelete(index)
+                                    }
+                                    ]} >
                                     <Text
                                         style={{
                                             color: 'white',
+                                            backgroundColor: '#262526',
                                             padding: 5,
+                                            marginTop: 10,
                                             fontSize: 16,
+                                            textAlign: 'center',
                                             marginBottom: 10
+                                        }}
+                                    >{item.exercise}</Text>
+
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            textAlign: 'center',
                                         }} >
                                         Minutes: </Text>
                                     <TextInput
                                         style={{
-                                            color: 'black',
-                                            backgroundColor: 'white',
+                                            color: 'white',
+                                            backgroundColor: '#4B4A4D',
                                             padding: 5,
+                                            paddingHorizontal: 20,
                                             fontSize: 16,
                                             marginBottom: 10,
                                         }}
                                         keyboardType={'numeric'}
+                                        
                                         returnKeyType='done'
+                                        // placeholder={item.duration.toString()}
                                         onChangeText={(text) => this.setDuration(text, index)}
                                         value={item.duration.toString()}
                                     />
@@ -196,12 +176,41 @@ export default class EditScreen extends React.Component {
                                             color: 'white',
                                             padding: 5,
                                             fontSize: 16,
-                                            marginBottom: 10
+                                            marginBottom: 10,
+                                            marginLeft: 50,
                                         }} >
-                                        Calories: {this.calculateCal(item.met, item.duration)}</Text>
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                padding: 5,
+                                                fontSize: 16,
+                                                marginBottom: 10
+                                            }} >
+                                            Minutes: </Text>
+                                        <TextInput
+                                            style={{
+                                                color: 'black',
+                                                backgroundColor: 'white',
+                                                padding: 5,
+                                                fontSize: 16,
+                                                marginBottom: 10,
+                                            }}
+                                            keyboardType={'numeric'}
+                                            returnKeyType='done'
+                                            onChangeText={(text) => this.setDuration(text, index)}
+                                            value={item.duration.toString()}
+                                        />
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                padding: 5,
+                                                fontSize: 16,
+                                                marginBottom: 10
+                                            }} >
+                                            Calories: {this.calculateCal(item.met, item.duration)}</Text>
                                     </View>
-                            </Swipeout>
-                        </View>
+                                </Swipeout>
+                            </View>
                     }
                 />
 
@@ -260,6 +269,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 10,
         fontWeight: 'bold'
-    },
+      },
 });
 
