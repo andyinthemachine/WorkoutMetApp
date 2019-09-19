@@ -26,14 +26,14 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.superbdevelopers.workoutcaloriecounter"
     },
-    "android":{
+    "android": {
       "package": "com.superbdevelopers.workoutcaloriecounter"
     },
-    "androidStatusBar": 
-    {
-    "barStyle": "dark-content"
+    "androidStatusBar": {
+      "barStyle": "dark-content"
     },
     "primaryColor": "#3F3E40",
-    "description": "A mobile device application for IOS/Android that allows users to compile individual exercises into customized workouts. The application shows the calories burned for each exercise and the workout as a whole based on the times, the met values for each exercise, and the users weight. The workouts are saved into a cloud database under the users' name and can be marked as completed and edited to change the duration of each exercise within a workout."
+    "description": "A mobile device application for IOS/Android that allows users to compile individual exercises into customized workouts. The application shows the calories burned for each exercise and the workout as a whole based on the times, the met values for each exercise, and the users weight. The workouts are saved into a cloud database under the users' name and can be marked as completed and edited to change the duration of each exercise within a workout.",
+    "githubUrl": "https://github.com/andyinthemachine/WorkoutMetApp"
   }
 }
