@@ -17,7 +17,7 @@
     "@react-navigation/web": "^1.0.0-alpha.9",
     "expo": "^34.0.1",
     "expo-asset": "^6.0.0",
-    "expo-cli": "^3.0.10",
+    "expo-cli": "^6.0.6",
     "expo-constants": "^6.0.0",
     "expo-font": "^6.0.1",
     "expo-web-browser": "6.0.0",
